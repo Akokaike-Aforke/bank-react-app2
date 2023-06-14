@@ -18,14 +18,18 @@ function App() {
     <AppProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<SharedLayout />}>
+          {/* <Route path="/" element={<SharedLayout />}> */}
+          <Route
+            path="/"
+            element={<SharedLayout />}
+          >
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SharedSignup />}>
-              <Route index element={<Signup />}/>
-              <Route path='verify' element={<Verify />} />
-              <Route path='register' element={<Register />} />
-              <Route path='complete' element={<Complete />} />
+              <Route index element={<Signup />} />
+              <Route path="verify" element={<Verify />} />
+              <Route path="register" element={<Register />} />
+              <Route path="complete" element={<Complete />} />
             </Route>
             <Route
               path="dashboard"
