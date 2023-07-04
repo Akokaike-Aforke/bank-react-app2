@@ -16,7 +16,7 @@ const SelfDeposit = ({dashboardUser}) => {
       userId: dashboardUser._id,
       transactions: [
         ...dashboardUser.transactions,
-        { amount, client: "self", timeOfTransaction: new Date()},
+        { amount, client: "self", timeOfTransaction: new Date(), charges: 0},
       ],
     });
     depositAmount.current.value = "";
