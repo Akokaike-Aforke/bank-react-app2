@@ -33,11 +33,12 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
       seeNewPassword: false,
       seeConfirmPassword: false,
       closeAccount: false,
-      editCloseAccountName: false,
-      closeAccountName: "",
+      editCloseAccount: false,
+      closeAccountName: false,
       closeAccountPassword: false,
       closeAccountPin: false,
-      deleteAccount: false
+      deleteAccount: false,
+      showAccountNameInput: false
     });
       const editUser = useEditUser();
       const changeDateFormat = (item) =>{
@@ -118,9 +119,18 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
     const handleDate = () =>{
       setEditButtons({ ...editButtons, editDateOfBirth: true, isEditDate:true, isEditing: true })
     }
-    const handleClosePin=()=>{
+    const handleCloseUpdate=()=>{
       setProfileOpen(true);
-      setEditButtons({...editButtons, changeSecureLog: false})
+      setEditButtons({...editButtons, changeSecureLog: false,})
+      setFormData({...formData, currentPin:"", newPin:"", confirmNewPin:"", currentPassword:"", newPassword:"", confirmNewPassword:""})
+    }
+    const handleCloseAccountForm = () =>{
+      setEditButtons({
+        ...editButtons,
+        closeAccount: false,
+        changeSecureLog: false,
+        showAccountNameInput: false,
+      });
     }
 
 
@@ -131,7 +141,6 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
         formData.newPin === formData.confirmNewPin && formData.newPin != formData.currentPin
       ) {
         setEditButtons({ ...editButtons, notActivePin: false });
-        console.log("good change pin");
       } else setEditButtons({ ...editButtons, notActivePin: true });
     }, [formData.currentPin, formData.newPin, formData.confirmNewPin, editButtons.changePin, dashboardUser.pin])
 
@@ -146,8 +155,33 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
       } else setEditButtons({ ...editButtons, notActivePassword: true });
     }, [formData.currentPassword, formData.newPassword, formData.confirmNewPassword, editButtons.changePassword, dashboardUser.passsword])
 
+
+
     useEffect(()=>{
-      if(formData.closeAccountName === dashboardUser.fullname){
+      if(editButtons.showAccountNameInput){
+        setEditButtons({...editButtons, closeAccountName: true})
+      }
+        else{
+          setEditButtons({
+          ...editButtons,
+          closeAccountName: false,
+          closeAccountPassword: false,
+          closeAccountPin: false,
+          deleteAccount: false,
+        });
+        setFormData({
+          ...formData,
+          closeAccountPassword: "",
+          closeAccountPin: "",
+          closeAccountName: ""
+        });
+      }
+      
+    }, [editButtons.showAccountNameInput])
+
+
+    useEffect(()=>{
+      if(editButtons.closeAccountName && formData.closeAccountName === dashboardUser.fullname){
         setEditButtons({...editButtons, closeAccountPassword: true})
       }
       else {
@@ -159,13 +193,20 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
     useEffect(()=>{
      if (
        formData.closeAccountPassword === dashboardUser.password &&
-       formData.closeAccountName === dashboardUser.fullname
+       formData.closeAccountName === dashboardUser.fullname &&
+       editButtons.closeAccountName
      ) {
        setEditButtons({ ...editButtons, closeAccountPin: true });
-       setFormData({...formData, closeAccountPin: ""})
-     }
-     else{
-       setEditButtons({...editButtons, closeAccountPin: false, deleteAccount: false})
+     } else {
+       setEditButtons({
+         ...editButtons,
+         closeAccountPin: false,
+         deleteAccount: false,
+       });
+       setFormData({
+         ...formData,
+         closeAccountPin: "",
+       });
      }
     }, [formData.closeAccountPassword])
 
@@ -173,7 +214,7 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
       if (
         formData.closeAccountPin == dashboardUser.pin &&
         formData.closeAccountPassword === dashboardUser.password &&
-        formData.closeAccountName === dashboardUser.fullname
+        formData.closeAccountName === dashboardUser.fullname && editButtons.closeAccountName
       ) {
         setEditButtons({ ...editButtons, deleteAccount: true });
       }
@@ -195,9 +236,10 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div className="profile-details">
+              <div className="profile-details-name">
                 <h5 className="h5Input">NAME</h5>
                 <input
+                  className="input-profile-name"
                   type="text"
                   name="fullname"
                   value={formData.fullname}
@@ -205,7 +247,7 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
                   disabled={!editButtons.editName}
                 />
                 <button
-                  className="btnInput"
+                  className="btn-input-name"
                   type="button"
                   onClick={() =>
                     setEditButtons({
@@ -218,7 +260,7 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
                   edit
                 </button>
               </div>
-              <div className="profile-details">
+              <div className="profile-details-noInput">
                 <h5 className="h5NoInput">BVN</h5>
                 <h5 className="h5NoInput">{dashboardUser.bvn}</h5>
               </div>
@@ -305,11 +347,11 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
                   edit
                 </button>
               </div>
-              <div className="profile-details">
+              <div className="profile-details-noInput">
                 <h5 className="h5NoInput">ACCOUNT NUMBER</h5>
                 <h5 className="h5NoInput">{dashboardUser.accountNumber}</h5>
               </div>
-              <div className="profile-details">
+              <div className="profile-details-noInput">
                 <h5 className="h5NoInput">DATE OF ACCOUNT CREATION</h5>
                 <h5 className="h5NoInput">
                   {getFormattedDate(dashboardUser.dateCreated)}
@@ -359,10 +401,17 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="update-close-div">
             <div className="heading-profile">
               <h3>{editButtons.closeAccount ? "CLOSE ACCOUNT" : "PROFILE"}</h3>
-              <button className="btn-close" onClick={handleClosePin}>
+              <button
+                className="btn-close"
+                onClick={
+                  editButtons.closeAccount
+                    ? handleCloseAccountForm
+                    : handleCloseUpdate
+                }
+              >
                 <FaTimes />
               </button>
             </div>
@@ -370,64 +419,70 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
               <div className="update-pin-div">
                 <h4 className="heading-pin">UPDATE PIN</h4>
                 <form onSubmit={handleSubmitPin}>
-                  <div className="current-pin-div">
+                  <div className="current-pin-label-div">
                     <label htmlFor="currentPin">Current Pin:</label>
-                    <input
-                      type={editButtons.seeCurrentPin ? "text" : "password"}
-                      className="currentPin"
-                      id="currentPin"
-                      name="currentPin"
-                      value={formData.currentPin}
-                      onChange={handleChange}
-                    />
-                    <ImEye
-                      className="current-pin-icon"
-                      onClick={() =>
-                        setEditButtons({
-                          ...editButtons,
-                          seeCurrentPin: !editButtons.seeCurrentPin,
-                        })
-                      }
-                    />
+                    <div className="current-pin-div">
+                      <input
+                        type={editButtons.seeCurrentPin ? "text" : "password"}
+                        className="currentPin"
+                        id="currentPin"
+                        name="currentPin"
+                        value={formData.currentPin}
+                        onChange={handleChange}
+                      />
+                      <ImEye
+                        className="current-pin-icon"
+                        onClick={() =>
+                          setEditButtons({
+                            ...editButtons,
+                            seeCurrentPin: !editButtons.seeCurrentPin,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
-                  <div className="new-pin-div">
+                  <div className="new-pin-label-div">
                     <label htmlFor="newPin">New Pin:</label>
-                    <input
-                      type={editButtons.seeNewPin ? "text" : "password"}
-                      className="newPin"
-                      id="newPin"
-                      name="newPin"
-                      onChange={handleChange}
-                    />
-                    <ImEye
-                      className="new-pin-icon"
-                      onClick={() =>
-                        setEditButtons({
-                          ...editButtons,
-                          seeNewPin: !editButtons.seeNewPin,
-                        })
-                      }
-                    />
+                    <div className="new-pin-div">
+                      <input
+                        type={editButtons.seeNewPin ? "text" : "password"}
+                        className="newPin"
+                        id="newPin"
+                        name="newPin"
+                        onChange={handleChange}
+                      />
+                      <ImEye
+                        className="new-pin-icon"
+                        onClick={() =>
+                          setEditButtons({
+                            ...editButtons,
+                            seeNewPin: !editButtons.seeNewPin,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
 
-                  <div className="confirm-pin-div">
+                  <div className="confirm-pin-label-div">
                     <label htmlFor="confirmPin">Confirm New Pin:</label>
-                    <input
-                      type={editButtons.seeConfirmPin ? "text" : "password"}
-                      className="confirmPin"
-                      id="confirmNewPin"
-                      name="confirmNewPin"
-                      onChange={handleChange}
-                    />
-                    <ImEye
-                      className="confirm-pin-icon"
-                      onClick={() =>
-                        setEditButtons({
-                          ...editButtons,
-                          seeConfirmPin: !editButtons.seeConfirmPin,
-                        })
-                      }
-                    />
+                    <div className="confirm-pin-div">
+                      <input
+                        type={editButtons.seeConfirmPin ? "text" : "password"}
+                        className="confirmPin"
+                        id="confirmNewPin"
+                        name="confirmNewPin"
+                        onChange={handleChange}
+                      />
+                      <ImEye
+                        className="confirm-pin-icon"
+                        onClick={() =>
+                          setEditButtons({
+                            ...editButtons,
+                            seeConfirmPin: !editButtons.seeConfirmPin,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
                   <button
                     className="btn-update-pin"
@@ -444,67 +499,73 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
               <div className="update-password-div">
                 <h4 className="heading-password">UPDATE PASSWORD</h4>
                 <form onSubmit={handleSubmitPassword}>
-                  <div className="current-password-div">
+                  <div className="current-password-label-div">
                     <label htmlFor="currentPassword">Current Password:</label>
-                    <input
-                      type="text"
-                      className="currentPassword"
-                      id="currentPassword"
-                      name="currentPassword"
-                      value={formData.currentPassword}
-                      onChange={handleChange}
-                    />
-                    <ImEye
-                      className="current-password-icon"
-                      onClick={() =>
-                        setEditButtons({
-                          ...editButtons,
-                          seeCurrentPin: !editButtons.seeCurrentPassword,
-                        })
-                      }
-                    />
+                    <div className="current-password-div">
+                      <input
+                        type="text"
+                        className="currentPassword"
+                        id="currentPassword"
+                        name="currentPassword"
+                        value={formData.currentPassword}
+                        onChange={handleChange}
+                      />
+                      <ImEye
+                        className="current-password-icon"
+                        onClick={() =>
+                          setEditButtons({
+                            ...editButtons,
+                            seeCurrentPassword: !editButtons.seeCurrentPassword,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
-                  <div className="new-password-div">
+                  <div className="new-password-label-div">
                     <label htmlFor="newPassword">New Password:</label>
-                    <input
-                      type="text"
-                      className="currentPassword"
-                      id="newPassword"
-                      name="newPassword"
-                      value={formData.newPassword}
-                      onChange={handleChange}
-                    />
-                    <ImEye
-                      className="new-password-icon"
-                      onClick={() =>
-                        setEditButtons({
-                          ...editButtons,
-                          seeCurrentPin: !editButtons.seeNewPassword,
-                        })
-                      }
-                    />
+                    <div className="new-password-div">
+                      <input
+                        type="text"
+                        className="currentPassword"
+                        id="newPassword"
+                        name="newPassword"
+                        value={formData.newPassword}
+                        onChange={handleChange}
+                      />
+                      <ImEye
+                        className="new-password-icon"
+                        onClick={() =>
+                          setEditButtons({
+                            ...editButtons,
+                            seeNewPassword: !editButtons.seeNewPassword,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
-                  <div className="confirm-password-div">
+                  <div className="confirm-password-label-div">
                     <label htmlFor="confirmNewPassword">
                       Confirm New Password:
                     </label>
-                    <input
-                      type="text"
-                      className="currentPassword"
-                      id="confirmNewPassword"
-                      name="confirmNewPassword"
-                      value={formData.confirmNewPassword}
-                      onChange={handleChange}
-                    />
-                    <ImEye
-                      className="confirm-password-icon"
-                      onClick={() =>
-                        setEditButtons({
-                          ...editButtons,
-                          seeCurrentPin: !editButtons.seeConfirmPassword,
-                        })
-                      }
-                    />
+                    <div className="confirm-password-div">
+                      <input
+                        type="text"
+                        className="currentPassword"
+                        id="confirmNewPassword"
+                        name="confirmNewPassword"
+                        value={formData.confirmNewPassword}
+                        onChange={handleChange}
+                      />
+                      <ImEye
+                        className="confirm-password-icon"
+                        onClick={() =>
+                          setEditButtons({
+                            ...editButtons,
+                            seeConfirmPassword: !editButtons.seeConfirmPassword,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
                   <button
                     className="btn-update-password"
@@ -518,31 +579,32 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
           </div>
         )}
         {editButtons.closeAccount && (
-          <div className='closeAccount-div1'>
+          <div className="closeAccount-div1">
             <p>Are you sure you want to permanently delete your account?</p>
             <div className="closeAccount-div2">
               <button
-              className='btn-closeAccount-yes'
+                className="btn-closeAccount-yes"
                 onClick={() =>
-                  setEditButtons({ ...editButtons, editCloseAccountName: true })
+                  setEditButtons({ ...editButtons, showAccountNameInput: true })
                 }
               >
                 YES
               </button>
               <button
-              className='btn-closeAccount-no'
+                className="btn-closeAccount-no"
                 onClick={() =>
                   setEditButtons({
                     ...editButtons,
                     closeAccount: false,
                     changeSecureLog: false,
+                    showAccountNameInput: false,
                   })
                 }
               >
                 NO
               </button>
-              {editButtons.editCloseAccountName && (
-                <div className='close-account-name-div'>
+              {editButtons.closeAccountName && (
+                <div className="close-account-name-div">
                   <label htmlFor="closeAccountName">Enter Name:</label>
                   <input
                     type="text"
@@ -550,11 +612,12 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
                     value={formData.closeAccountName}
                     name="closeAccountName"
                     onChange={handleChange}
+                    placeholder="lowercase"
                   />
                 </div>
               )}
               {editButtons.closeAccountPassword && (
-                <div className='close-account-password-div'>
+                <div className="close-account-password-div">
                   <label htmlFor="closeAccountPassword">
                     Input your password
                   </label>
@@ -567,18 +630,24 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
                 </div>
               )}
               {editButtons.closeAccountPin && (
-              <div className='close-account-pin-div'>
-                <label htmlFor="closeAccountPin">
-                  Input your pin
-                </label>
-                <input
-                  type="text"
-                  name="closeAccountPin"
-                  value={formData.closeAccountPin}
-                  onChange={handleChange}
-                />
-              </div>)}
-              {editButtons.deleteAccount && <button onClick={handleDeleteAccount} className='btn-deleteAccount'>DELETE ACCOUNT</button>}
+                <div className="close-account-pin-div">
+                  <label htmlFor="closeAccountPin">Input your pin</label>
+                  <input
+                    type="text"
+                    name="closeAccountPin"
+                    value={formData.closeAccountPin}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+              {editButtons.deleteAccount && (
+                <button
+                  onClick={handleDeleteAccount}
+                  className="btn-deleteAccount"
+                >
+                  DELETE ACCOUNT
+                </button>
+              )}
             </div>
           </div>
         )}
@@ -590,9 +659,21 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
 const SectionProfile = styled.section`
   width: 80%;
   position: relative;
+  button:disabled {
+    background-color: #e0e0e0;
+    border: 1px solid #dedede;
+    color: rgb(127, 127, 128);
+    cursor: not-allowed;
+  }
+  button {
+    border-radius: 4px;
+    background: #569d4b;
+    border: none;
+    transition: all 0.3s ease;
+  }
+  
   .profile-div {
     width: 100%;
-    border: 1px solid black;
     height: auto;
     background-color: white;
     padding: 0 15px;
@@ -616,23 +697,26 @@ const SectionProfile = styled.section`
     cursor: pointer;
     margin-right: 2rem;
   }
-  .profile-details {
+  .profile-details,
+  .profile-details-noInput {
     margin-bottom: 1rem;
   }
-  .h5Input,
-  .h5NoInput {
-    display: inline-block;
-    width: 220px;
+  .profile-details-name {
+    margin-bottom: 1rem;
   }
+  .input-profile-name,
   input {
-    width: 300px;
-    margin-right: 30px;
+    width: 78%;
+    border: 1px solid black;
+    margin-right: 5%;
     padding: 10px;
     border-radius: 4px;
   }
+  .btn-input-name,
   .btnInput {
+    width: 17%;
     border: none;
-    padding: 10px 15px;
+    padding: 10px;
     border-radius: 4px;
     border: 2px solid green;
     cursor: pointer;
@@ -676,6 +760,15 @@ const SectionProfile = styled.section`
     margin-bottom: 1rem;
     position: relative;
   }
+  .current-pin-div input,
+  .new-pin-div input,
+  .confirm-pin-div input,
+  .current-password-div input,
+  .new-password-div input,
+  .confirm-password-div input {
+    width: 100%;
+  }
+
   .current-pin-icon,
   .new-pin-icon,
   .confirm-pin-icon,
@@ -683,9 +776,14 @@ const SectionProfile = styled.section`
   .new-password-icon,
   .confirm-password-icon {
     position: absolute;
-    right: 11.6rem;
     top: 10px;
+    right: 5px;
   }
+  .update-close-div {
+    width: 90%;
+    margin: 0 auto;
+  }
+
   .update-pin-div label,
   .update-password-div label {
     width: 200px;
@@ -694,7 +792,8 @@ const SectionProfile = styled.section`
   .btn-update-pin,
   .btn-update-password {
     padding: 10px 40px;
-    margin-left: 200px;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 4px;
     margin-bottom: 2rem;
   }
@@ -740,6 +839,79 @@ const SectionProfile = styled.section`
   }
   .btn-deleteAccount:hover {
     background: #35612e;
+  }
+
+  @media screen and (min-width: 420px) {
+    .current-pin-label-div,
+    .new-pin-label-div,
+    .confirm-pin-label-div,
+    .current-password-label-div,
+    .new-password-label-div,
+    .confirm-password-label-div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .current-pin-div,
+    .new-pin-div,
+    .confirm-pin-div,
+    .current-password-div,
+    .new-password-div,
+    .confirm-password-div {
+      margin: 0;
+    }
+    .update-pin-div label,
+    .update-password-div label {
+      width: 50%;
+    }
+    .update-close-div {
+      max-width: 400px;
+    }
+  }
+  @media screen and (min-width: 580px) {
+    .profile-details-name,
+    .profile-details {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .input-profile-name,
+    input {
+      width: 50%;
+    }
+    .btn-input-name,
+    .btnInput {
+      width: 20%;
+    }
+    .profile-details-name h5,
+    .h5Input {
+      width: 30%;
+    }
+  }
+  @media screen and (min-width: 880px) {
+    .profile-details-name,
+    .profile-details,
+    .profile-details-noInput {
+      width: 700px;
+      display: block;
+      margin: 0 auto 1rem 0;
+    }
+    .input-profile-name,
+    input {
+      width: 300px;
+      margin-right: 30px;
+    }
+    .btn-input-name,
+    .btnInput {
+      width: 100px;
+    }
+    .profile-details-name h5,
+    .h5Input,
+    .h5NoInput {
+      display: inline-block;
+      width: 220px;
+    }
   }
 `;
 

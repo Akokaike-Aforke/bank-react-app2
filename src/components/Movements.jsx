@@ -75,15 +75,13 @@ if(allMovements) value = dashUser.transactions.length;
                 <h5>
                   <span
                     className={`${
-                      eachTransaction.amount > 0
-                        ? "recent-div-span transaction-positive"
-                        : "recent-div-span transaction-negative"
+                      eachTransaction.amount < 0
+                        ? "transaction-positive"
+                        : "transaction-negative"
                     }`}
                   >
-                    ONB TRF {eachTransaction.amount > 0 ? "FROM " : "TO "}
-                    {eachTransaction.client}
-                    A**{`${eachTransaction.clientAccountNumber}`.slice(-4)} GTB
-                    Up
+                    TRF {eachTransaction.amount > 0 ? "FROM " : "TO "}
+                    {eachTransaction.fullname} ACC** {eachTransaction.client==="self" ? "self" :`${eachTransaction.clientAccountNumber}`.slice(-4)} {`${eachTransaction.description}`.slice(0,31)}
                   </span>
                 </h5>
               </div>
@@ -142,12 +140,10 @@ if(allMovements) value = dashUser.transactions.length;
                             : "transaction-negative"
                         }`}
                       >
-                        ONB TRF {eachTransaction.amount > 0 ? "FROM " : "TO "}
-                        {eachTransaction.client}
-                        A**{`${eachTransaction.clientAccountNumber}`.slice(
-                          -4
-                        )}{" "}
-                        GTB Up
+                        TRF {eachTransaction.amount > 0 ? "FROM " : "TO "}
+                        {eachTransaction.fullname} ACC**{" "}
+                        {`${eachTransaction.clientAccountNumber}`.slice(-4)}{" "}
+                        {`${eachTransaction.description}`.slice(0, 31)}
                       </span>
                     </td>
                     <td>

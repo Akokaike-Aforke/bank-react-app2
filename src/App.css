@@ -463,7 +463,7 @@ body{
 .dashboard-popup-div{
   background: white;
   width: 80%;
-  height: 300px;
+  height: auto;
   position: relative;
   color: #000;
   border-radius: 5px;
@@ -513,7 +513,7 @@ body{
   background: transparent;
   color: red;
 }
-.transfer-amount, .transfer-person, .transfer-pin{
+.transfer-amount, .transfer-person, .transfer-pin, .transfer-description{
   display: block;
   width: 70%;
   height: 30px;

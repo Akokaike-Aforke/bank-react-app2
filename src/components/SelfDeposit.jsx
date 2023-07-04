@@ -1,4 +1,4 @@
-import React, { useRef} from 'react'
+import React, { useRef, useState} from 'react'
 import { useGlobalContext } from '../context';
 import { FaTimes } from 'react-icons/fa';
 import { useEditUser } from "../ReactQueryCustomHooks";
@@ -9,6 +9,7 @@ const SelfDeposit = ({dashboardUser}) => {
     const depositAmount = useRef(null);
     const pin = useRef(null);
     const editUser = useEditUser();
+    const[description, setDescription] = useState("")
     
   const handleDeposit = (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ const SelfDeposit = ({dashboardUser}) => {
       userId: dashboardUser._id,
       transactions: [
         ...dashboardUser.transactions,
-        { amount, client: "self", timeOfTransaction: new Date(), charges: 0},
+        { amount, client: "self", timeOfTransaction: new Date(), charges: 0, clientAccountNumber: dashboardUser.accountNumber, description},
       ],
     });
     depositAmount.current.value = "";
@@ -34,22 +35,34 @@ const SelfDeposit = ({dashboardUser}) => {
         <button className="close-transfer-popup" onClick={handleClose}>
           <FaTimes />
         </button>
-        <h3 className='deposit-h3'>DEPOSIT MONEY</h3>
+        <h3 className="deposit-h3">DEPOSIT MONEY</h3>
         <form onSubmit={handleDeposit}>
           <label htmlFor="depositAmount" className="register-new-label">
             Amount
           </label>
           <div className="deposit-input-div">
-            <input type="number" placeholder="amount" id='depositAmount' ref={depositAmount}/>
+            <input
+              type="number"
+              placeholder="amount"
+              id="depositAmount"
+              ref={depositAmount}
+            />
           </div>
 
           <label htmlFor="pin" className="register-new-label">
             Pin
           </label>
           <div className="deposit-input-div">
-            <input type="number" placeholder="pin" ref={pin}/>
+            <input type="number" placeholder="pin" ref={pin} />
           </div>
-          <button className='deposit-btn'>Deposit</button>
+
+          <label htmlFor="pin" className="register-new-label">
+            Description
+          </label>
+          <div className="deposit-input-div">
+            <input type="text" placeholder="not more than 30 characters" value={description} onChange={e=>setDescription(e.target.value)} />
+          </div>
+          <button className="deposit-btn">Deposit</button>
         </form>
       </div>
     </section>

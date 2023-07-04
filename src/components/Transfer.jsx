@@ -1,13 +1,15 @@
 import React from 'react'
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useGlobalContext } from '../context';
 import { FaTimes } from "react-icons/fa";
 import { useEditUser } from '../ReactQueryCustomHooks';
 import { toast } from 'react-toastify';
+import styled from 'styled-components';
 
 const Transfer = ({data3, sumOfMovements, clearedBalance, dashboardUser, setReceiver, setNum}) => {
     const{person, setPerson} =useGlobalContext();
     const editUser = useEditUser();
+    const[description, setDescription] = useState("")
     
     
   const transferAmount = useRef(null);
@@ -31,7 +33,7 @@ const handleTransfer = (e) =>{
     toast.warning("Insufficient balance")
   }
   if(receiver && amount > 20 && amount < clearedBalance && dashboardUser.password === pin && receiver.username !== dashboardUser.username){
-    editUser({userId:receiver._id, transactions:[...receiver.transactions, {amount, charges: 0.00, client:dashboardUser.username,clientAccountNumber:dashboardUser.accountNumber, timeOfTransaction: new Date()}]})
+    editUser({userId:receiver._id, transactions:[...receiver.transactions, {amount, charges: 0.00, client:dashboardUser.username,clientAccountNumber:dashboardUser.accountNumber, timeOfTransaction: new Date(), description, fullname: dashboardUser.fullname}]})
     editUser({
       userId: dashboardUser._id,
       transactions: [
@@ -43,6 +45,8 @@ const handleTransfer = (e) =>{
           client: receiver.username,
           clientAccountNumber: receiver.accountNumber,
           timeOfTransaction: new Date(),
+          description,
+          fullname: receiver.fullname
         },
       ],
     });
@@ -60,7 +64,7 @@ const handleTransfer = (e) =>{
   }}
 
   return (
-    <section className="dashboard-popup-section">
+    <TransferSection className="dashboard-popup-section">
       <div className="dashboard-popup-div">
         <button
           className="close-transfer-popup"
@@ -82,11 +86,21 @@ const handleTransfer = (e) =>{
           <input type="number" placeholder="pin"
           className='transfer-pin'
            ref={transferPin} />
+           <label htmlFor="">Description</label>
+           <input
+            type="text"
+            className="transfer-description"
+            placeholder='not more than 30 characters'
+            value={description}
+            onChange={e=>setDescription(e.target.value)}
+               />
           <button className='transfer-btn'>transfer</button>
         </form>
       </div>
-    </section>
+    </TransferSection>
   );
 }
+
+const TransferSection = styled.section ``
 
 export default Transfer
