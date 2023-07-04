@@ -55,6 +55,7 @@ const handleTransfer = (e) =>{
     transferPin.current.value='';
     setReceiver(receiver)
     setNum(receiver.accountNumber)
+    setPerson({...person, transferLog: false})
     
   }}
 

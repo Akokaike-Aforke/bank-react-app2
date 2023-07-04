@@ -17,11 +17,10 @@ const Login = () => {
   const [userPassword, setUserPassword] = useState("");
   const[btnActive, setBtnActive] = useState(true);
   const[value, setValue] = useState(2);
-  // const[loading, setLoading] = useState(false);
+  const[seePassword, setSeePassword] = useState(false)
   const handleLogin = (e) =>{
     e.preventDefault();
     const user = data3.users.find(user => user.username === username);
-    console.log(user)
     if(!user){
       toast.warning("You are not registered. Please register")
     }
@@ -91,13 +90,13 @@ const Login = () => {
             </div>
             <div className="home-input-icon-div">
               <input
-                type="number"
+                type={seePassword ? "number": "password"}
                 className="home-password"
                 placeholder="password"
                 value={userPassword}
                 onChange={(e)=>setUserPassword(e.target.value)}
               />
-              <ImEye className="icon2" />
+              <ImEye className="icon2" onClick={()=>setSeePassword(!seePassword)} />
             </div>
             <p className="home-forgot-p">forgot your password?</p>
             <button className={btnActive ? "home-signin-btn activebtn" : "home-signin-btn"} disabled={btnActive}>Sign in</button>

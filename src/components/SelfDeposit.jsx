@@ -2,6 +2,7 @@ import React, { useRef} from 'react'
 import { useGlobalContext } from '../context';
 import { FaTimes } from 'react-icons/fa';
 import { useEditUser } from "../ReactQueryCustomHooks";
+import { toast } from 'react-toastify';
 
 const SelfDeposit = ({dashboardUser}) => {
     const { person, setPerson } = useGlobalContext();
@@ -20,9 +21,11 @@ const SelfDeposit = ({dashboardUser}) => {
       ],
     });
     depositAmount.current.value = "";
+    toast.success(`You have successfully deposited the sum of N${amount} into your account `)
+    setPerson({...person, openDeposit:false})
   };
   const handleClose = () =>{
-    setPerson({ ...person, openDeposit: false, openDashboard: false})
+    setPerson({ ...person, openDeposit: false})
   }
     
   return (

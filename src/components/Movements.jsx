@@ -80,10 +80,8 @@ if(allMovements) value = dashUser.transactions.length;
                         : "recent-div-span transaction-negative"
                     }`}
                   >
-                    ONB TRF {eachTransaction.amount > 0 ? "FROM" : "TO"}{" "}
-                    {eachTransaction.amount > 0
-                      ? dashUser.username
-                      : eachTransaction.client}{" "}
+                    ONB TRF {eachTransaction.amount > 0 ? "FROM " : "TO "}
+                    {eachTransaction.client}
                     A**{`${eachTransaction.clientAccountNumber}`.slice(-4)} GTB
                     Up
                   </span>

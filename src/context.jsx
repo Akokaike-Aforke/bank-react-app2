@@ -51,7 +51,6 @@ const getFormattedDate = (dateTime) =>{
     const ukDateFormat = `${new Intl.DateTimeFormat("en-UK", options).format(new Date(dateTime))}`;
     return ukDateFormat;
 }
-console.log(getFormattedDate(new Date()))
 
     return(
         <AppContext.Provider value={{setLoggedUser, setLoggedUserPin, loggedUser, getUser, accountNumber, setAccountNumber, person, setPerson, newSignup, setNewSignup, allMovements, setAllMovements, getFormattedDate, startTime, setStartTime}}>
