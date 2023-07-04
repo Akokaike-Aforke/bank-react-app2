@@ -14,7 +14,10 @@ const SelfDeposit = ({dashboardUser}) => {
     const amount = depositAmount.current.value * 1;
     editUser({
       userId: dashboardUser._id,
-      transactions: [...dashboardUser.transactions, { amount, client: "self" }],
+      transactions: [
+        ...dashboardUser.transactions,
+        { amount, client: "self", timeOfTransaction: new Date()},
+      ],
     });
     depositAmount.current.value = "";
   };

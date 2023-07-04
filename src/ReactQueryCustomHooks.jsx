@@ -1,4 +1,5 @@
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
+import { toast } from 'react-toastify';
 import customFetch from './utils';
 
 export const useGetAllUsers = () =>{
@@ -8,6 +9,7 @@ export const useGetAllUsers = () =>{
          const { data } = await customFetch("/api/v1/users/");
          return data;
        },
+       
      });
      return { data, loading}
 }
@@ -39,7 +41,7 @@ export const useGetAllUsers = () =>{
 export const useCreateUser = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({ fullname, bvn, dateOfBirth, email, username, password,  accountType, accountNumber, pin,}) => {
+    mutationFn: ({ fullname, bvn, dateOfBirth, email, username, password,  accountType, accountNumber, pin}) => {
       return customFetch.post("/api/v1/users/", {
         fullname,
         bvn,
@@ -47,13 +49,16 @@ export const useCreateUser = () => {
         email,
         username,
         password,
-        accountType, accountNumber, pin,
+        accountType, accountNumber, pin
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("user added")
     },
     onError: (error) => {
+      
+        toast.error("error");
       console.log(error);
     },
   });
@@ -63,8 +68,17 @@ export const useCreateUser = () => {
  export const useEditUser = () => {
    const queryClient = useQueryClient();
    const { mutate: editUser } = useMutation({
-     mutationFn: ({ userId, transactions }) => {
-       return customFetch.patch(`/api/v1/users/${userId}`, { transactions });
+     mutationFn: ({ userId, transactions, fullname, dateOfBirth, email, username, accountType, pin, password }) => {
+       return customFetch.patch(`/api/v1/users/${userId}`, {
+         transactions,
+         fullname,
+         dateOfBirth,
+         email,
+         username,
+         accountType,
+         pin,
+         password
+       });
      },
      onSuccess: () => {
        queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -73,3 +87,21 @@ export const useCreateUser = () => {
    });
    return editUser;
  };
+
+ export const useDeleteUser = () =>{
+   const queryClient = useQueryClient();
+   const {mutate:deleteUser} = useMutation({
+     mutationFn:(userId)=>{return customFetch.delete(`/api/v1/users/${userId}`)}
+   }, 
+   {
+     onSuccess:()=>{
+       queryClient.invalidateQueries({queryKey:["users"]})
+     }
+   }, 
+   {
+     onError:()=>{
+       toast.error("unable to delete account at the moment")
+     }
+   })
+   return {deleteUser}
+ }

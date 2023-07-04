@@ -8,6 +8,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import fidelityIcon from "../Images/fidelity-icon.png";
 import { useCreateUser } from '../ReactQueryCustomHooks';
 import { useGlobalContext } from '../context';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const{setNewSignup, accountNumber, setAccountNumber} = useGlobalContext();
@@ -38,7 +39,8 @@ const Register = () => {
     mutate({fullname:formData.fullname, bvn:formData.bvn, dateOfBirth:formData.dateOfBirth,email:formData.email, username:formData.username, password:formData.password, accountType:formData.accountType, accountNumber:formData.accountNumber, pin: formData.pin, }, {
       onSuccess:()=>{
         setFormData({fullname: "", bvn: "",  dateOfBirth:"", email: "", username: "", password: "", accountType:"", accountNumber:"", pin:"",});
-        
+        setNewSignup(formData);
+        navigate("/signup/complete");
       }
     }, 
     {
@@ -58,8 +60,6 @@ const Register = () => {
       }
     })
 
-    setNewSignup(formData)
-    navigate('/signup/complete')
     
   }
   
@@ -68,8 +68,12 @@ const Register = () => {
     setFormData(prevData => {
       return {...prevData, [name]: type === 'checkbox' ? checked : value}})
   }
+  const handleChangeBVN = (e) => {
+    setFormData({...formData, bvn: e.target.value.slice(0, 14)});
+  };
+  console.log(formData.bvn.length)
   useEffect(()=>{
-    if (validateForm(formData) && password=== confirmPassword && pin === confirmPin && fullnameLength >=2 && fullnameLength < 3) {
+    if (validateForm(formData) && password=== confirmPassword && pin === confirmPin && fullnameLength >=2 && fullnameLength < 3 && formData.bvn.length === 14) {
       setIsDeactivated(false);
     }
     else setIsDeactivated(true)
@@ -117,9 +121,10 @@ const Register = () => {
               type="number"
               className="register-bvn"
               name="bvn"
-              value={formData.bvn.slice(0, 14)}
-              placeholder="BVN"
-              onChange={handleChange}
+              // value={formData.bvn.slice(0, 14)}
+              value={formData.bvn}
+              placeholder="BVN" 
+              onChange={handleChangeBVN}
             />
           </div>
           <label htmlFor="" className="register-new-label">

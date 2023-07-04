@@ -6,25 +6,36 @@ import logo from "../Images/Fidelity-Bank-Logo.png";
 import { BsFillPersonFill } from "react-icons/bs";
 import { ImEye } from "react-icons/im";
 import imgData from "../data";
+import { toast } from "react-toastify";
+import startLogOutTimer from "../components/Timer";
 
 const Login = () => {
-  const {setLoggedUser, setLoggedUserPin, loggedUser, getUser,} = useGlobalContext();
+  const {setLoggedUser, setLoggedUserPin, loggedUser, getUser, setStartTime} = useGlobalContext();
   const {data3, loading} = getUser();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const[btnActive, setBtnActive] = useState(true);
-  const[value, setValue] = useState(2)
+  const[value, setValue] = useState(2);
+  // const[loading, setLoading] = useState(false);
   const handleLogin = (e) =>{
     e.preventDefault();
     const user = data3.users.find(user => user.username === username);
-    if(!user)return
+    console.log(user)
+    if(!user){
+      toast.warning("You are not registered. Please register")
+    }
+    if(user.password !== userPassword){
+      toast.warning("Invalid Username or Password!");
+    }
     if(user && user.password === userPassword){
       setLoggedUser(user)
       navigate('/dashboard')
+      setStartTime(true)
     }
   
   }
+  
   useEffect(()=>{
     if(value > imgData.length-1)
     setValue(0);
@@ -47,6 +58,9 @@ const Login = () => {
     }, 3000)
     return ()=>clearInterval(slider)
   }, [value])
+    if (loading) {
+      return <h3>Loading.....</h3>
+    }
   return (
     <main className="home-main">
       <section className={`image-section`}>

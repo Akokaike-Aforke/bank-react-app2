@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import fidelityIcon from "../Images/fidelity-icon.png";
+import styled from "styled-components";
 
 const Signup = () => {
   return (
-    <div className="signup-article-div">
+    <SignUp className="signup-article-div">
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />
       <div className="register-steps-div">
         <h6 className="register-steps-h1">3 Simple Ways to Register</h6>
@@ -50,8 +51,50 @@ const Signup = () => {
           GET STARTED
         </Link>
       </div>
-    </div>
+    </SignUp>
   );
 };
+
+const SignUp = styled.div`
+  .steps-div {
+    margin: 2rem 0;
+    line-height: 1.2;
+    text-align: center;
+    font-size: 18px;
+  }
+  .step-number {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  .step-number p {
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #e0e1e2;
+    color: #203386;
+  }
+  .step-p1 {
+    margin-bottom: 0.5rem;
+  }
+  .register-steps-btn {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    background: #78b945;
+    border: none;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 0;
+    border-radius: 4px;
+  }
+`; 
 
 export default Signup;
