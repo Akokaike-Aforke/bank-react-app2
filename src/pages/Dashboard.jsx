@@ -27,7 +27,12 @@ const Dashboard = () => {
   const[value, setValue] = useState(0);
   const[profileOpen, setProfileOpen] = useState(false)
   const navigate = useNavigate();
-  const [num, setNum] = useState("")
+  const [num, setNum] = useState("");
+  const [seconds, setSeconds] = useState(130)
+
+  
+  const min = String(Math.trunc(seconds / 60)).padStart(2, 0);
+  const sec = String(seconds % 60).padStart(2, 0);
 
   const handleValue = () =>{
     if(value === 0)setValue(1)
@@ -51,6 +56,29 @@ useEffect(() => {
   }, 3000);
   return () => clearInterval(slider);
 }, [value]);
+
+useEffect(()=>{
+  const timer = setInterval(()=>{
+    setSeconds(seconds=>seconds-1)
+  }, 1000)
+  const resetTimer = () => {
+    setSeconds(130);
+  };
+  window.addEventListener("keydown", resetTimer);
+  window.addEventListener("mousemove", resetTimer);
+  return () => {
+    clearInterval(timer);
+    window.removeEventListener("mousemove", resetTimer);
+    window.removeEventListener("keydown", resetTimer);
+  };
+
+},[])
+
+useEffect(()=>{
+  if(seconds === -1){
+    navigate("/")
+  }
+}, [seconds])
 
   if(!dashboardUser){
     return<h1>loading...</h1>
@@ -166,11 +194,9 @@ useEffect(() => {
           </article>
         )}
         <div className="dashboard-main-div">
-          {/* <div className="timer">
-            <h5>
-              You will be logged out in <span ref={timerRef}>5secs</span>
-            </h5>
-          </div> */}
+          <div className='timer-div'>
+            <p>You will be logged out in {`${min}:${sec}`}secs</p>
+          </div>
           <div className="dashboard-summary-image-div">
             <article className="dashboard-summary">
               <div className="savings-div">
@@ -266,12 +292,12 @@ const DashboardMain = styled.main`
     display: flex;
     justify-content: center;
   }
-  
-  .timer {
-    border: 1px solid black;
+
+  .timer-div {
     width: 95%;
     margin: 0 auto;
     text-align: right;
+    color: #002082;
   }
   .pulse {
     animation: pulse 1s ease-in-out forwards infinite;
