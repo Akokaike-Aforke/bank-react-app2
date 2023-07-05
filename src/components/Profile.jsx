@@ -121,7 +121,7 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
     }
     const handleCloseUpdate=()=>{
       setProfileOpen(true);
-      setEditButtons({...editButtons, changeSecureLog: false,})
+      setEditButtons({...editButtons, changeSecureLog: false, changePin: false, changePassword: false})
       setFormData({...formData, currentPin:"", newPin:"", confirmNewPin:"", currentPassword:"", newPassword:"", confirmNewPassword:""})
     }
     const handleCloseAccountForm = () =>{
