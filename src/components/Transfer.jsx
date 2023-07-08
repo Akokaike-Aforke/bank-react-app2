@@ -21,7 +21,7 @@ const handleTransfer = (e) =>{
   const amount = transferAmount.current.value * 1;
   const charges = amount * 0.015;
   const amountPlusCharges = amount+charges;
-  const pin = transferPin.current.value;
+  const pin = transferPin.current.value * 1;
   const receiver = data3.users.find(person => person.username === name);
   if(!receiver){
     toast.warning("Invalid recipient. Please crosscheck your input")
@@ -32,7 +32,7 @@ const handleTransfer = (e) =>{
   if(amount > clearedBalance){
     toast.warning("Insufficient balance")
   }
-  if(receiver && amount > 20 && amount < clearedBalance && dashboardUser.password === pin && receiver.username !== dashboardUser.username){
+  if(receiver && amount > 20 && amount < clearedBalance && pin === dashboardUser.pin && receiver.username !== dashboardUser.username){
     editUser({userId:receiver._id, transactions:[...receiver.transactions, {amount, charges: 0.00, client:dashboardUser.username,clientAccountNumber:dashboardUser.accountNumber, timeOfTransaction: new Date(), description, fullname: dashboardUser.fullname}]})
     editUser({
       userId: dashboardUser._id,

@@ -38,7 +38,7 @@ const Dashboard = () => {
     if(value === 0)setValue(1)
     else if(value === 1)setValue(0)
   }  
-  const dashboardUser = data3?.users?.find(person => person.username === loggedUser.username)
+  let dashboardUser = data3?.users?.find(person => person.username === loggedUser.username)
   const sumOfMovements = dashboardUser?.transactions.reduce((total, cur)=>{
     return total += cur.amount;
   }, 0)
@@ -77,6 +77,7 @@ useEffect(()=>{
 useEffect(()=>{
   if(seconds === -1){
     navigate("/")
+    
   }
 }, [seconds])
 

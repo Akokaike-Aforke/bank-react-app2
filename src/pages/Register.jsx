@@ -71,9 +71,8 @@ const Register = () => {
   const handleChangeBVN = (e) => {
     setFormData({...formData, bvn: e.target.value.slice(0, 14)});
   };
-  console.log(formData.bvn.length)
   useEffect(()=>{
-    if (validateForm(formData) && password=== confirmPassword && pin === confirmPin && fullnameLength >=2 && fullnameLength < 3 && formData.bvn.length === 14) {
+    if (validateForm(formData) && password=== confirmPassword && pin === confirmPin && fullnameLength >=2 && fullnameLength <= 3 && formData.bvn.length === 14) {
       setIsDeactivated(false);
     }
     else setIsDeactivated(true)

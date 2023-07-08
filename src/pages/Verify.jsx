@@ -21,6 +21,7 @@ const Verify = () => {
     const handleAccountNumber = (e) =>{
         setAccountNumber(e.target.value.slice(0, 10))
     }
+    console.log(accountNumber)
     useEffect(()=>{
       if(accountNumber.length === 10)
       setNotActive(false)
