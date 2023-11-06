@@ -655,10 +655,11 @@ body{
   width: 90%;
   margin-right: auto;
   margin-left: auto;
+  margin-top: 2rem;
 }
 .doMore-view-form{
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 2fr 0.5fr;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr 0.5fr;
   column-gap: 1rem;
 }
 .doMore-view-input-div{

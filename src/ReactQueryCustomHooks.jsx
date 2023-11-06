@@ -27,10 +27,13 @@ export const useGetUser = () => {
 export const useGetSpecifiedTransactions = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({ startDate, endDate }) => {
+    mutationFn: ({ startDate, endDate, activity, clientUsername, selectedAccount }) => {
       return customFetch.post("/api/v1/transactions/transactionHistory", {
         startDate,
         endDate,
+        activity,
+        clientUsername,
+        selectedAccount
       });
     },
     onSuccess: () => {

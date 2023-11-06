@@ -71,6 +71,19 @@ const Dashboard = () => {
     );
   };
 
+  const handleDoMore = (e) =>{
+    e.preventDefault();
+    mutate(
+      {startDate, endDate},
+      {
+        onSuccess: (data) => {
+          console.log(data.data.data.specifiedTransactions)
+        }
+      }
+      )
+  }
+
+
   // Cookies.get("token");
 
   //   const min = String(Math.trunc(seconds / 60)).padStart(2, 0);
