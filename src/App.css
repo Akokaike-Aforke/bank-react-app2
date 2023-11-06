@@ -663,7 +663,6 @@ body{
   column-gap: 1rem;
 }
 .doMore-view-input-div{
-  border: 1px solid #000;
 }
 .doMore-view-form input{
   height: 30px;
@@ -671,21 +670,29 @@ body{
 }
 .doMore-input-date{
   /* width: 150px; */
-  border: 1px solid black;
+  border: 1px solid rgb(204, 204, 204);
   width: 50%;
+  padding: 2px;
 }
 .doMore-select1, .doMore-select2{
   /* width: 150px; */
-  border: 1px solid #000;
+  border: 1px solid rgb(204, 204, 204);
+  border-radius: 4px;
 }
 .doMore-input-name{
   /* width: 300px; */
+  padding: 4px;
+  border-radius: 4px;
 }
 .doMore-view-form button{
   /* width: 100px; */
   border: none;
   background-color: rgb(206,206,206);
   color: rgb(14, 35, 139);
+  border-radius: 4px;
+}
+.doMore-select1, .doMore-select2{
+  padding: 4px;
   border-radius: 4px;
 }
 

@@ -56,6 +56,9 @@ const Dashboard = () => {
   const [specifiedTransactions, setSpecifiedTransactions] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const[doMoreForm, setDoMoreForm] = useState({
+    startDate: "", endDate: "", activity: "", clientUsername: "", selectedAccount:""
+  })
   const { mutate, isLoading: transactionsLoading } =
     useGetSpecifiedTransactions();
   const getSpecifiedTransactions = (e) => {
@@ -71,17 +74,33 @@ const Dashboard = () => {
     );
   };
 
-  const handleDoMore = (e) =>{
+  const handleDoMoreSubmit = (e) =>{
     e.preventDefault();
     mutate(
-      {startDate, endDate},
+      {startDate: doMoreForm.startDate, endDate: doMoreForm.endDate, activity: doMoreForm.activity, clientUsername: doMoreForm.clientUsername},
       {
         onSuccess: (data) => {
-          console.log(data.data.data.specifiedTransactions)
+          console.log(data?.data?.data?.specifiedTransactions)
+          setSpecifiedTransactions(data?.data?.data?.specifiedTransactions);
         }
       }
       )
   }
+
+
+
+  const handleDoMore = (e) =>{
+    const {name, value, type,  checked} = e.target;
+    // [name]: type === "checked" ? "" : ""
+    setDoMoreForm(prev => {
+      return {
+        ...prev, 
+        [name] : type === "checkbox" ? checked : value
+      }
+    })
+
+  }
+  console.log(doMoreForm)
 
 
   // Cookies.get("token");
@@ -276,17 +295,46 @@ const Dashboard = () => {
 
         {person.doMoreView && (
           <section className="doMore-view-section">
-            <form className="doMore-view-form">
+            <form className="doMore-view-form" onSubmit={handleDoMoreSubmit}>
               <div className="doMore-view-input-div">
-                <input className="doMore-input-date" type="date" />
-                <input className="doMore-input-date" type="date" />
+                <input
+                  className="doMore-input-date"
+                  type="date"
+                  value={doMoreForm.startDate}
+                  name="startDate"
+                  onChange={handleDoMore}
+                />
+                <input
+                  className="doMore-input-date"
+                  type="date"
+                  value={doMoreForm.endDate}
+                  name="endDate"
+                  onChange={handleDoMore}
+                />
               </div>
-              <select className="doMore-select1" name="" id="">
+              <select
+                className="doMore-select1"
+                name="activity"
+                id=""
+                value={doMoreForm.activity}
+                onChange={handleDoMore}
+              >
+                <option value="" selected>
+                  --Activity--
+                </option>
                 <option value="self transfer">self transfer</option>
-                <option value="deposit">deposit</option>
-                <option value="withdrawal">withdrawal</option>
+                <option value="credit">credit</option>
+                <option value="debit">debit</option>
               </select>
-              <select className="doMore-select2">
+              <select
+                className="doMore-select2"
+                value={doMoreForm.selectedAccount}
+                onChange={handleDoMore}
+                name="selectedAccount"
+              >
+                <option value="" selected>
+                  --Acount--
+                </option>
                 {data?.data?.user?.accounts?.map((account, index) => {
                   return (
                     <option key={account.id} value={index}>
@@ -295,9 +343,38 @@ const Dashboard = () => {
                   );
                 })}
               </select>
-              <input className="doMore-input-name" type="text" />
+              <input
+                className="doMore-input-name"
+                type="text"
+                value={doMoreForm.clientUsername}
+                name="clientUsername"
+                onChange={handleDoMore}
+                placeholder="Enter client's username"
+              />
               <button>Show</button>
             </form>
+            <div>
+              <h5>YOUR TRANSACTIONS</h5>
+            </div>
+            <div>
+              <h5>DATE</h5>
+              <h5>TRANSACTION TYPE</h5>
+              <h5>DESCRIPTION</h5>
+              <h5>ACCOUNT</h5>
+              <h5>STATUS</h5>
+              <h5>AMOUNT</h5>
+            </div>
+            {transactionsLoading && <p>Loading...</p>}
+            {specifiedTransactions.length === 0 && (
+              <p>You do not have any transactions within this period</p>
+            )}
+            {specifiedTransactions.map((transaction) => {
+              return(
+                <div key={transaction.id}>
+                  <p></p>
+                </div>
+              )
+            })}
           </section>
         )}
 
