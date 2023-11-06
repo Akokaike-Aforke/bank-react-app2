@@ -1,34 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../context';
+import { useCreateAccount } from "../ReactQueryCustomHooks";
 import fidelityIcon from "../Images/fidelity-icon.png";
 import styled from 'styled-components';
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import customFetch from '../utils';
 
 const Verify = () => {
-    const {setAccountNumber, accountNumber} = useGlobalContext();
-    
-  const [notActive, setNotActive] = useState(true);
+    const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
+    const {mutate: createTask, isLoading} = useMutation({
+      mutationFn: () => customFetch.post("/api/v1/accounts/accountNumber", {}),
+      onSuccess: (data)=>{
+        console.log(data);
+        setMessage("Your account number was successfully generated");
+      },
+      onError: (err)=>{console.log(err)}
+    });
     const NavigateToRegister = (e) =>{
       e.preventDefault();
+      createTask()
       navigate('/signup/register')
     }
     const NavigateToLogin = (e) =>{
         e.preventDefault();
         navigate('/login')
     }
-    const handleAccountNumber = (e) =>{
-        setAccountNumber(e.target.value.slice(0, 10))
-    }
-    console.log(accountNumber)
-    useEffect(()=>{
-      if(accountNumber.length === 10)
-      setNotActive(false)
-      else{
-        setNotActive(true);
-      }
-    }, [accountNumber])
   return (
     <VerifyDiv className="signup-article-div">
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />
@@ -45,23 +44,24 @@ const Verify = () => {
             <p>3.complete</p>
           </span>
         </div>
-        <form onSubmit={NavigateToRegister}>
+        <div>
           <label htmlFor="account-num-reg">
-            Enter your 10-digit account number
+            Generate your 10-digit account number
           </label>
-          <input
+          <div
             type="number"
             placeholder="Enter Account Number"
-            className="account-number-input"
-            value={accountNumber}
-            name={accountNumber}
-            onChange={handleAccountNumber}
-          />
-          <button className="account-number-btn" disabled={notActive}>
+            className="account-number-input">
+              {message}
+          </div>
+          <button className="account-number-btn" disabled={isLoading} onClick={NavigateToRegister}>
             GET STARTED
           </button>
-        </form>
-        <button className="verify-button" onClick={NavigateToLogin}>
+        </div>
+        <button
+          className="verify-button"
+           onClick={NavigateToLogin}
+        >
           Already Registered ? Proceed to Login
         </button>
       </div>

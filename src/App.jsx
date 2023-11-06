@@ -1,30 +1,49 @@
-import { useState } from 'react'
-import './App.css'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
-import Home from './pages/Home'
-import SharedLayout from './pages/SharedLayout'
-import Error from './pages/Error'
-import ProtectedRoute from './pages/ProtectedRoute'
-import Dashboard from './pages/Dashboard'
-import { AppProvider } from './context'
-import Verify from './pages/Verify'
-import SharedSignup from './pages/SharedSignup'
-import Register from './pages/Register'
-import Complete from './pages/Complete'
+import { useEffect, useState } from "react";
+import "./App.css";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import SharedLayout from "./pages/SharedLayout";
+import Error from "./pages/Error";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import Dashboard from "./pages/Dashboard";
+import { AppProvider, useGlobalContext } from "./context";
+import Verify from "./pages/Verify";
+import SharedSignup from "./pages/SharedSignup";
+import Register from "./pages/Register";
+import Complete from "./pages/Complete";
+import Cookies from "js-cookie";
+
+
+// import io from "socket.io-client";
+
+// const socket = io.connect("http://localhost:5000");
+// console.log(socket)
+
 function App() {
+  const isAuthenticated = !!Cookies.get("token");
+  const [tokenAvailable, setTokenAvailable] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const{socket} = useGlobalContext();
+  // console.log(socket);
+  useEffect(() => {
+    if (isAuthenticated) {
+      setTokenAvailable(true);
+    } else {
+      setTokenAvailable(false);
+    }
+  }, [isAuthenticated]);
   return (
     <AppProvider>
       <BrowserRouter>
         <Routes>
           {/* <Route path="/" element={<SharedLayout />}> */}
-          <Route
-            path="/"
-            element={<SharedLayout />}
-          >
+          <Route path="/" element={<SharedLayout />}>
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
+            {/* render={(props) => <Contact appState={appState} />} */}
+            {/* <Route path="login" render={(props) => <Login {...props} isLoggedIn={isLoggedIn} /> } /> */}
             <Route path="signup" element={<SharedSignup />}>
               <Route index element={<Signup />} />
               <Route path="verify" element={<Verify />} />
@@ -33,11 +52,7 @@ function App() {
             </Route>
             <Route
               path="dashboard"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
+              element={tokenAvailable ? <Dashboard /> : <Login />}
             />
             <Route path="*" element={<Error />} />
           </Route>
@@ -47,4 +62,4 @@ function App() {
   );
 }
 
-export default App
+export default App;

@@ -1,34 +1,39 @@
-import React, { useRef, useState} from 'react'
+import React, { useEffect, useRef, useState} from 'react'
 import { useGlobalContext } from '../context';
 import { FaTimes } from 'react-icons/fa';
-import { useEditUser } from "../ReactQueryCustomHooks";
+import { useCreateDeposit } from "../ReactQueryCustomHooks";
 import { toast } from 'react-toastify';
+import Cookies from "js-cookie";
+import { AiOutlineConsoleSql } from 'react-icons/ai';
 
-const SelfDeposit = ({dashboardUser}) => {
-    const { person, setPerson } = useGlobalContext();
+const SelfDeposit = () => {
+    const { person, setPerson} = useGlobalContext();
     const depositAmount = useRef(null);
     const pin = useRef(null);
-    const editUser = useEditUser();
     const[description, setDescription] = useState("")
+    const {mutate, isLoading} = useCreateDeposit();
     
   const handleDeposit = (e) => {
     e.preventDefault();
-    const amount = depositAmount.current.value * 1;
-    editUser({
-      userId: dashboardUser._id,
-      transactions: [
-        ...dashboardUser.transactions,
-        { amount, client: "self", timeOfTransaction: new Date(), charges: 0, clientAccountNumber: dashboardUser.accountNumber, description},
-      ],
-    });
-    depositAmount.current.value = "";
-    toast.success(`You have successfully deposited the sum of N${amount} into your account `)
-    setPerson({...person, openDeposit:false})
+    mutate({
+      transactionAmount: (depositAmount.current.value) * 1,
+      description,
+    },
+    {
+      onSuccess: (data)=>{
+        depositAmount.current.value = "";
+        pin.current.value = "";
+        setDescription("");
+        setPerson({ ...person, openDeposit: false });
+        console.log(data)
+      }
+    }
+    )
+    
   };
   const handleClose = () =>{
     setPerson({ ...person, openDeposit: false})
   }
-    
   return (
     <section className="dashboard-popup-section">
       <div className="dashboard-popup-div">

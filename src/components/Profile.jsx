@@ -7,9 +7,10 @@ import { toast } from 'react-toastify';
 import { ImEye } from "react-icons/im";
 import { useNavigate } from 'react-router-dom';
 
-const Profile = ({dashboardUser, setProfileOpen,}) => {
-    const {getFormattedDate} = useGlobalContext();
+const Profile = ({data, isLoading, setProfileOpen,}) => {
+    const {getFormattedDate, selectedAccount} = useGlobalContext();
     const {deleteUser} = useDeleteUser();
+    const dashboardUser = data.data.user;
     
       const navigate = useNavigate();
     const [editButtons, setEditButtons] = useState({
@@ -44,13 +45,13 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
       const changeDateFormat = (item) =>{
           return new Date(item).toISOString().slice(0, 10);
       }
-      const usTime = changeDateFormat(dashboardUser.dateOfBirth)
-      const[formData, setFormData] = useState({fullname:dashboardUser.fullname,  dateOfBirth:usTime, email: dashboardUser.email, username: dashboardUser.username, accountType: dashboardUser.accountType, pin: dashboardUser.pin,currentPin: "", newPin:"", confirmNewPin: "", currentPassword: "", newPassword: "", confirmNewPassword: "", password: dashboardUser.password, closeAccountName: "", closeAccountPassword: "", closeAccountPin: ""})
+      const usTime = changeDateFormat(dashboardUser?.dateOfBirth)
+      const[formData, setFormData] = useState({fullname:dashboardUser.fullname, dateOfBirth:usTime, email: dashboardUser.email, username: dashboardUser.username, accountType: dashboardUser.accountType, pin: dashboardUser.pin,currentPin: "", newPin:"", confirmNewPin: "", currentPassword: "", newPassword: "", confirmNewPassword: "", password: dashboardUser.password, closeAccountName: "", closeAccountPassword: "", closeAccountPin: ""})
     const handleSubmit=(e)=>{
       e.preventDefault();
       editUser({userId:dashboardUser._id, fullname:formData.fullname, dateOfBirth:formData.dateOfBirth, email:formData.email, username:formData.username, accountType:formData.accountType},
         {onSuccess:()=>{
-          toast.success("Your details have been successfully edited")
+          toast.success("Your details have been successfully updated")
           
     setEditButtons({
       editName: false,
@@ -220,6 +221,12 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
       }
       else{setEditButtons({...editButtons, deleteAccount: false})}
     },[formData.closeAccountPin])
+
+if(isLoading){
+  return <p>Loading...</p>
+}
+
+
   return (
     <SectionProfile className="profileSection">
       <div className="profile-div">
@@ -349,12 +356,12 @@ const Profile = ({dashboardUser, setProfileOpen,}) => {
               </div>
               <div className="profile-details-noInput">
                 <h5 className="h5NoInput">ACCOUNT NUMBER</h5>
-                <h5 className="h5NoInput">{dashboardUser.accountNumber}</h5>
+                <h5 className="h5NoInput">{dashboardUser?.accounts[selectedAccount]?.accountNumber}</h5>
               </div>
               <div className="profile-details-noInput">
                 <h5 className="h5NoInput">DATE OF ACCOUNT CREATION</h5>
                 <h5 className="h5NoInput">
-                  {getFormattedDate(dashboardUser.dateCreated)}
+                  {getFormattedDate(dashboardUser?.accounts[selectedAccount]?.dateCreated)}
                 </h5>
               </div>
               <button
@@ -671,7 +678,7 @@ const SectionProfile = styled.section`
     border: none;
     transition: all 0.3s ease;
   }
-  
+
   .profile-div {
     width: 100%;
     height: auto;

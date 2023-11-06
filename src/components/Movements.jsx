@@ -1,102 +1,126 @@
 import React, { useState } from "react";
 import { useGlobalContext } from "../context";
-import moment from 'moment'
+import moment from "moment";
 
-const Movements = ({ dashboardUser, sumOfMovements, data3, receiver}) => {
-  const dashUser = {...dashboardUser}
-const transactions = [...dashUser.transactions].reverse();
-const{allMovements,getFormattedDate} = useGlobalContext();
-let value = 4;
-const getFormatDate =(givenDate)=>{ return moment(givenDate).format("DD/MM/YYYY h:mmA");}
-
-if(allMovements) value = dashUser.transactions.length;
-  return (
+const Movements = ({
+  type,
+  client,
+  description,
+  timeOfTransaction,
+  transactionsLength,
+  transactionAmount,
+  data,
+  charges,
+  isLoading
+}) => {
+  const { allMovements, selectedAccount, getFormattedDate } = useGlobalContext();
+  let value = 4;
+  const getFormatDate = (givenDate) => {
+    return moment(givenDate).format("DD/MM/YYYY h:mmA");
+  };
+  if(isLoading)
+  {
+    return <p>Loading...</p>
+  }
+  const accountNumber = data?.data?.user?.accounts[selectedAccount]?.accountNumber;
+  if (allMovements) value = transactionsLength;
+          return (
     <section className="movements-section">
       <div className="recent-title-div">
         <h5>RECENT TRANSACTIONS</h5>
       </div>
-      {transactions.map((transaction, index) => {
-        const eachTransaction = { ...transaction };
+      {data?.data?.user?.accounts[selectedAccount]?.transactions.slice().reverse().map((transaction, index) => {
+        const {
+          type,
+          client,
+          clientAccountNumber,
+          clientFullname,
+          description,
+          timeOfTransaction,
+          transactionAmount,
+          charges, id
+        } = transaction;
         if (index < value)
-          return (
-            <div
-              className={
-                transaction.amount > 1
-                  ? "transactions-div deposit"
-                  : "transactions-div withdrawal"
-              }
-              key={index}
-            >
-              <div className="recent-div">
-                <h5>
-                  DATE&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  <span className="recent-div-span">
-                    {/* {calcDaysPassed(eachTransaction?.timeOfTransaction)} */}
-                    {getFormattedDate(eachTransaction?.timeOfTransaction)}
-                    {/* {getFormatDate(eachTransaction?.timeOfTransaction)} */}
-                  </span>
-                </h5>
-              </div>
-              <div className="recent-div">
-                <h5>
-                  TYPE&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  <span className="recent-div-span">INTERTRANSFER</span>
-                </h5>
-              </div>
-              <div className="recent-div">
-                <h5>
-                  ACCOUNT&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  <span className="recent-div-span">
-                    {dashUser.accountNumber}
-                  </span>
-                </h5>
-              </div>
-              <div className="recent-div">
-                <h5>
-                  AMOUNT&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  <span className="recent-div-span">
-                    &#8358;
-                    {eachTransaction.amount > 0
-                      ? Number(Math.abs(eachTransaction.amount)).toFixed(2)
-                      : Number(
-                          Math.abs(eachTransaction.amountWithoutCharges)
-                        ).toFixed(2)}
-                  </span>
-                </h5>
-              </div>
-              <div className="recent-div">
-                <h5>
-                  STATUS&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  <span className="recent-div-span">Successful</span>
-                </h5>
-              </div>
-              <div className="recent-div">
-                <h5>DESCRIPTION</h5>
-                <h5>
-                  <span
-                    className={`${
-                      eachTransaction.amount < 0
-                        ? "transaction-positive"
-                        : "transaction-negative"
-                    }`}
-                  >
-                    TRF {eachTransaction.amount > 0 ? "FROM " : "TO "}
-                    {eachTransaction.fullname} ACC** {eachTransaction.client==="self" ? "self" :`${eachTransaction.clientAccountNumber}`.slice(-4)} {`${eachTransaction.description}`.slice(0,31)}
-                  </span>
-                </h5>
-              </div>
-              <div className="recent-div">
-                <h5>
-                  CHARGES&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-                  <span className="recent-div-span">
-                    &#8358;
-                    {eachTransaction?.charges?.toFixed(2)}
-                  </span>
-                </h5>
-              </div>
-            </div>
-          );
+  return (
+    <div
+      className={
+        transactionAmount > 1
+          ? "transactions-div deposit"
+          : "transactions-div withdrawal"
+      }
+    key={id}>
+      <div className="recent-div">
+        <h5>
+          DATE&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          <span className="recent-div-span">
+            {getFormattedDate(timeOfTransaction)}
+          </span>
+        </h5>
+      </div>
+      <div className="recent-div">
+        <h5>
+          TYPE&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          <span className="recent-div-span">{type}</span>
+        </h5>
+      </div>
+      <div className="recent-div">
+        <h5>
+          ACCOUNT&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          <span className="recent-div-span">
+            {data?.data?.user?.accounts[selectedAccount]?.accountNumber}
+          </span>
+        </h5>
+      </div>
+      <div className="recent-div">
+        <h5>
+          AMOUNT&nbsp;&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          <span className="recent-div-span">
+            &#8358;
+            {Math.abs(transactionAmount)}
+          </span>
+        </h5>
+      </div>
+      <div className="recent-div">
+        <h5>
+          STATUS&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          <span className="recent-div-span">Successful</span>
+        </h5>
+      </div>
+      <div className="recent-div">
+        <h5>DESCRIPTION</h5>
+        <h5>
+          <span
+            className={`${
+              transactionAmount < 0
+                ? "transaction-positive"
+                : "transaction-negative"
+            }`}
+          >
+            TRF {transactionAmount > 0 ? "FROM " : "TO "}
+            {client} ACC**{" "}
+            {client === "self" ? "" : `${clientAccountNumber}`.slice(-4)}{" "}
+            {description}
+          </span>
+        </h5>
+      </div>
+      <div className="recent-div">
+        <h5>
+          CHARGES&nbsp;&nbsp;&nbsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          <span className="recent-div-span">
+            &#8358;
+            {charges?.toFixed(2)}
+          </span>
+        </h5>
+      </div>
+    </div>
+  );
+
       })}
+
+
+
+
+
       <div className="transactions-div-table">
         <table>
           <thead>
@@ -110,50 +134,52 @@ if(allMovements) value = dashUser.transactions.length;
               <th>CHARGES</th>
             </tr>
           </thead>
-          <tbody>
-            {transactions.map((transaction, index) => {
-              const eachTransaction = { ...transaction };
-              if (index < value)
-                return (
-                  <tr key={index}>
-                    <td>
-                      {/* {calcDaysPassed(eachTransaction?.timeOfTransaction)} */}
-                      {getFormattedDate(eachTransaction?.timeOfTransaction)}
-                    </td>
-                    {/* <td>{calcDaysPassed(eachTransaction?.timeOfTransaction)}</td> */}
-                    <td>INTERTRANSFER</td>
-                    <td>{dashUser.accountNumber}</td>
-                    <td>
-                      &#8358;
-                      {eachTransaction.amount > 0
-                        ? Number(Math.abs(eachTransaction.amount)).toFixed(2)
-                        : Number(
-                            Math.abs(eachTransaction.amountWithoutCharges)
-                          ).toFixed(2)}
-                    </td>
-                    <td>Succesful</td>
-                    <td>
-                      <span
-                        className={`${
-                          eachTransaction.amount < 0
-                            ? "transaction-positive"
-                            : "transaction-negative"
-                        }`}
-                      >
-                        TRF {eachTransaction.amount > 0 ? "FROM " : "TO "}
-                        {eachTransaction.fullname} ACC**{" "}
-                        {`${eachTransaction.clientAccountNumber}`.slice(-4)}{" "}
-                        {`${eachTransaction.description}`.slice(0, 31)}
-                      </span>
-                    </td>
-                    <td>
-                      &#8358;
-                      {eachTransaction?.charges?.toFixed(2)}
-                    </td>
-                  </tr>
-                );
-            })}
-          </tbody>
+          {data?.data?.user?.accounts[selectedAccount]?.transactions.slice().reverse().map((transaction, index) => {
+            const {
+              type,
+              client,
+              clientAccountNumber,
+              clientFullname,
+              description,
+              timeOfTransaction,
+              transactionAmount,
+              charges,
+            } = transaction;
+            if (index < value)
+            return (
+              <tbody key={transaction.id}>
+                <tr>
+                  <td>
+                    {/* {calcDaysPassed(eachTransaction?.timeOfTransaction)} */}
+                    {getFormattedDate(timeOfTransaction)}
+                  </td>
+                  {/* <td>{calcDaysPassed(eachTransaction?.timeOfTransaction)}</td> */}
+                  <td>{type}</td>
+                  <td>{accountNumber}</td>
+                  {/* <td>{data.data.user.accounts[0].accountNumber}</td> */}
+                  <td>&#8358;{Math.abs(transactionAmount)}</td>
+                  <td>Succesful</td>
+                  <td>
+                    <span
+                      className={`${
+                        transactionAmount < 0
+                          ? "transaction-positive"
+                          : "transaction-negative"
+                      }`}
+                    >
+                      TRF {transactionAmount > 0 ? "FROM " : "TO "}
+                      {client} ACC**{" "}
+                      {client === "self" ? "" : `${clientAccountNumber}`.slice(-4)}{" "}
+                      {description}
+                    </span>
+                  </td>
+                  <td>
+                    &#8358;{charges.toFixed(2)}
+                  </td>
+                </tr>
+              </tbody>
+            );
+          })}
         </table>
       </div>
     </section>

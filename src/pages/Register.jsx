@@ -1,82 +1,106 @@
-import React, { useEffect, useState, useRef } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { ImEye } from "react-icons/im";
 import { AiOutlineMail } from "react-icons/ai";
 import { GrShieldSecurity } from "react-icons/gr";
 import { AiOutlineLock } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import fidelityIcon from "../Images/fidelity-icon.png";
-import { useCreateUser } from '../ReactQueryCustomHooks';
-import { useGlobalContext } from '../context';
-import { toast } from 'react-toastify';
+import { useCreateUser } from "../ReactQueryCustomHooks";
+import { useGlobalContext } from "../context";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const Register = () => {
-  const{setNewSignup, accountNumber, setAccountNumber} = useGlobalContext();
-  const[seePassword, setSeePassword] = useState(false);
-  const[seeConfirmPassword, setSeeConfirmPassword] = useState(false);
-  const[seePin, setSeePin] = useState(false);
-  const[seeConfirmPin, setSeeConfirmPin] = useState(false);
-  
-  const[isDeactivated, setIsDeactivated] = useState(true)
-  let passwordInput = useRef('');
-  let confirmPasswordInput = useRef('');
-  let pinInput = useRef('');
-  let confirmPinInput = useRef('');
-  let password = passwordInput.current.value;
-  let confirmPassword = confirmPasswordInput.current.value;
- let pin = pinInput.current.value * 1;
- let confirmPin = confirmPinInput.current.value * 1;
-  const[formData, setFormData] = useState({fullname: "", bvn: "",  dateOfBirth:"", email: "", username: "", password: "", confirmpassword: "", accountType:"", pin:"", confirmPin:"", accountNumber})
+  // const { setNewSignup, accountNumber, setAccountNumber } = useGlobalContext();
+  const [seePassword, setSeePassword] = useState(false);
+  const [seeConfirmPassword, setSeeConfirmPassword] = useState(false);
+  const [seePin, setSeePin] = useState(false);
+  const [seeConfirmPin, setSeeConfirmPin] = useState(false);
+
+  const [isDeactivated, setIsDeactivated] = useState(false);
+  const [formData, setFormData] = useState({
+    fullname: "",
+    dateOfBirth: "",
+    email: "",
+    username: "",
+    password: "",
+    passwordConfirm: "",
+    accountType: "",
+    pin: "",
+    pinConfirm: "",
+  });
   const validateForm = (obj) => {
-    return Object.values(obj).every(item => item.length > 0);
-  }
-  const {mutate} = useCreateUser();
-  const navigate = useNavigate();
- const fullnameLength = formData.fullname.split(" ").length;
-
-  const NavigateToComplete = (e) =>{
-    e.preventDefault();
-    mutate({fullname:formData.fullname, bvn:formData.bvn, dateOfBirth:formData.dateOfBirth,email:formData.email, username:formData.username, password:formData.password, accountType:formData.accountType, accountNumber:formData.accountNumber, pin: formData.pin, }, {
-      onSuccess:()=>{
-        setFormData({fullname: "", bvn: "",  dateOfBirth:"", email: "", username: "", password: "", accountType:"", accountNumber:"", pin:"",});
-        setNewSignup(formData);
-        navigate("/signup/complete");
-      }
-    }, 
-    {
-      onError:()=>{
-        setFormData({
-          fullname: "",
-          bvn: "",
-          dateOfBirth: "",
-          email: "",
-          username: "",
-          password: "",
-          confirmpassword: "",
-          accountType: "",
-          accountNumber: "",
-          pin:"",
-        });
-      }
-    })
-
-    
-  }
-  
-  const handleChange = (e) =>{
-    const{value, name, checked, type} = e.target;
-    setFormData(prevData => {
-      return {...prevData, [name]: type === 'checkbox' ? checked : value}})
-  }
-  const handleChangeBVN = (e) => {
-    setFormData({...formData, bvn: e.target.value.slice(0, 14)});
+    return Object.values(obj).every((item) => item.length > 0);
   };
-  useEffect(()=>{
-    if (validateForm(formData) && password=== confirmPassword && pin === confirmPin && fullnameLength > 1 && fullnameLength < 4 && formData.bvn.length === 14) {
+  const { mutate, isLoading } = useCreateUser();
+  const navigate = useNavigate();
+  const fullnameLength = formData.fullname.split(" ").length;
+
+  const NavigateToComplete = (e) => {
+    e.preventDefault();
+    mutate(
+      {
+        fullname: formData.fullname,
+        dateOfBirth: formData.dateOfBirth,
+        email: formData.email,
+        username: formData.username,
+        password: formData.password,
+        passwordConfirm: formData.passwordConfirm,
+        accountType: formData.accountType,
+        pin: formData.pin,
+        pinConfirm: formData.pinConfirm,
+      },
+      {
+        onSuccess: (data) => {
+          setFormData({
+            fullname: "",
+            bvn: "",
+            dateOfBirth: "",
+            email: "",
+            username: "",
+            password: "",
+            accountType: "",
+            accountNumber: "",
+            pin: "",
+          });
+          const { token } = data.data;
+          Cookies.set("token", token, { path: "/" });
+          Cookies.set("userData", JSON.stringify(data));
+          // const cook = Cookies.get("token")
+          // console.log(cook)
+          navigate("/signup/complete");
+          // console.log(data)
+        },
+      },
+      {
+        onError: (err) => {
+          console.log(err.message);
+        },
+      }
+    );
+  };
+
+  const handleChange = (e) => {
+    const { value, name, checked, type } = e.target;
+    setFormData((prevData) => {
+      return { ...prevData, [name]: type === "checkbox" ? checked : value };
+    });
+  };
+  useEffect(() => {
+    if (
+      validateForm(formData) &&
+      formData.password === formData.passwordConfirm &&
+      formData.pin === formData.pinConfirm &&
+      fullnameLength > 1 &&
+      fullnameLength < 4 
+    ) {
       setIsDeactivated(false);
-    }
-    else setIsDeactivated(true)
-  }, [formData])
+    } else setIsDeactivated(true);
+  }, [formData]);
+  if(isLoading){
+    return <div><p>Loading...</p></div>
+  }
   return (
     <div className="signup-article-div">
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />
@@ -109,21 +133,6 @@ const Register = () => {
               placeholder="firstname middlename lastname"
               value={formData.fullname}
               onChange={handleChange}
-            />
-          </div>
-          <label htmlFor="" className="register-new-label">
-           14-digit BVN
-          </label>
-          <div className="new-register">
-            <GrShieldSecurity className="register-new-icon" />
-            <input
-              type="number"
-              className="register-bvn"
-              name="bvn"
-              // value={formData.bvn.slice(0, 14)}
-              value={formData.bvn}
-              placeholder="BVN" 
-              onChange={handleChangeBVN}
             />
           </div>
           <label htmlFor="" className="register-new-label">
@@ -225,7 +234,7 @@ const Register = () => {
               value={formData.password}
               placeholder="password"
               onChange={handleChange}
-              ref={passwordInput}
+              // ref={passwordInput}
             />
           </div>
           <label htmlFor="" className="register-new-label">
@@ -240,11 +249,11 @@ const Register = () => {
             <input
               type={`${seeConfirmPassword ? "text" : "password"}`}
               className="register-confirm-password"
-              name="confirmpassword"
-              value={formData.confirmpassword}
+              name="passwordConfirm"
+              value={formData.passwordConfirm}
               placeholder="confirm password"
               onChange={handleChange}
-              ref={confirmPasswordInput}
+              // ref={confirmPasswordInput}
             />
           </div>
           <label htmlFor="" className="register-new-label">
@@ -263,7 +272,7 @@ const Register = () => {
               value={formData.pin}
               placeholder="Pin"
               onChange={handleChange}
-              ref={pinInput}
+              // ref={pinInput}
             />
           </div>
           <label htmlFor="" className="register-new-label">
@@ -278,15 +287,19 @@ const Register = () => {
             <input
               type={`${seeConfirmPin ? "text" : "password"}`}
               className="register-confirm-password"
-              name="confirmPin"
-              value={formData.confirmPin}
+              name="pinConfirm"
+              value={formData.pinConfirm}
               placeholder="confirm pin"
               onChange={handleChange}
-              ref={confirmPinInput}
+              // ref={confirmPinInput}
             />
           </div>
           <button
-            className={`${isDeactivated ? 'register-new-account-btn register-new-account-btn-active' : 'register-new-account-btn'}`}
+            className={`${
+              isDeactivated
+                ? "register-new-account-btn register-new-account-btn-active"
+                : "register-new-account-btn"
+            }`}
             disabled={isDeactivated}
           >
             REGISTER
@@ -295,6 +308,6 @@ const Register = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Register
+export default Register;
