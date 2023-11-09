@@ -139,24 +139,26 @@ export const useCreateAccount = () => {
 export const useEditUser = () => {
   const queryClient = useQueryClient();
   const { mutate: editUser } = useMutation({
-    mutationFn: ({
-      fullname,
-      dateOfBirth,
-      email,
-      username,
-      accountType,
-      pin,
-      password,
-    }) => {
-      return customFetch.patch(`/api/v1/users/updateMe`, {
-        fullname,
-        dateOfBirth,
-        email,
-        username,
-        accountType,
-        pin,
-        password,
-      });
+    mutationFn: (
+      // fullname,
+      // dateOfBirth,
+      // email,
+      // username,
+      // accountType,
+      // pin,
+      // password,
+      formData
+    ) => {
+      return customFetch.patch(`/api/v1/users/updateMe`, 
+        // fullname,
+        // dateOfBirth,
+        // email,
+        // username,
+        // accountType,
+        // pin,
+        // password,
+        formData
+      , { headers: {'Content-Type': 'multipart/form-data'}});
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -283,3 +285,34 @@ export const useCreateDeposit = () => {
   });
   return { mutate, isLoading };
 };
+
+
+// export const useUploadProfilePhoto = () => {
+//   const queryClient = useQueryClient();
+//   const { mutate, isLoading } = useMutation({
+//     mutationFn: ({ profilePhoto}) => {
+//       return customFetch.patch(
+//         "/api/v1/users/profilePhoto",
+//         {
+//           profilePhoto,
+//         },
+//         {
+//           headers: {
+//             "Content-Type": "multipart/form-data",
+//           },
+//         }
+//       );
+//     },
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["users"] });
+//       toast.success("Your upload was successful");
+//     },
+//     onError: (error) => {
+//       const { data } = { ...error.response };
+//       toast.error(data.message);
+//       console.log(error);
+//     },
+//   });
+//   return { mutate, isLoading };
+// };
+

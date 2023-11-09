@@ -1,693 +1,171 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { FaBars, FaLessThanEqual, FaTimes } from 'react-icons/fa';
-import styled from 'styled-components'
-import { useGlobalContext } from '../context'
-import { useEditUser, useDeleteUser } from '../ReactQueryCustomHooks';
-import { toast } from 'react-toastify';
+import React, { useEffect, useRef, useState } from "react";
+import { FaBars, FaLessThanEqual, FaTimes } from "react-icons/fa";
+import styled from "styled-components";
+import { useGlobalContext } from "../context";
+import { useEditUser, useDeleteUser } from "../ReactQueryCustomHooks";
+import { toast } from "react-toastify";
 import { ImEye } from "react-icons/im";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { BsPersonFill } from "react-icons/bs";
+import customFetch from "./../utils";
+import { BiEdit } from "react-icons/bi";
+import axios from "axios";
+const Profile = ({ data, isLoading, setProfileOpen }) => {
+  const { getFormattedDate, selectedAccount } = useGlobalContext();
+  const { deleteUser } = useDeleteUser();
+  const dashboardUser = data.data.user;
 
-const Profile = ({data, isLoading, setProfileOpen,}) => {
-    const {getFormattedDate, selectedAccount} = useGlobalContext();
-    const {deleteUser} = useDeleteUser();
-    const dashboardUser = data.data.user;
-    
-      const navigate = useNavigate();
-    const [editButtons, setEditButtons] = useState({
-      editName: false,
-      editDate: false,
-      editDateOfBirth: false,
-      isEditDate: false,
-      editEmail: false,
-      editAccounType: false,
-      editUsername: false,
-      changeSecureLog: false,
-      changePin: false,
-      changePassword: false,
-      notActivePin: true,
-      notActivePassword: true,
-      isEditing: false,
-      seeCurrentPin: false,
-      seeNewPin: false,
-      seeConfirmPin: false,
-      seeCurrentPassword: false,
-      seeNewPassword: false,
-      seeConfirmPassword: false,
-      closeAccount: false,
-      editCloseAccount: false,
-      closeAccountName: false,
-      closeAccountPassword: false,
-      closeAccountPin: false,
-      deleteAccount: false,
-      showAccountNameInput: false
+  const navigate = useNavigate();
+  const [file, setFile] = useState(null);
+  const [imageURL, setImageURL] = useState(null);
+  const editUser = useEditUser();
+  const editUser1 = useEditUser();
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("profilePhoto", file);
+    editUser1(formData, {
+      onSuccess: (data) => {
+        console.log(data?.data?.data?.user?.profilePhoto);
+        console.log(data?.data);
+        const filename = data?.data?.data?.filename;
+        if (filename) {
+          setImageURL(`http://localhost:5000/profileImages/${filename}`);
+        }
+      },
     });
-      const editUser = useEditUser();
-      const changeDateFormat = (item) =>{
-          return new Date(item).toISOString().slice(0, 10);
-      }
-      const usTime = changeDateFormat(dashboardUser?.dateOfBirth)
-      const[formData, setFormData] = useState({fullname:dashboardUser.fullname, dateOfBirth:usTime, email: dashboardUser.email, username: dashboardUser.username, accountType: dashboardUser.accountType, pin: dashboardUser.pin,currentPin: "", newPin:"", confirmNewPin: "", currentPassword: "", newPassword: "", confirmNewPassword: "", password: dashboardUser.password, closeAccountName: "", closeAccountPassword: "", closeAccountPin: ""})
-    const handleSubmit=(e)=>{
-      e.preventDefault();
-      editUser({userId:dashboardUser._id, fullname:formData.fullname, dateOfBirth:formData.dateOfBirth, email:formData.email, username:formData.username, accountType:formData.accountType},
-        {onSuccess:()=>{
-          toast.success("Your details have been successfully updated")
-          
-    setEditButtons({
-      editName: false,
-      editDate: false,
-      editDateOfBirth: false,
-      isEditDate: false,
-      editEmail: false,
-      editAccounType: false,
-      editUsername: false,
-      changePin: false,
-      changePassword: false,
-      
-    });
-        }},
-        )
+
+    // const result = await customFetch.patch('/api/v1/users/updateMe', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+  };
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setFile(e.target.files[0]);
+    // if(file)
+    // {
+    //   const url = URL.createObjectURL(file);
+    //   setImageURL(url);
+    // }
+    // else setImageURL(null)
+  };
+  //   console.log(file);
+  // useEffect(()=>{
+  // //   if(file){
+  // // const url = URL.createObjectURL(file);
+  // // setImageURL(url);
+  // // }
+  // // else setImageURL(null)
+  // const filename = data?.data?.data?.filename;
+  // setImageURL(
+  //   `http://localhost:5000/profileImages/1699480350779--PASSPORT PHOTO.jpg`
+  // );
+  // }, [])
+
+  useEffect(() => {
+    if (data?.data?.data?.user?.profilePhoto) {
+      const filename = data?.data?.data?.user?.profilePhoto;
+      const profilePhotoURL = filename.replace(/\\/g, "/");
+      setImageURL(`http://localhost:5000/profileImages/${profilePhotoURL}`);
+    } else if (file) {
+      const url = URL.createObjectURL(file);
+      setImageURL(url);
     }
-    const handleSubmitPin = (e) =>{
-      console.log("pin")
-      e.preventDefault;
-      editUser({userId:dashboardUser._id, pin: formData.newPin},
-        {
-          onSuccess: () =>{setEditButtons({...editButtons, changePin: false})}
-        },
-        {
-          onError:(error)=>{console.log(error)}
-        }
-        )
-    }
-
-    const handleSubmitPassword = (e) =>{
-      e.preventDefault;
-      editUser({userId:dashboardUser._id, password: formData.newPassword},
-        {
-          onSuccess: () =>{setEditButtons({...editButtons, changePassword: false})}
-        },
-        {
-          onError:(error)=>{console.log(error)}
-        }
-      )
-    }
-    const handleCloseAccount=()=>{
-      setEditButtons({...editButtons, closeAccount:true, changeSecureLog:true})
-    }
-      
-    const handleDeleteAccount = () =>{
-      return deleteUser(dashboardUser._id, 
-        {
-          onSuccess:()=>{
-            toast.success("You no longer have an account with Fidelity Bank");
-            navigate("/")
-          }
-        },
-        {
-          onError:()=>{
-            toast.error("Your account could not be deleted")
-          }
-        }
-        )
-    }
-    const handleChange = (e) => {
-      const { value, name, checked, type } = e.target;
-      setFormData((prevData) => {
-        return { ...prevData, [name]: type === "checkbox" ? checked : value };
-      });
-    };
-    const handleDate = () =>{
-      setEditButtons({ ...editButtons, editDateOfBirth: true, isEditDate:true, isEditing: true })
-    }
-    const handleCloseUpdate=()=>{
-      setProfileOpen(true);
-      setEditButtons({...editButtons, changeSecureLog: false, changePin: false, changePassword: false})
-      setFormData({...formData, currentPin:"", newPin:"", confirmNewPin:"", currentPassword:"", newPassword:"", confirmNewPassword:""})
-    }
-    const handleCloseAccountForm = () =>{
-      setEditButtons({
-        ...editButtons,
-        closeAccount: false,
-        changeSecureLog: false,
-        showAccountNameInput: false,
-      });
-    }
-
-
-    useEffect(()=>{
-      if (
-        editButtons.changePin &&
-        formData.currentPin == dashboardUser.pin &&
-        formData.newPin === formData.confirmNewPin && formData.newPin != formData.currentPin
-      ) {
-        setEditButtons({ ...editButtons, notActivePin: false });
-      } else setEditButtons({ ...editButtons, notActivePin: true });
-    }, [formData.currentPin, formData.newPin, formData.confirmNewPin, editButtons.changePin, dashboardUser.pin])
-
-      useEffect(()=>{
-      if (
-        editButtons.changePassword &&
-        formData.currentPassword == dashboardUser.password &&
-        formData.newPassword === formData.confirmNewPassword && formData.newPassword !== formData.currentPassword
-      ) {
-        setEditButtons({ ...editButtons, notActivePassword: false });
-        console.log("good change pin");
-      } else setEditButtons({ ...editButtons, notActivePassword: true });
-    }, [formData.currentPassword, formData.newPassword, formData.confirmNewPassword, editButtons.changePassword, dashboardUser.passsword])
-
-
-
-    useEffect(()=>{
-      if(editButtons.showAccountNameInput){
-        setEditButtons({...editButtons, closeAccountName: true})
-      }
-        else{
-          setEditButtons({
-          ...editButtons,
-          closeAccountName: false,
-          closeAccountPassword: false,
-          closeAccountPin: false,
-          deleteAccount: false,
-        });
-        setFormData({
-          ...formData,
-          closeAccountPassword: "",
-          closeAccountPin: "",
-          closeAccountName: ""
-        });
-      }
-      
-    }, [editButtons.showAccountNameInput])
-
-
-    useEffect(()=>{
-      if(editButtons.closeAccountName && formData.closeAccountName === dashboardUser.fullname){
-        setEditButtons({...editButtons, closeAccountPassword: true})
-      }
-      else {
-        setEditButtons({...editButtons, closeAccountPassword: false, closeAccountPin: false, deleteAccount: false})
-        setFormData({...formData, closeAccountPassword:"", closeAccountPin:""})
-      }
-    },[formData.closeAccountName])
-
-    useEffect(()=>{
-     if (
-       formData.closeAccountPassword === dashboardUser.password &&
-       formData.closeAccountName === dashboardUser.fullname &&
-       editButtons.closeAccountName
-     ) {
-       setEditButtons({ ...editButtons, closeAccountPin: true });
-     } else {
-       setEditButtons({
-         ...editButtons,
-         closeAccountPin: false,
-         deleteAccount: false,
-       });
-       setFormData({
-         ...formData,
-         closeAccountPin: "",
-       });
-     }
-    }, [formData.closeAccountPassword])
-
-    useEffect(()=>{
-      if (
-        formData.closeAccountPin == dashboardUser.pin &&
-        formData.closeAccountPassword === dashboardUser.password &&
-        formData.closeAccountName === dashboardUser.fullname && editButtons.closeAccountName
-      ) {
-        setEditButtons({ ...editButtons, deleteAccount: true });
-      }
-      else{setEditButtons({...editButtons, deleteAccount: false})}
-    },[formData.closeAccountPin])
-
-if(isLoading){
-  return <p>Loading...</p>
-}
-
+    else
+    setImageURL(null)
+  }, []);
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <SectionProfile className="profileSection">
       <div className="profile-div">
-        {!editButtons.changeSecureLog ? (
+        <div className="photo-div">
+          <h5 className="profile-h5">PROFILE</h5>
+          <form className="photo-form" onSubmit={handleSave}>
+            <label className="photo-label" htmlFor="profile-photo">
+              <BiEdit className="photo-edit-icon" />
+              <BsPersonFill className="photo-save-icon" />
+              {imageURL && (
+                <img className="image-blob" src={imageURL} alt="Selected" />
+              )}
+            </label>
+            <input
+              id="profile-photo"
+              type="file"
+              accept=".jpg, .jpeg, .png"
+              onChange={handleChange}
+              style={{ display: "none" }}
+              name="profilePhoto"
+            />
+            <button className="profile-btn" onClick={handleSave}>
+              SAVE
+            </button>
+          </form>
+        </div>
+        <div className="info-div">
+          <h5 className="info-h5">INFO</h5>
+          <form className="info-form" action="">
+            <label className="info-label" htmlFor="profile-customer-name">
+              Customer Name
+            </label>
+            <input
+              className="info-input"
+              id="profile-customer-name"
+              type="text"
+            />
+            <BiEdit />
+          </form>
+          <h5 className="info-h">Username</h5>
+          <p className="info-p1">username</p>
+          <h5 className="info-h">User Type</h5>
+          <p className="info-p2">Retail Customer</p>
+          <button className="info-btn">SHOW BVN</button>
+        </div>
+        <div className="links-div">
+          <h5 className="links-h5">LINKS</h5>
           <div>
-            <div className="heading-profile">
-              <h3>PROFILE</h3>
-              <button
-                className="btn-close"
-                onClick={() => setProfileOpen(false)}
-              >
-                <FaTimes />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <div className="profile-details-name">
-                <h5 className="h5Input">NAME</h5>
-                <input
-                  className="input-profile-name"
-                  type="text"
-                  name="fullname"
-                  value={formData.fullname}
-                  onChange={handleChange}
-                  disabled={!editButtons.editName}
-                />
-                <button
-                  className="btn-input-name"
-                  type="button"
-                  onClick={() =>
-                    setEditButtons({
-                      ...editButtons,
-                      editName: true,
-                      isEditing: true,
-                    })
-                  }
-                >
-                  edit
-                </button>
-              </div>
-              <div className="profile-details-noInput">
-                <h5 className="h5NoInput">BVN</h5>
-                <h5 className="h5NoInput">{dashboardUser.bvn}</h5>
-              </div>
-              <div className="profile-details">
-                <h5 className="h5Input">DATE OF BIRTH</h5>
-                <input
-                  type={editButtons.isEditDate ? "date" : "text"}
-                  onChange={handleChange}
-                  name="dateOfBirth"
-                  // value={getFormattedDate(formData.dateOfBirth).datetime}
-                  value={formData.dateOfBirth}
-                  disabled={!editButtons.editDateOfBirth}
-                />
-                <button type="button" onClick={handleDate} className="btnInput">
-                  edit
-                </button>
-              </div>
-              <div className="profile-details">
-                <h5 className="h5Input">EMAIL</h5>
-                <input
-                  type="email"
-                  value={formData.email}
-                  name="email"
-                  onChange={handleChange}
-                  disabled={!editButtons.editEmail}
-                />
-                <button
-                  className="btnInput"
-                  type="button"
-                  onClick={() =>
-                    setEditButtons({
-                      ...editButtons,
-                      editEmail: true,
-                      isEditing: true,
-                    })
-                  }
-                >
-                  edit
-                </button>
-              </div>
-              <div className="profile-details">
-                <h5 className="h5Input">USERNAME</h5>
-                <input
-                  type="text"
-                  value={formData.username}
-                  name="username"
-                  onChange={handleChange}
-                  disabled={!editButtons.editUsername}
-                />
-                <button
-                  className="btnInput"
-                  type="button"
-                  onClick={() =>
-                    setEditButtons({
-                      ...editButtons,
-                      editUsername: true,
-                      isEditing: true,
-                    })
-                  }
-                >
-                  edit
-                </button>
-              </div>
-              <div className="profile-details">
-                <h5 className="h5Input">ACCOUNT TYPE</h5>
-                <input
-                  type="text"
-                  value={formData.accountType}
-                  name="accountType"
-                  onChange={handleChange}
-                  disabled={!editButtons.editAccounType}
-                />
-                <button
-                  className="btnInput"
-                  type="button"
-                  onClick={() =>
-                    setEditButtons({
-                      ...editButtons,
-                      editAccounType: true,
-                      isEditing: true,
-                    })
-                  }
-                >
-                  edit
-                </button>
-              </div>
-              <div className="profile-details-noInput">
-                <h5 className="h5NoInput">ACCOUNT NUMBER</h5>
-                <h5 className="h5NoInput">{dashboardUser?.accounts[selectedAccount]?.accountNumber}</h5>
-              </div>
-              <div className="profile-details-noInput">
-                <h5 className="h5NoInput">DATE OF ACCOUNT CREATION</h5>
-                <h5 className="h5NoInput">
-                  {getFormattedDate(dashboardUser?.accounts[selectedAccount]?.dateCreated)}
-                </h5>
-              </div>
-              <button
-                className="btnSubmitUpdate"
-                type="submit"
-                disabled={!editButtons.isEditing}
-              >
-                update
-              </button>
-            </form>
-            <div className="change-pin-div">
-              <button
-                className="btn-change-pin"
-                onClick={() =>
-                  setEditButtons({
-                    ...editButtons,
-                    changeSecureLog: true,
-                    changePin: true,
-                    changePassword: false,
-                  })
-                }
-              >
-                change pin
-              </button>
-              <button
-                className="btn-change-pin"
-                onClick={() =>
-                  setEditButtons({
-                    ...editButtons,
-                    changeSecureLog: true,
-                    changePassword: true,
-                    changePin: false,
-                  })
-                }
-              >
-                change password
-              </button>
-              <button
-                className="btn-close-account"
-                onClick={handleCloseAccount}
-              >
-                close account
-              </button>
-            </div>
+            <p className="links-password">Change Password</p>
+            <p className="links-pin">Change Pin</p>
+            {/* <img src={data?.data?.data?user?.profilePhoto} /> */}
           </div>
-        ) : (
-          <div className="update-close-div">
-            <div className="heading-profile">
-              <h3>{editButtons.closeAccount ? "CLOSE ACCOUNT" : "PROFILE"}</h3>
-              <button
-                className="btn-close"
-                onClick={
-                  editButtons.closeAccount
-                    ? handleCloseAccountForm
-                    : handleCloseUpdate
-                }
-              >
-                <FaTimes />
-              </button>
-            </div>
-            {editButtons.changePin && (
-              <div className="update-pin-div">
-                <h4 className="heading-pin">UPDATE PIN</h4>
-                <form onSubmit={handleSubmitPin}>
-                  <div className="current-pin-label-div">
-                    <label htmlFor="currentPin">Current Pin:</label>
-                    <div className="current-pin-div">
-                      <input
-                        type={editButtons.seeCurrentPin ? "text" : "password"}
-                        className="currentPin"
-                        id="currentPin"
-                        name="currentPin"
-                        value={formData.currentPin}
-                        onChange={handleChange}
-                      />
-                      <ImEye
-                        className="current-pin-icon"
-                        onClick={() =>
-                          setEditButtons({
-                            ...editButtons,
-                            seeCurrentPin: !editButtons.seeCurrentPin,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="new-pin-label-div">
-                    <label htmlFor="newPin">New Pin:</label>
-                    <div className="new-pin-div">
-                      <input
-                        type={editButtons.seeNewPin ? "text" : "password"}
-                        className="newPin"
-                        id="newPin"
-                        name="newPin"
-                        onChange={handleChange}
-                      />
-                      <ImEye
-                        className="new-pin-icon"
-                        onClick={() =>
-                          setEditButtons({
-                            ...editButtons,
-                            seeNewPin: !editButtons.seeNewPin,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className="confirm-pin-label-div">
-                    <label htmlFor="confirmPin">Confirm New Pin:</label>
-                    <div className="confirm-pin-div">
-                      <input
-                        type={editButtons.seeConfirmPin ? "text" : "password"}
-                        className="confirmPin"
-                        id="confirmNewPin"
-                        name="confirmNewPin"
-                        onChange={handleChange}
-                      />
-                      <ImEye
-                        className="confirm-pin-icon"
-                        onClick={() =>
-                          setEditButtons({
-                            ...editButtons,
-                            seeConfirmPin: !editButtons.seeConfirmPin,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <button
-                    className="btn-update-pin"
-                    disabled={editButtons.notActivePin}
-                    onClick={handleSubmitPin}
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
-            )}
-
-            {editButtons.changePassword && (
-              <div className="update-password-div">
-                <h4 className="heading-password">UPDATE PASSWORD</h4>
-                <form onSubmit={handleSubmitPassword}>
-                  <div className="current-password-label-div">
-                    <label htmlFor="currentPassword">Current Password:</label>
-                    <div className="current-password-div">
-                      <input
-                        type="text"
-                        className="currentPassword"
-                        id="currentPassword"
-                        name="currentPassword"
-                        value={formData.currentPassword}
-                        onChange={handleChange}
-                      />
-                      <ImEye
-                        className="current-password-icon"
-                        onClick={() =>
-                          setEditButtons({
-                            ...editButtons,
-                            seeCurrentPassword: !editButtons.seeCurrentPassword,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="new-password-label-div">
-                    <label htmlFor="newPassword">New Password:</label>
-                    <div className="new-password-div">
-                      <input
-                        type="text"
-                        className="currentPassword"
-                        id="newPassword"
-                        name="newPassword"
-                        value={formData.newPassword}
-                        onChange={handleChange}
-                      />
-                      <ImEye
-                        className="new-password-icon"
-                        onClick={() =>
-                          setEditButtons({
-                            ...editButtons,
-                            seeNewPassword: !editButtons.seeNewPassword,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="confirm-password-label-div">
-                    <label htmlFor="confirmNewPassword">
-                      Confirm New Password:
-                    </label>
-                    <div className="confirm-password-div">
-                      <input
-                        type="text"
-                        className="currentPassword"
-                        id="confirmNewPassword"
-                        name="confirmNewPassword"
-                        value={formData.confirmNewPassword}
-                        onChange={handleChange}
-                      />
-                      <ImEye
-                        className="confirm-password-icon"
-                        onClick={() =>
-                          setEditButtons({
-                            ...editButtons,
-                            seeConfirmPassword: !editButtons.seeConfirmPassword,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>
-                  <button
-                    className="btn-update-password"
-                    disabled={editButtons.notActivePassword}
-                  >
-                    Submit
-                  </button>
-                </form>
-              </div>
-            )}
-          </div>
-        )}
-        {editButtons.closeAccount && (
-          <div className="closeAccount-div1">
-            <p>Are you sure you want to permanently delete your account?</p>
-            <div className="closeAccount-div2">
-              <button
-                className="btn-closeAccount-yes"
-                onClick={() =>
-                  setEditButtons({ ...editButtons, showAccountNameInput: true })
-                }
-              >
-                YES
-              </button>
-              <button
-                className="btn-closeAccount-no"
-                onClick={() =>
-                  setEditButtons({
-                    ...editButtons,
-                    closeAccount: false,
-                    changeSecureLog: false,
-                    showAccountNameInput: false,
-                  })
-                }
-              >
-                NO
-              </button>
-              {editButtons.closeAccountName && (
-                <div className="close-account-name-div">
-                  <label htmlFor="closeAccountName">Enter Name:</label>
-                  <input
-                    type="text"
-                    id="closeAccountName"
-                    value={formData.closeAccountName}
-                    name="closeAccountName"
-                    onChange={handleChange}
-                    placeholder="lowercase"
-                  />
-                </div>
-              )}
-              {editButtons.closeAccountPassword && (
-                <div className="close-account-password-div">
-                  <label htmlFor="closeAccountPassword">
-                    Input your password
-                  </label>
-                  <input
-                    type="text"
-                    name="closeAccountPassword"
-                    value={formData.closeAccountPassword}
-                    onChange={handleChange}
-                  />
-                </div>
-              )}
-              {editButtons.closeAccountPin && (
-                <div className="close-account-pin-div">
-                  <label htmlFor="closeAccountPin">Input your pin</label>
-                  <input
-                    type="text"
-                    name="closeAccountPin"
-                    value={formData.closeAccountPin}
-                    onChange={handleChange}
-                  />
-                </div>
-              )}
-              {editButtons.deleteAccount && (
-                <button
-                  onClick={handleDeleteAccount}
-                  className="btn-deleteAccount"
-                >
-                  DELETE ACCOUNT
-                </button>
-              )}
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </SectionProfile>
   );
-}
+};
 
 const SectionProfile = styled.section`
-  width: 80%;
+  width: 97%;
   position: relative;
-  button:disabled {
-    background-color: #e0e0e0;
-    border: 1px solid #dedede;
-    color: rgb(127, 127, 128);
-    cursor: not-allowed;
-  }
-  button {
-    border-radius: 4px;
-    background: #569d4b;
-    border: none;
-    transition: all 0.3s ease;
-  }
+  margin-right: auto;
+  margin-left: auto;
 
   .profile-div {
+    display: grid;
     width: 100%;
-    height: auto;
+    max-width: 1200px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .profile-h5,
+  .info-h5,
+  .links-h5 {
+    padding: 1rem;
+    background-color: rgb(251, 251, 251);
+    margin-bottom: 1rem;
+    color: rgb(128, 128, 128);
+  }
+
+  .photo-div,
+  .info-div,
+  .links-div {
     background-color: white;
-    padding: 0 15px;
-    margin-top: 2rem;
-    border-radius: 4px;
-    position: relative;
-    padding-top: 40px;
+    width: 100%;
+    height: 350px;
+    box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   }
   .heading-profile {
     display: flex;
@@ -695,231 +173,106 @@ const SectionProfile = styled.section`
     align-items: center;
     margin-bottom: 1rem;
   }
-  .btn-close {
+  .photo-form {
+    padding-left: 1rem;
+  }
+  .photo-label {
     display: block;
-    border: none;
-    background-color: transparent;
-    font-size: 20px;
-    color: #bc0707;
-    cursor: pointer;
-    margin-right: 2rem;
-  }
-  .profile-details,
-  .profile-details-noInput {
-    margin-bottom: 1rem;
-  }
-  .profile-details-name {
-    margin-bottom: 1rem;
-  }
-  .input-profile-name,
-  input {
-    width: 78%;
-    border: 1px solid black;
-    margin-right: 5%;
-    padding: 10px;
-    border-radius: 4px;
-  }
-  .btn-input-name,
-  .btnInput {
-    width: 17%;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    border: 2px solid green;
-    cursor: pointer;
-    background-color: transparent;
-  }
-  .btnSubmitUpdate {
-    border: none;
-    display: block;
-    margin: 2rem auto;
-    padding: 10px 25px;
-    font-size: 16px;
-    letter-spacing: 0.5;
-    border-radius: 4px;
-    background-color: #78b945;
-    cursor: pointer;
-  }
-  .change-pin-div {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 2rem 0rem;
-  }
-  .btn-change-pin,
-  .btn-change-password,
-  .btn-close-account {
-    padding: 10px;
-    border: 2px solid green;
-    border-radius: 4px;
-    width: 200px;
-    cursor: pointer;
-  }
-  .change-pin-content-div {
-    width: 100%;
-  }
-  .current-pin-div,
-  .new-pin-div,
-  .confirm-pin-div,
-  .current-password-div,
-  .new-password-div,
-  .confirm-password-div {
-    margin-bottom: 1rem;
+    width: 10rem;
+    background-color: rgb(241, 241, 241);
+    height: 12rem;
     position: relative;
+    text-align: center;
+    cursor: pointer;
   }
-  .current-pin-div input,
-  .new-pin-div input,
-  .confirm-pin-div input,
-  .current-password-div input,
-  .new-password-div input,
-  .confirm-password-div input {
-    width: 100%;
-  }
-
-  .current-pin-icon,
-  .new-pin-icon,
-  .confirm-pin-icon,
-  .current-password-icon,
-  .new-password-icon,
-  .confirm-password-icon {
+  .image-blob {
     position: absolute;
-    top: 10px;
-    right: 5px;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: block;
   }
-  .update-close-div {
-    width: 90%;
-    margin: 0 auto;
+  .photo-save-icon {
+    color: rgb(10, 10, 10);
+    font-size: 10rem;
+    height: 12rem;
+    cursor: pointer;
+  }
+  .photo-edit-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1.23rem;
+    cursor: pointer;
+    z-index: 2;
   }
 
-  .update-pin-div label,
-  .update-password-div label {
-    width: 200px;
-    display: inline-block;
+  .profile-btn {
+    width: 5rem;
+    padding: 0.3rem;
+    font-family: "Open Sans", sans-serif;
+    text-align: center;
+    color: rgb(128, 128, 128);
+    background-color: rgb(224, 224, 224);
+    border: none;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
   }
-  .btn-update-pin,
-  .btn-update-password {
-    padding: 10px 40px;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 4px;
+  .profile-btn:hover {
+    color: rgb(34, 34, 34);
+    background-color: rgb(165, 165, 165);
+  }
+  .info-label {
+    display: block;
+  }
+  .info-input {
+    width: 20rem;
+    height: 2rem;
+    /* border: none; */
+  }
+  .info-form {
     margin-bottom: 2rem;
+    margin-left: 1rem;
   }
-  .heading-password,
-  .heading-pin {
-    margin-bottom: 3rem;
+  .info-h {
+    margin-left: 1rem;
   }
-  .closeAccount-div1 {
-    margin-bottom: 4rem;
-  }
-  .btn-closeAccount-yes,
-  .btn-closeAccount-no {
-    padding: 10px 35px;
-    cursor: pointer;
-    margin: 1.5rem 0;
-    margin-right: 0.8rem;
-    border-radius: 4px;
-    background: #569d4b;
-    border: none;
-    transition: all 0.3s ease;
-  }
-  .btn-closeAccount-yes:hover,
-  .btn-closeAccount-no:hover {
-    background: #35612e;
-  }
-
-  .close-account-name-div,
-  .close-account-password-div,
-  .close-account-pin-div {
+  .info-p1,
+  .info-p2 {
     margin-bottom: 1rem;
+    margin-left: 1rem;
   }
-  .closeAccount-div1 label {
-    width: 180px;
-    display: inline-block;
-  }
-  .btn-deleteAccount {
-    padding: 10px 20px;
-    margin: 1rem 180px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-    background: #569d4b;
-  }
-  .btn-deleteAccount:hover {
-    background: #35612e;
+  .info-btn {
+    padding: 0.5rem;
+    border: 1px solid rgb(33, 153, 232);
+    color: rgb(33, 153, 232);
+    background-color: transparent;
+    margin-left: 1rem;
   }
 
-  @media screen and (min-width: 420px) {
-    .current-pin-label-div,
-    .new-pin-label-div,
-    .confirm-pin-label-div,
-    .current-password-label-div,
-    .new-password-label-div,
-    .confirm-password-label-div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-    .current-pin-div,
-    .new-pin-div,
-    .confirm-pin-div,
-    .current-password-div,
-    .new-password-div,
-    .confirm-password-div {
-      margin: 0;
-    }
-    .update-pin-div label,
-    .update-password-div label {
-      width: 50%;
-    }
-    .update-close-div {
-      max-width: 400px;
-    }
+  .links-password,
+  .links-pin {
+    color: rgb(33, 153, 232);
+    margin-bottom: 1rem;
+    padding-left: 1rem;
   }
-  @media screen and (min-width: 580px) {
-    .profile-details-name,
-    .profile-details {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
+  @media screen and (min-width: 770px) {
+    .profile-div {
+      grid-template-columns: 1fr 1fr 1fr;
+      column-gap: 2rem;
+      margin-top: 3rem;
     }
-    .input-profile-name,
-    input {
-      width: 50%;
+    .photo-div,
+    .info-div,
+    .links-div {
+      height: 450px;
     }
-    .btn-input-name,
-    .btnInput {
-      width: 20%;
-    }
-    .profile-details-name h5,
-    .h5Input {
-      width: 30%;
-    }
-  }
-  @media screen and (min-width: 880px) {
-    .profile-details-name,
-    .profile-details,
-    .profile-details-noInput {
-      width: 700px;
-      display: block;
-      margin: 0 auto 1rem 0;
-    }
-    .input-profile-name,
-    input {
-      width: 300px;
-      margin-right: 30px;
-    }
-    .btn-input-name,
-    .btnInput {
-      width: 100px;
-    }
-    .profile-details-name h5,
-    .h5Input,
-    .h5NoInput {
-      display: inline-block;
-      width: 220px;
+    .info-input {
+      width: 80%;
     }
   }
 `;
 
-export default Profile
+export default Profile;

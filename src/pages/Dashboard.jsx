@@ -13,7 +13,7 @@ import { GrFormClose } from "react-icons/gr";
 import { BiPowerOff } from "react-icons/bi";
 import { FaBars } from "react-icons/fa";
 import { FaTimes } from "react-icons/fa";
-import {SlCalender} from "react-icons/sl"
+import { SlCalender } from "react-icons/sl";
 import { FaGreaterThan } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import Transfer from "../components/Transfer";
@@ -41,7 +41,7 @@ const Dashboard = () => {
     startTime,
     userId,
     userSpecificData,
-    getFormattedDate2
+    getFormattedDate2,
   } = useGlobalContext();
   const { data, isLoading } = useGetUser({});
 
@@ -56,9 +56,13 @@ const Dashboard = () => {
   const [specifiedTransactions, setSpecifiedTransactions] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const[doMoreForm, setDoMoreForm] = useState({
-    startDate: "", endDate: "", activity: "", clientUsername: "", selectedAccount:""
-  })
+  const [doMoreForm, setDoMoreForm] = useState({
+    startDate: "",
+    endDate: "",
+    activity: "",
+    clientUsername: "",
+    selectedAccount: "",
+  });
   const { mutate, isLoading: transactionsLoading } =
     useGetSpecifiedTransactions();
   const getSpecifiedTransactions = (e) => {
@@ -74,34 +78,35 @@ const Dashboard = () => {
     );
   };
 
-  const handleDoMoreSubmit = (e) =>{
+  const handleDoMoreSubmit = (e) => {
     e.preventDefault();
     mutate(
-      {startDate: doMoreForm.startDate, endDate: doMoreForm.endDate, activity: doMoreForm.activity, clientUsername: doMoreForm.clientUsername},
+      {
+        startDate: doMoreForm.startDate,
+        endDate: doMoreForm.endDate,
+        activity: doMoreForm.activity,
+        clientUsername: doMoreForm.clientUsername,
+        selectedAccount: Number(doMoreForm.selectedAccount),
+      },
       {
         onSuccess: (data) => {
-          console.log(data?.data?.data?.specifiedTransactions)
+          console.log(data?.data?.data?.specifiedTransactions);
           setSpecifiedTransactions(data?.data?.data?.specifiedTransactions);
-        }
+        },
       }
-      )
-  }
+    );
+  };
 
-
-
-  const handleDoMore = (e) =>{
-    const {name, value, type,  checked} = e.target;
+  const handleDoMore = (e) => {
+    const { name, value, type, checked } = e.target;
     // [name]: type === "checked" ? "" : ""
-    setDoMoreForm(prev => {
+    setDoMoreForm((prev) => {
       return {
-        ...prev, 
-        [name] : type === "checkbox" ? checked : value
-      }
-    })
-
-  }
-  console.log(doMoreForm)
-
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      };
+    });
+  };
 
   // Cookies.get("token");
 
@@ -179,13 +184,11 @@ const Dashboard = () => {
   //   return <article className="view-more-div"></article>
   // }
 
-  console.log(data?.data?.user?.accounts[selectedAccount]);
   // if(!isLoggedIn){
   //   return <Navigate to="/login" />
   // }
   const transactionsLength =
     data?.data?.user?.accounts[selectedAccount]?.transactions?.length;
-  console.log(selectedAccount);
 
   return (
     <DashboardMain className="covid-main">
@@ -223,7 +226,11 @@ const Dashboard = () => {
               <button className="dashboard-profile-btn">
                 <span
                   className="view-profile-span"
-                  onClick={() => setProfileOpen(true)}
+                  onClick={() => {
+                    setProfileOpen(true)
+                    setPerson({...person, dashboardMain: false, viewMyAccounts: false})
+                  }
+                }
                 >
                   View profile
                 </span>
@@ -235,10 +242,37 @@ const Dashboard = () => {
               onClick={
                 person.viewMore
                   ? () => {
-                      setPerson({ ...person, viewMore: false });
+                      setPerson({
+                        ...person,
+                        viewMore: false,
+                        dashboardMain: true,
+                      });
                       setStartDate("");
                       setEndDate("");
                       setSpecifiedTransactions([]);
+                    }
+                  : person.doMoreView
+                  ? () => {
+                      setPerson({
+                        ...person,
+                        doMoreView: false,
+                        dashboardMain: true,
+                      });
+                      setDoMoreForm({
+                        startDate: "",
+                        endDate: "",
+                        activity: "",
+                        clientUsername: "",
+                        selectedAccount: "",
+                      });
+                      setSpecifiedTransactions([]);
+                    }
+                    :person.viewMyAccounts ? () => {
+                      setPerson({...person, viewMyAccounts: false, dashboardBackground: true, dashboardOptionShow: true, dashboardMain: true})
+                    }
+                    :profileOpen ? () => {
+                      setProfileOpen(false);
+                      setPerson({...person, dashboardMain: true, dashboardBackground: true, dashboardOptionShow: true})
                     }
                   : () =>
                       setPerson({
@@ -252,12 +286,13 @@ const Dashboard = () => {
           </nav>
         </div>
         {person.openDashboard && (
-          <article className="dashboard-options">
+          <section>
+          {person.dashboardBackground && <article className="dashboard-options">
             <div className="dashboard-underline-div"></div>
             {person.transferLog && <Transfer />}
             {person.openDeposit && <SelfDeposit />}
-            {person.viewMyAccounts && <MyAccounts />}
-            <div className="dashboard-options-innerdiv">
+            
+            {person.dashboardOptionShow && <div className="dashboard-options-innerdiv">
               <button
                 className="dashboard-options-btn"
                 onClick={() => setPerson({ ...person, openDashboard: false })}
@@ -278,108 +313,316 @@ const Dashboard = () => {
               </button>
               <button
                 className="dashboard-options-btn"
-                onClick={() => setPerson({ ...person, viewMyAccounts: true })}
+                onClick={() => setPerson({ ...person, viewMyAccounts: true, dashboardOptionShow: false, dashboardBackground: false, dashboardMain: false })}
               >
                 <h4>MY ACCOUNTS</h4>
               </button>
 
               <button
-                onClick={() => setProfileOpen(true)}
+                onClick={() => {
+                  setProfileOpen(true)
+                  setPerson({...person, dashboardMain: false, dashboardOptionShow: false, dashboardBackground: false})
+                }}
                 className="dashboard-options-btn"
               >
                 <h4>PROFILE AND SETTINGS</h4>
               </button>
-            </div>
-          </article>
+            </div>}
+          </article>}
+          {person.viewMyAccounts && <MyAccounts />}
+          </section>
         )}
 
         {person.doMoreView && (
           <section className="doMore-view-section">
-            <form className="doMore-view-form" onSubmit={handleDoMoreSubmit}>
-              <div className="doMore-view-input-div">
-                <input
-                  className="doMore-input-date"
-                  type="date"
-                  value={doMoreForm.startDate}
-                  name="startDate"
-                  onChange={handleDoMore}
-                />
-                <input
-                  className="doMore-input-date"
-                  type="date"
-                  value={doMoreForm.endDate}
-                  name="endDate"
-                  onChange={handleDoMore}
-                />
-              </div>
-              <select
-                className="doMore-select1"
-                name="activity"
-                id=""
-                value={doMoreForm.activity}
-                onChange={handleDoMore}
-              >
-                <option value="" selected>
-                  --Activity--
-                </option>
-                <option value="self transfer">self transfer</option>
-                <option value="credit">credit</option>
-                <option value="debit">debit</option>
-              </select>
-              <select
-                className="doMore-select2"
-                value={doMoreForm.selectedAccount}
-                onChange={handleDoMore}
-                name="selectedAccount"
-              >
-                <option value="" selected>
-                  --Acount--
-                </option>
-                {data?.data?.user?.accounts?.map((account, index) => {
+            <article className="doMore-view-article1">
+              {/* <article className="view-more-div"> */}
+              <div>
+                <div className="view-more-h3-div">
+                  <h3 className="view-more-h3">YOUR TRANSACTIONS</h3>
+                </div>
+                <div className="view_more_form_div">
+                  <h5 className="view_more_h5">Select Time Period</h5>
+                  <form
+                    className="doMore-view-form1"
+                    onSubmit={handleDoMoreSubmit}
+                  >
+                    <div className="doMore-view-input-div1">
+                      <input
+                        className="doMore-input-date1"
+                        type="date"
+                        value={doMoreForm.startDate}
+                        name="startDate"
+                        onChange={handleDoMore}
+                      />
+                      <input
+                        className="doMore-input-date1"
+                        type="date"
+                        value={doMoreForm.endDate}
+                        name="endDate"
+                        onChange={handleDoMore}
+                      />
+                    </div>
+                    <select
+                      className="doMoreForm1-select1"
+                      name="activity"
+                      id=""
+                      value={doMoreForm.activity}
+                      onChange={handleDoMore}
+                    >
+                      <option value="" selected>
+                        --Activity--
+                      </option>
+                      <option value="self transfer">self transfer</option>
+                      <option value="credit">credit</option>
+                      <option value="debit">debit</option>
+                    </select>
+                    <select
+                      className="doMoreForm1-select2"
+                      value={doMoreForm.selectedAccount}
+                      onChange={handleDoMore}
+                      name="selectedAccount"
+                    >
+                      <option value="" selected>
+                        --Acount--
+                      </option>
+                      {data?.data?.user?.accounts?.map((account, index) => {
+                        return (
+                          <option key={account.id} value={index}>
+                            {account?.accountNumber}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    <input
+                      className="doMore-input-name1"
+                      type="text"
+                      value={doMoreForm.clientUsername}
+                      name="clientUsername"
+                      onChange={handleDoMore}
+                      placeholder="Enter client's username"
+                    />
+                    <button className="doMore-form-button1">Show</button>
+                  </form>
+                </div>
+                {transactionsLoading && <p>Loading...</p>}
+                {specifiedTransactions.length === 0 && (
+                  <p>You do not have any transactions within this period</p>
+                )}
+                {specifiedTransactions.map((transaction) => {
                   return (
-                    <option key={account.id} value={index}>
-                      {account?.accountNumber}
-                    </option>
+                    <div key={transaction.id} className="specified_trans_div1">
+                      <h5 className="doMore-form1-h5-date">DATE</h5>
+                      <p className="doMore-form1-h5-p">
+                        {getFormattedDate2(transaction?.timeOfTransaction)}
+                      </p>
+                      <h5>TYPE</h5>
+                      <p>{transaction?.type}</p>
+                      <h5>DESC</h5>
+                      <p>
+                        <span className="domore-desc-span1">
+                          ONB TRF{" "}
+                          {transaction.transactionAmount > 0 ? "FROM" : "TO"}{" "}
+                          {`${transaction?.clientFullname}`.toUpperCase()}***
+                          {`${transaction?.clientAccountNumber}`?.slice(-4)}
+                        </span>{" "}
+                        {transaction?.description}
+                      </p>
+                      <h5>ACCOUNT</h5>
+                      <p>
+                        {
+                          data.data.user.accounts[
+                            Number(doMoreForm.selectedAccount)
+                          ].accountNumber
+                        }
+                      </p>
+                      <h5>STATUS</h5>
+                      <p>Successful</p>
+                      <h5>AMOUNT</h5>
+                      <p>
+                        &#8358;
+                        {Math.abs(transaction?.transactionAmount)?.toFixed(2)}
+                      </p>
+                    </div>
                   );
                 })}
-              </select>
-              <input
-                className="doMore-input-name"
-                type="text"
-                value={doMoreForm.clientUsername}
-                name="clientUsername"
-                onChange={handleDoMore}
-                placeholder="Enter client's username"
-              />
-              <button>Show</button>
-            </form>
-            <div>
-              <h5>YOUR TRANSACTIONS</h5>
-            </div>
-            <div>
-              <h5>DATE</h5>
-              <h5>TRANSACTION TYPE</h5>
-              <h5>DESCRIPTION</h5>
-              <h5>ACCOUNT</h5>
-              <h5>STATUS</h5>
-              <h5>AMOUNT</h5>
-            </div>
-            {transactionsLoading && <p>Loading...</p>}
-            {specifiedTransactions.length === 0 && (
-              <p>You do not have any transactions within this period</p>
-            )}
-            {specifiedTransactions.map((transaction) => {
-              return(
-                <div key={transaction.id}>
-                  <p></p>
+              </div>
+            </article>
+
+            <article className="doMore-view-article2">
+              <form className="doMore-view-form" onSubmit={handleDoMoreSubmit}>
+                <div className="doMore-view-input-div">
+                  <input
+                    className="doMore-input-date"
+                    type="date"
+                    value={doMoreForm.startDate}
+                    name="startDate"
+                    onChange={handleDoMore}
+                  />
+                  <input
+                    className="doMore-input-date"
+                    type="date"
+                    value={doMoreForm.endDate}
+                    name="endDate"
+                    onChange={handleDoMore}
+                  />
                 </div>
-              )
-            })}
+                <select
+                  className="doMore-select1"
+                  name="activity"
+                  id=""
+                  value={doMoreForm.activity}
+                  onChange={handleDoMore}
+                >
+                  <option value="" selected>
+                    --Activity--
+                  </option>
+                  <option value="self transfer">self transfer</option>
+                  <option value="credit">credit</option>
+                  <option value="debit">debit</option>
+                </select>
+                <select
+                  className="doMore-select2"
+                  value={doMoreForm.selectedAccount}
+                  onChange={handleDoMore}
+                  name="selectedAccount"
+                >
+                  <option value="" selected>
+                    --Acount--
+                  </option>
+                  {data?.data?.user?.accounts?.map((account, index) => {
+                    return (
+                      <option key={account.id} value={index}>
+                        {account?.accountNumber}
+                      </option>
+                    );
+                  })}
+                </select>
+                <input
+                  className="doMore-input-name"
+                  type="text"
+                  value={doMoreForm.clientUsername}
+                  name="clientUsername"
+                  onChange={handleDoMore}
+                  placeholder="Enter client's username"
+                />
+                <button>Show</button>
+              </form>
+              <div className="domore-trans-h5">
+                <h5>YOUR TRANSACTIONS</h5>
+              </div>
+              <div className="domore-heading-grid">
+                <h5>DATE</h5>
+                <h5>TRANSACTION TYPE</h5>
+                <h5>DESCRIPTION</h5>
+                <h5>ACCOUNT</h5>
+                <h5>STATUS</h5>
+                <h5>AMOUNT</h5>
+              </div>
+              {transactionsLoading && <p>Loading...</p>}
+              {specifiedTransactions.length === 0 && (
+                <p>You do not have any transactions within this period</p>
+              )}
+              {specifiedTransactions.map((transaction) => {
+                return (
+                  <div className="domore-table-grid" key={transaction.id}>
+                    <p>{getFormattedDate2(transaction?.timeOfTransaction)}</p>
+                    <p>{transaction?.type}</p>
+                    <p>
+                      <span className="domore-desc-span">
+                        ONB TRF{" "}
+                        {transaction.transactionAmount > 0 ? "FROM" : "TO"}{" "}
+                        {`${transaction?.clientFullname}`.toUpperCase()}***
+                        {`${transaction?.clientAccountNumber}`?.slice(-4)}
+                      </span>{" "}
+                      {transaction?.description}
+                    </p>
+                    <p>
+                      {
+                        data.data.user.accounts[
+                          Number(doMoreForm.selectedAccount)
+                        ].accountNumber
+                      }
+                    </p>
+                    <p>Successful</p>
+                    <p>
+                      &#8358;
+                      {Math.abs(transaction?.transactionAmount)?.toFixed(2)}
+                    </p>
+                  </div>
+                );
+              })}
+            </article>
           </section>
         )}
 
         {person.viewMore && (
           <section>
+            <article className="view-more-div">
+              <div>
+                <div className="view-more-h3-div">
+                  <h3 className="view-more-h3">YOUR TRANSACTIONS</h3>
+                </div>
+                <div className="view_more_form_div">
+                  <h5 className="view_more_h5">Select Time Period</h5>
+                  <form className="view_more_form">
+                    <div className="view_more_input_div">
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                      />
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                      />
+                    </div>
+                    <button onClick={getSpecifiedTransactions}>Show</button>
+                  </form>
+                </div>
+                {transactionsLoading && <p>Loading...</p>}
+                <h4 className="view_more_h4">
+                  OPENING BALANCE &#8358;
+                  {specifiedTransactions[0]?.balance?.toFixed(2)}
+                </h4>
+                {specifiedTransactions.map((transaction) => {
+                  return (
+                    <div key={transaction.id} className="specified_trans_div">
+                      <p>TRANSACTION DATE</p>
+                      <p>{getFormattedDate2(transaction?.timeOfTransaction)}</p>
+                      <p>DEPOSIT</p>
+                      <p>
+                        {transaction.transactionAmount > 0 && (
+                          <span>&#8358;</span>
+                        )}
+                        {transaction.transactionAmount > 0
+                          ? transaction?.transactionAmount?.toFixed(2)
+                          : null}
+                      </p>
+                      <p>WITHDRAWAL</p>
+                      <p>
+                        {transaction.transactionAmount < 0 && (
+                          <span>&#8358;</span>
+                        )}
+                        {transaction.transactionAmount < 0
+                          ? Math.abs(transaction?.transactionAmount)?.toFixed(2)
+                          : ""}
+                      </p>
+                      <p>BALANCE</p>
+                      <p>&#8358;{transaction?.balance?.toFixed(2)}</p>
+                    </div>
+                  );
+                })}
+                <h4 className="view_more_h4">
+                  CLOSING BALANCE &#8358;
+                  {specifiedTransactions[
+                    specifiedTransactions.length - 1
+                  ]?.balance?.toFixed(2)}
+                </h4>
+              </div>
+            </article>
+
             <article className="view-more-table-article">
               <div className="view-more-table">
                 <div className="view-more-table-flex1">
@@ -489,72 +732,6 @@ const Dashboard = () => {
                 </div>
               </div>
             </article>
-
-            {/* <article className="view-more-div"> */}
-            {/* <div>
-              <div className="view-more-h3-div">
-                <h3 className="view-more-h3">YOUR TRANSACTIONS</h3>
-              </div>
-              <div className="view_more_form_div">
-                <h5 className="view_more_h5">Select Time Period</h5>
-                <form className="view_more_form">
-                  <div className="view_more_input_div">
-                    <input
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                    />
-                    <input
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                    />
-                  </div>
-                  <button onClick={getSpecifiedTransactions}>Show</button>
-                </form>
-              </div>
-              {transactionsLoading && <p>Loading...</p>}
-              <h4 className="view_more_h4">
-                OPENING BALANCE &#8358;
-                {specifiedTransactions[0]?.balance?.toFixed(2)}
-              </h4>
-              {specifiedTransactions.map((transaction) => {
-                return (
-                  <div key={transaction.id} className="specified_trans_div">
-                    <p>TRANSACTION DATE</p>
-                    <p>{getFormattedDate2(transaction?.timeOfTransaction)}</p>
-                    <p>DEPOSIT</p>
-                    <p>
-                      {transaction.transactionAmount > 0 && (
-                        <span>&#8358;</span>
-                      )}
-                      {transaction.transactionAmount > 0
-                        ? transaction?.transactionAmount?.toFixed(2)
-                        : null}
-                    </p>
-                    <p>WITHDRAWAL</p>
-                    <p>
-                      {transaction.transactionAmount < 0 && (
-                        <span>&#8358;</span>
-                      )}
-                      {transaction.transactionAmount < 0
-                        ? Math.abs(transaction?.transactionAmount)?.toFixed(2)
-                        : ""}
-                    </p>
-                    <p>BALANCE</p>
-                    <p>&#8358;{transaction?.balance?.toFixed(2)}</p>
-                  </div>
-                );
-              })}
-              <h4 className="view_more_h4">
-                CLOSING BALANCE &#8358;
-                {
-                  specifiedTransactions[specifiedTransactions.length - 1]
-                    ?.balance?.toFixed(2)
-                }
-              </h4>
-            </div> */}
-            {/* </article> */}
           </section>
         )}
 
@@ -614,7 +791,11 @@ const Dashboard = () => {
                           <span
                             className="status-view-span"
                             onClick={() =>
-                              setPerson({ ...person, viewMore: true })
+                              setPerson({
+                                ...person,
+                                viewMore: true,
+                                dashboardMain: false,
+                              })
                             }
                           >
                             view account details{" "}
@@ -632,11 +813,27 @@ const Dashboard = () => {
                     <p className="do-more-p">Do More</p>
                     <div className="do-more-content">
                       <button
-                        onClick={() => setPerson({ ...person, viewMore: true })}
+                        onClick={() =>
+                          setPerson({
+                            ...person,
+                            viewMore: true,
+                            dashboardMain: false,
+                          })
+                        }
                       >
                         Manage Accounts
                       </button>
-                      <button>View Transactions</button>
+                      <button
+                        onClick={() => {
+                          setPerson({
+                            ...person,
+                            doMoreView: true,
+                            dashboardMain: false,
+                          });
+                        }}
+                      >
+                        View Transactions
+                      </button>
                     </div>
                   </div>
                 </article>
@@ -685,7 +882,8 @@ const Dashboard = () => {
 
 const DashboardMain = styled.main`
   .profile-section {
-    width: 100%;
+    /* width: 100%; */
+    /* width: 100%;
     height: 100%;
     background: linear-gradient(rgba(2, 2, 0, 0.557), rgba(0, 0, 0, 0.435));
     position: absolute;
@@ -693,7 +891,7 @@ const DashboardMain = styled.main`
     left: 0;
     z-index: 3;
     display: flex;
-    justify-content: center;
+    justify-content: center; */
   }
 
   .timer-div {
