@@ -31,6 +31,7 @@ const Login = () => {
       { username, password: userPassword },
       {
         onSuccess: (data) => {
+          console.log(data)
           const { token } = data.data;
           Cookies.set("token", token, { path: "/" });
           const user_id = data.data.data.user.id;
