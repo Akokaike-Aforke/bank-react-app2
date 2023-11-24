@@ -27,6 +27,7 @@ const Login = () => {
   // const [userId, setUserId] = useState(null)
   const handleLogin = (e) => {
     e.preventDefault();
+    console.log("loggin in")
     loginUser(
       { username, password: userPassword },
       {
