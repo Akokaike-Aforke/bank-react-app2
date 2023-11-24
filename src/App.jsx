@@ -60,12 +60,12 @@ function App() {
               path="dashboard"
               element={tokenAvailable ? <Dashboard /> : <Login />}
             />
-            <Route path="forgotPassword" element={<ForgotPassword />} />
+            <Route path="forgotPassword" element={tokenAvailable ? <ForgotPassword /> : <Login />} />
             <Route path="resetPassword/:token" element={<ResetPassword />} />
-            <Route path="updatePassword" element={<ChangePassword />} />
-            <Route path="forgotPin" element={<ForgotPin />} />
+            <Route path="updatePassword" element={tokenAvailable ? <ChangePassword />: <Login />} />
+            <Route path="forgotPin" element={tokenAvailable ? <ForgotPin /> : <Login />} />
             <Route path="resetPin/:token" element={<ResetPin />} />
-            <Route path="updatePin" element={<ChangePin />} />
+            <Route path="updatePin" element={tokenAvailable ? <ChangePin /> : <Login />} />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>

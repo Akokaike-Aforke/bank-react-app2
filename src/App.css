@@ -951,6 +951,7 @@ body {
   color: white;
   cursor: pointer;
   margin-top: 1rem;
+  cursor: pointer;
 }
 .deposit-btn:hover {
   background: #35612e;
@@ -966,6 +967,7 @@ body {
   border: none;
   background: transparent;
   color: red;
+  cursor: pointer;
 }
 
 .transfer-amount,
@@ -1338,6 +1340,48 @@ td {
 .navigateToLoginLink {
   color: white;
   text-decoration: none;
+}
+
+
+/* ANIMATION FOR PAGES */
+.fade-in{
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+  
+}
+.scale-animation{
+  transform: scale(0);
+  animation: scaleInto 1s ease-in-out forwards;
+  transition: all 1s ease;
+}
+@keyframes scaleInto {
+  0%{
+    transform: scale(0);
+  }
+  100%{
+    transform: scale(1);
+  }
+  
+}
+.scale-animation-back{
+  animation: scaleBack 1s ease-in-out 1s;
+}
+@keyframes scaleBack {
+  0%{
+    transform: scale(1);
+  }
+  100%{
+    transform: scale(0);
+  }
+  
 }
 
 @media screen and (min-width: 580px) {

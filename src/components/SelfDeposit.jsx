@@ -35,7 +35,13 @@ const SelfDeposit = () => {
     setPerson({ ...person, openDeposit: false})
   }
   return (
-    <section className="dashboard-popup-section">
+    <section
+      className={
+        person.openDeposit
+          ? "dashboard-popup-section scale-animation"
+          : "dashboard-popup-section scale-animation-back"
+      }
+    >
       <div className="dashboard-popup-div">
         <button className="close-transfer-popup" onClick={handleClose}>
           <FaTimes />
@@ -58,14 +64,19 @@ const SelfDeposit = () => {
             Pin
           </label>
           <div className="deposit-input-div">
-            <input id='pin' type="number" placeholder="pin" ref={pinRef} />
+            <input id="pin" type="number" placeholder="pin" ref={pinRef} />
           </div>
 
           <label htmlFor="pin" className="register-new-label">
             Description
           </label>
           <div className="deposit-input-div">
-            <input type="text" placeholder="not more than 30 characters" value={description} onChange={e=>setDescription(e.target.value)} />
+            <input
+              type="text"
+              placeholder="not more than 30 characters"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
           </div>
           <button className="deposit-btn">Deposit</button>
         </form>

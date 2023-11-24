@@ -254,27 +254,7 @@ export const useTransfer = () => {
   return { transfer, isLoading };
 };
 
-// export const useCreateDeposit = () => {
-//   const queryClient = useQueryClient();
-//   const { mutate, isLoading } = useMutation({
-//     mutationFn: ({
-//     transactionAmount,
-//     description,
-//   }) => {
-//       return customFetch.post("/api/v1/transactions/deposit", {transactionAmount, description});
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: ["users"] });
-//       toast.success("deposit was successful");
-//     },
-//     onError: (error) => {
-//       const { data } = { ...error.response };
-//       toast.error(data.message);
-//       console.log(error);
-//     },
-//   });
-//   return { mutate, isLoading };
-// };
+
 
 export const useCreateDeposit = () => {
   const queryClient = useQueryClient();

@@ -99,7 +99,6 @@ const Dashboard = () => {
 
   const handleDoMore = (e) => {
     const { name, value, type, checked } = e.target;
-    // [name]: type === "checked" ? "" : ""
     setDoMoreForm((prev) => {
       return {
         ...prev,
@@ -231,10 +230,15 @@ const Dashboard = () => {
                 <span
                   className="view-profile-span"
                   onClick={() => {
-                    setProfileOpen(true)
-                    setPerson({...person, dashboardMain: false, viewMyAccounts: false, doMoreView: false, viewMore: false})
-                  }
-                }
+                    setProfileOpen(true);
+                    setPerson({
+                      ...person,
+                      dashboardMain: false,
+                      viewMyAccounts: false,
+                      doMoreView: false,
+                      viewMore: false,
+                    });
+                  }}
                 >
                   View profile
                 </span>
@@ -271,12 +275,25 @@ const Dashboard = () => {
                       });
                       setSpecifiedTransactions([]);
                     }
-                    :person.viewMyAccounts ? () => {
-                      setPerson({...person, viewMyAccounts: false, dashboardBackground: true, dashboardOptionShow: true, dashboardMain: true})
+                  : person.viewMyAccounts
+                  ? () => {
+                      setPerson({
+                        ...person,
+                        viewMyAccounts: false,
+                        dashboardBackground: true,
+                        dashboardOptionShow: true,
+                        dashboardMain: true,
+                      });
                     }
-                    :profileOpen ? () => {
+                  : profileOpen
+                  ? () => {
                       setProfileOpen(false);
-                      setPerson({...person, dashboardMain: true, dashboardBackground: true, dashboardOptionShow: true})
+                      setPerson({
+                        ...person,
+                        dashboardMain: true,
+                        dashboardBackground: true,
+                        dashboardOptionShow: true,
+                      });
                     }
                   : () =>
                       setPerson({
@@ -291,54 +308,83 @@ const Dashboard = () => {
         </div>
         {person.openDashboard && (
           <section>
-          {person.dashboardBackground && <article className="dashboard-options">
-            <div className="dashboard-underline-div"></div>
-            {person.transferLog && <Transfer />}
-            {person.openDeposit && <SelfDeposit />}
-            
-            {person.dashboardOptionShow && <div className="dashboard-options-innerdiv">
-              <button
-                className="dashboard-options-btn"
-                onClick={() => setPerson({ ...person, openDashboard: false })}
-              >
-                <h4>DASHBOARD</h4>
-              </button>
-              <button
-                className="dashboard-options-btn"
-                onClick={() => setPerson({ ...person, openDeposit: true })}
-              >
-                <h4>DEPOSIT MONEY</h4>
-              </button>
-              <button
-                className="dashboard-options-btn"
-                onClick={() => setPerson({ ...person, transferLog: true })}
-              >
-                <h4>TRANSFERS</h4>
-              </button>
-              <button
-                className="dashboard-options-btn"
-                onClick={() => setPerson({ ...person, viewMyAccounts: true, dashboardOptionShow: false, dashboardBackground: false, dashboardMain: false })}
-              >
-                <h4>MY ACCOUNTS</h4>
-              </button>
+            {person.dashboardBackground && (
+              <article className="dashboard-options">
+                <div className="dashboard-underline-div"></div>
+                {person.transferLog && <Transfer />}
+                {person.openDeposit && <SelfDeposit />}
 
-              <button
-                onClick={() => {
-                  setProfileOpen(true)
-                  setPerson({...person, dashboardMain: false, dashboardOptionShow: false, dashboardBackground: false})
-                }}
-                className="dashboard-options-btn"
-              >
-                <h4>PROFILE AND SETTINGS</h4>
-              </button>
-            </div>}
-          </article>}
-          {person.viewMyAccounts && <MyAccounts />}
+                {person.dashboardOptionShow && (
+                  <div className="dashboard-options-innerdiv">
+                    <button
+                      className="dashboard-options-btn"
+                      onClick={() =>
+                        setPerson({ ...person, openDashboard: false })
+                      }
+                    >
+                      <h4>DASHBOARD</h4>
+                    </button>
+                    <button
+                      className="dashboard-options-btn"
+                      onClick={() =>
+                        setPerson({ ...person, openDeposit: true })
+                      }
+                    >
+                      <h4>DEPOSIT MONEY</h4>
+                    </button>
+                    <button
+                      className="dashboard-options-btn"
+                      onClick={() =>
+                        setPerson({ ...person, transferLog: true })
+                      }
+                    >
+                      <h4>TRANSFERS</h4>
+                    </button>
+                    <button
+                      className="dashboard-options-btn"
+                      onClick={() =>
+                        setPerson({
+                          ...person,
+                          viewMyAccounts: true,
+                          dashboardOptionShow: false,
+                          dashboardBackground: false,
+                          dashboardMain: false,
+                        })
+                      }
+                    >
+                      <h4>MY ACCOUNTS</h4>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setProfileOpen(true);
+                        setPerson({
+                          ...person,
+                          dashboardMain: false,
+                          dashboardOptionShow: false,
+                          dashboardBackground: false,
+                        });
+                      }}
+                      className="dashboard-options-btn"
+                    >
+                      <h4>PROFILE AND SETTINGS</h4>
+                    </button>
+                  </div>
+                )}
+              </article>
+            )}
+            {person.viewMyAccounts && <MyAccounts />}
           </section>
         )}
 
         {person.doMoreView && (
-          <section className="doMore-view-section">
+          <section
+            className={
+              person.doMoreView
+                ? "doMore-view-section fade-in"
+                : "doMore-view-section"
+            }
+          >
             <article className="doMore-view-article1">
               {/* <article className="view-more-div"> */}
               <div>
@@ -562,7 +608,12 @@ const Dashboard = () => {
 
         {person.viewMore && (
           <section>
-            <article className="view-more-div">
+            {/* <article className="view-more-div fade-in"> */}
+            <article
+              className={
+                person.viewMore ? "view-more-div fade-in" : "view-more-div"
+              }
+            >
               <div>
                 <div className="view-more-h3-div">
                   <h3 className="view-more-h3">YOUR TRANSACTIONS</h3>
@@ -627,7 +678,7 @@ const Dashboard = () => {
               </div>
             </article>
 
-            <article className="view-more-table-article">
+            <article className="view-more-table-article fade-in">
               <div className="view-more-table">
                 <div className="view-more-table-flex1">
                   <h4>{data?.data?.user?.fullname?.toUpperCase()}</h4>
@@ -741,7 +792,14 @@ const Dashboard = () => {
 
         {person.dashboardMain && (
           <section>
-            <div className="dashboard-main-div">
+            {/* <div className="dashboard-main-div fade-in"> */}
+            <div
+              className={
+                person.dashboardMain
+                  ? "dashboard-main-div fade-in"
+                  : "dashboard-main-div"
+              }
+            >
               {/* <div className="timer-div">
             <p className="timer-p">
               You will be logged out in {`${min}:${sec}`}secs
@@ -860,11 +918,15 @@ const Dashboard = () => {
                   />
                 </section>
                 <div className="view-all-div">
-                  {transactionsLength < 1 ? <h5>NO TRANACTIONS</h5>:<h5 onClick={() => setAllMovements(!allMovements)}>
-                    {allMovements
-                      ? "HIDE TRANSACTIONS"
-                      : "VIEW ALL TRANSACTIONS"}
-                  </h5>}
+                  {transactionsLength < 1 ? (
+                    <h5>NO TRANACTIONS</h5>
+                  ) : (
+                    <h5 onClick={() => setAllMovements(!allMovements)}>
+                      {allMovements
+                        ? "HIDE TRANSACTIONS"
+                        : "VIEW ALL TRANSACTIONS"}
+                    </h5>
+                  )}
                 </div>
               </article>
             </div>

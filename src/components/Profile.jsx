@@ -75,7 +75,7 @@ useEffect(()=>{
     return <p>Loading...</p>;
   }
   return (
-    <SectionProfile className="profileSection">
+    <SectionProfile className="profileSection fade-in">
       <div className="profile-div">
         <div className="photo-div">
           <h5 className="profile-h5">PROFILE</h5>

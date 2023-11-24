@@ -31,10 +31,7 @@ const Login = () => {
       { username, password: userPassword },
       {
         onSuccess: (data) => {
-          console.log(data)
           const { token } = data.data;
-          const cookieBack = document.cookie;
-          console.log(cookieBack);
           Cookies.set("token", token, { path: "/" });
           const user_id = data.data.data.user.id;
           login(user_id);
@@ -47,26 +44,14 @@ const Login = () => {
         },
       }
     );
-    console.log(userId);
-    // const user = data3.users.find(user => user.username === username);
-    // if(!user){
-    //   toast.warning("You are not registered. Please register")
-    // }
-    // if(user.password !== userPassword){
-    //   toast.warning("Invalid Username or Password!");
-    // }
-    // if(user && user.password === userPassword){
-    //   setLoggedUser(user)
-    //   navigate('/dashboard')
-    //   setStartTime(true)
-    // }
+  
   };
   // console.log(isLoggedIn);
   // console.log(userData);
-  // useEffect(() => {
-  //   if (value > imgData.length - 1) setValue(0);
-  //   if (value < 0) setValue(imgData.length - 1);
-  // }, [value]);
+  useEffect(() => {
+    if (value > imgData.length - 1) setValue(0);
+    if (value < 0) setValue(imgData.length - 1);
+  }, [value]);
   useEffect(() => {
     if (username && userPassword) {
       setBtnActive(false);
@@ -75,12 +60,12 @@ const Login = () => {
     }
   }, [username, userPassword]);
 
-  // useEffect(() => {
-  //   let slider = setInterval(() => {
-  //     setValue((value) => value + 1);
-  //   }, 3000);
-  //   return () => clearInterval(slider);
-  // }, [value]);
+  useEffect(() => {
+    let slider = setInterval(() => {
+      setValue((value) => value + 1);
+    }, 3000);
+    return () => clearInterval(slider);
+  }, [value]);
 
   // useEffect(() => {
   //   if(isLoggedIn && userInfo){
@@ -98,7 +83,7 @@ const Login = () => {
   // }
 
   return (
-    <main className="home-main">
+    <main className="home-main fade-in">
       <AppProvider userId={userId}></AppProvider>
       <section className={`image-section`}>
         {imgData.map((image, index) => {
