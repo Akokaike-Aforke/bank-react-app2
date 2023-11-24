@@ -10,7 +10,7 @@ customFetch.interceptors.request.use(
     const token = Cookies.get("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      // console.log(token)
+      console.log(token)
     }
     return config;
   }
