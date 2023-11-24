@@ -28,7 +28,7 @@ import ChangePin from "./pages/ChangePin";
 // console.log(socket)
 
 function App() {
-  const isAuthenticated = !!Cookies.get("token");
+  const isAuthenticated = Cookies.get("token");
   const [tokenAvailable, setTokenAvailable] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const{socket} = useGlobalContext();
@@ -40,7 +40,7 @@ function App() {
       setTokenAvailable(false);
     }
   }, [isAuthenticated]);
-  console.log(tokenAvailable)
+  console.log(isAuthenticated)
   return (
     <AppProvider>
       <BrowserRouter>
@@ -59,7 +59,7 @@ function App() {
             </Route>
             <Route
               path="dashboard"
-              element={tokenAvailable ? <Dashboard /> : <Login />}
+              element={isAuthenticated ? <Dashboard /> : <Login />}
             />
             <Route path="forgotPassword" element={tokenAvailable ? <ForgotPassword /> : <Login />} />
             <Route path="resetPassword/:token" element={<ResetPassword />} />
