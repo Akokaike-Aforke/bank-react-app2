@@ -2,88 +2,84 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaBars, FaLessThanEqual, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 import { useGlobalContext } from "../context";
-import { useEditUser, useDeleteUser } from "../ReactQueryCustomHooks";
+import { useEditUser, useDeleteUser, useEditProfilePhoto } from "../ReactQueryCustomHooks";
 import { toast } from "react-toastify";
 import { ImEye } from "react-icons/im";
 import { useNavigate } from "react-router-dom";
 import { BsPersonFill } from "react-icons/bs";
 import customFetch from "./../utils";
 import { BiEdit } from "react-icons/bi";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-const Profile = ({ data, isLoading, setProfileOpen }) => {
-  const { getFormattedDate, selectedAccount } = useGlobalContext();
+const Profile = ({ data, isLoading, profileOpen }) => {
+  const { getFormattedDate, selectedAccount, person } = useGlobalContext();
   const { deleteUser } = useDeleteUser();
-  const dashboardUser = data.data.user;
 
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imageURL, setImageURL] = useState(null);
   const editUser = useEditUser();
-  const editUser1 = useEditUser();
-
-  const handleSave = async (e) => {
+  const editProfilePhoto = useEditProfilePhoto();
+  const [editName, setEditName] = useState(false)
+  const [showBVN, setShowBVN] = useState(false)
+  const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("profilePhoto", file);
-    editUser1(formData, {
+    editProfilePhoto(formData, {
       onSuccess: (data) => {
-        console.log(data?.data?.data?.user?.profilePhoto);
-        console.log(data?.data);
+        console.log(data?.data?.data?.filename);
         const filename = data?.data?.data?.filename;
         if (filename) {
           setImageURL(`http://localhost:5000/profileImages/${filename}`);
         }
       },
     });
-
-    // const result = await customFetch.patch('/api/v1/users/updateMe', formData, { headers: {'Content-Type': 'multipart/form-data'}})
   };
+
+  const handleEditName = (e) =>{
+    e.preventDefault();
+    if(customerName && customerName !== data?.data?.user?.fullname && editName)
+    editUser(customerName, 
+      {
+        onSuccess: (data) =>{
+          setEditName(false);
+        }
+      })
+  }
 
   const handleChange = (e) => {
     e.preventDefault();
     setFile(e.target.files[0]);
-    // if(file)
-    // {
-    //   const url = URL.createObjectURL(file);
-    //   setImageURL(url);
-    // }
-    // else setImageURL(null)
   };
-  //   console.log(file);
-  // useEffect(()=>{
-  // //   if(file){
-  // // const url = URL.createObjectURL(file);
-  // // setImageURL(url);
-  // // }
-  // // else setImageURL(null)
-  // const filename = data?.data?.data?.filename;
-  // setImageURL(
-  //   `http://localhost:5000/profileImages/1699480350779--PASSPORT PHOTO.jpg`
-  // );
-  // }, [])
-
-  useEffect(() => {
-    if (data?.data?.data?.user?.profilePhoto) {
-      const filename = data?.data?.data?.user?.profilePhoto;
-      const profilePhotoURL = filename.replace(/\\/g, "/");
-      setImageURL(`http://localhost:5000/profileImages/${profilePhotoURL}`);
-    } else if (file) {
+useEffect(()=>{
+   if (file) {
       const url = URL.createObjectURL(file);
       setImageURL(url);
     }
+  else if (data?.data?.user?.profilePhoto){
+    const filepath = data?.data?.user
+      ?.profilePhoto.replace(/^public\\/, "")
+      .replace(/\\/g, "/")
+      .replace(/ /g, "%20");
+    setImageURL(
+      `http://localhost:5000/${filepath}`
+    );
+  }
     else
     setImageURL(null)
-  }, []);
+}, [data?.data?.user, file])
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
   return (
     <SectionProfile className="profileSection">
       <div className="profile-div">
         <div className="photo-div">
           <h5 className="profile-h5">PROFILE</h5>
-          <form className="photo-form" onSubmit={handleSave}>
+          <form className="photo-form" onSubmit={handleSaveProfile}>
             <label className="photo-label" htmlFor="profile-photo">
               <BiEdit className="photo-edit-icon" />
               <BsPersonFill className="photo-save-icon" />
@@ -99,7 +95,7 @@ const Profile = ({ data, isLoading, setProfileOpen }) => {
               style={{ display: "none" }}
               name="profilePhoto"
             />
-            <button className="profile-btn" onClick={handleSave}>
+            <button className="profile-btn" onClick={handleSaveProfile}>
               SAVE
             </button>
           </form>
@@ -111,24 +107,28 @@ const Profile = ({ data, isLoading, setProfileOpen }) => {
               Customer Name
             </label>
             <input
-              className="info-input"
+              className={!editName ? "info-input disabled" : "info-input"}
               id="profile-customer-name"
               type="text"
+              disabled={!editName}
+              value={customerName}
+              onChange={e=>setCustomerName(e.target.value)}
             />
-            <BiEdit />
+            <BiEdit className={editName && "editNameOn"} onClick={editName ? handleEditName: ()=>setEditName(true)} />
           </form>
           <h5 className="info-h">Username</h5>
-          <p className="info-p1">username</p>
+          <p className="info-p1">{data?.data?.user?.username}</p>
           <h5 className="info-h">User Type</h5>
           <p className="info-p2">Retail Customer</p>
-          <button className="info-btn">SHOW BVN</button>
+          {profileOpen && showBVN && <p className="info-p3">{data?.data?.user?.bvn}</p>}
+          <button className="info-btn" onClick={()=>setShowBVN(!showBVN)}>SHOW BVN</button>
         </div>
         <div className="links-div">
           <h5 className="links-h5">LINKS</h5>
           <div>
-            <p className="links-password">Change Password</p>
-            <p className="links-pin">Change Pin</p>
-            {/* <img src={data?.data?.data?user?.profilePhoto} /> */}
+            <Link to="/updatePassword" className="links-password" >Change Password</Link>
+            <Link to="/updatePin" className="links-pin">Change Pin</Link>
+            <Link to="/forgotPin" className="links-pin">Forgot Pin</Link>
           </div>
         </div>
       </div>
@@ -230,7 +230,18 @@ const SectionProfile = styled.section`
   .info-input {
     width: 20rem;
     height: 2rem;
-    /* border: none; */
+    border: 1px solid green;
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 1rem;
+    text-transform: capitalize;
+  }
+  .disabled{
+    border: none;
+    background-color: transparent;
+  }
+  .editNameOn{
+    color: green;
   }
   .info-form {
     margin-bottom: 2rem;
@@ -240,9 +251,12 @@ const SectionProfile = styled.section`
     margin-left: 1rem;
   }
   .info-p1,
-  .info-p2 {
+  .info-p2, .info-p3 {
     margin-bottom: 1rem;
     margin-left: 1rem;
+  }
+  .info-p1{
+    text-transform: capitalize;
   }
   .info-btn {
     padding: 0.5rem;
@@ -250,6 +264,8 @@ const SectionProfile = styled.section`
     color: rgb(33, 153, 232);
     background-color: transparent;
     margin-left: 1rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
   }
 
   .links-password,
@@ -257,6 +273,8 @@ const SectionProfile = styled.section`
     color: rgb(33, 153, 232);
     margin-bottom: 1rem;
     padding-left: 1rem;
+    display: block;
+    text-decoration: none;
   }
   @media screen and (min-width: 770px) {
     .profile-div {

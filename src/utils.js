@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 const customFetch = axios.create({
   baseURL: "http://localhost:5000",
   // baseURL: "https://aforke-fidelity-app.onrender.com",
+  
 });
 customFetch.interceptors.request.use(
   (config) => {

@@ -9,23 +9,23 @@ import { AiOutlineConsoleSql } from 'react-icons/ai';
 const SelfDeposit = () => {
     const { person, setPerson} = useGlobalContext();
     const depositAmount = useRef(null);
-    const pin = useRef(null);
+    const pinRef = useRef(null);
     const[description, setDescription] = useState("")
     const {mutate, isLoading} = useCreateDeposit();
     
   const handleDeposit = (e) => {
     e.preventDefault();
+    const pin = pinRef.current.value;
     mutate({
-      transactionAmount: (depositAmount.current.value) * 1,
+      transactionAmount: (depositAmount.current.value) * 1, pin, 
       description,
     },
     {
-      onSuccess: (data)=>{
+      onSuccess: ()=>{
         depositAmount.current.value = "";
-        pin.current.value = "";
+        pinRef.current.value = "";
         setDescription("");
         setPerson({ ...person, openDeposit: false });
-        console.log(data)
       }
     }
     )
@@ -58,7 +58,7 @@ const SelfDeposit = () => {
             Pin
           </label>
           <div className="deposit-input-div">
-            <input type="number" placeholder="pin" ref={pin} />
+            <input id='pin' type="number" placeholder="pin" ref={pinRef} />
           </div>
 
           <label htmlFor="pin" className="register-new-label">

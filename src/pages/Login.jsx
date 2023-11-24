@@ -13,8 +13,8 @@ import Cookies from "js-cookie";
 import { AppProvider, useGlobalContext } from "../context";
 
 const Login = () => {
-  // const {data3, loading} = getUser();
-  const{userId, login} = useGlobalContext();
+  const { setPerson, person } = useGlobalContext();
+  const { userId, login } = useGlobalContext();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -31,16 +31,15 @@ const Login = () => {
       { username, password: userPassword },
       {
         onSuccess: (data) => {
-          const { token} = data.data;
+          console.log(data)
+          const { token } = data.data;
+          const cookieBack = document.cookie;
+          console.log(cookieBack);
           Cookies.set("token", token, { path: "/" });
           const user_id = data.data.data.user.id;
           login(user_id);
-          
-          // Cookies.set("userData", JSON.stringify(data), {path: "/"});
-          // // console.log(data)
-          // // console.log(token);
-          // console.log(Cookies)
-          navigate("/dashboard")
+          navigate("/dashboard");
+          setPerson({ ...person, dashboardMain: true });
         },
         onError: (err) => {
           console.log(err.response.data.message);
@@ -48,7 +47,7 @@ const Login = () => {
         },
       }
     );
-console.log(userId);
+    console.log(userId);
     // const user = data3.users.find(user => user.username === username);
     // if(!user){
     //   toast.warning("You are not registered. Please register")
@@ -76,8 +75,6 @@ console.log(userId);
     }
   }, [username, userPassword]);
 
- 
-
   // useEffect(() => {
   //   let slider = setInterval(() => {
   //     setValue((value) => value + 1);
@@ -100,76 +97,75 @@ console.log(userId);
   //   return <Navigate to="/dashboard" />;
   // }
 
-
   return (
     <main className="home-main">
       <AppProvider userId={userId}></AppProvider>
-        <section className={`image-section`}>
-          {imgData.map((image, index) => {
-            let position = "invisible";
-            if (index === value) position = "visible";
-            return (
-              <div
-                key={index}
-                className={`image-div ${position} ${image.title}`}
-              ></div>
-            );
-          })}
-        </section>
-        <section className="home-section">
-          <img src={logo} alt="fidelity logo" className="home-logo" />
-          <h1 className="home-h1">Welcome to Fidelity Online Banking</h1>
-          <p className="home-p1">
-            Please log in safely. Protect your login information.
-          </p>
-          <div className="home-form-div">
-            <form onSubmit={handleLogin} className="home-form">
-              <div className="home-input-icon-div">
-                <input
-                  type="text"
-                  className="home-username"
-                  placeholder="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <BsFillPersonFill className="icon1" />
-              </div>
-              <div className="home-input-icon-div">
-                <input
-                  type={seePassword ? "text" : "password"}
-                  className="home-password"
-                  placeholder="password"
-                  value={userPassword}
-                  onChange={(e) => setUserPassword(e.target.value)}
-                />
-                <ImEye
-                  className="icon2"
-                  onClick={() => setSeePassword(!seePassword)}
-                />
-              </div>
-              <p className="home-forgot-p">forgot your password?</p>
-              <button
-                className={
-                  btnActive ? "home-signin-btn activebtn" : "home-signin-btn"
-                }
-                disabled={btnActive}
-              >
-                Sign in
-              </button>
-            </form>
-            <div className="home-last-div">
-              <p>
-                <Link to="/signup">New Account? Register here I</Link>
-              </p>
-              <p>
-                <a href="#">Corporate Sole Account User? Register Here</a>
-              </p>
-              <p>
-                <a href="#">I Create An Account Number Here</a>
-              </p>
+      <section className={`image-section`}>
+        {imgData.map((image, index) => {
+          let position = "invisible";
+          if (index === value) position = "visible";
+          return (
+            <div
+              key={index}
+              className={`image-div ${position} ${image.title}`}
+            ></div>
+          );
+        })}
+      </section>
+      <section className="home-section">
+        <img src={logo} alt="fidelity logo" className="home-logo" />
+        <h1 className="home-h1">Welcome to Fidelity Online Banking</h1>
+        <p className="home-p1">
+          Please log in safely. Protect your login information.
+        </p>
+        <div className="home-form-div">
+          <form onSubmit={handleLogin} className="home-form">
+            <div className="home-input-icon-div">
+              <input
+                type="text"
+                className="home-username"
+                placeholder="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <BsFillPersonFill className="icon1" />
             </div>
+            <div className="home-input-icon-div">
+              <input
+                type={seePassword ? "text" : "password"}
+                className="home-password"
+                placeholder="password"
+                value={userPassword}
+                onChange={(e) => setUserPassword(e.target.value)}
+              />
+              <ImEye
+                className="icon2"
+                onClick={() => setSeePassword(!seePassword)}
+              />
+            </div>
+            <Link to="/forgotPassword" className="home-forgot-p">forgot your password?</Link>
+            <button
+              className={
+                btnActive ? "home-signin-btn activebtn" : "home-signin-btn"
+              }
+              disabled={btnActive}
+            >
+              Sign in
+            </button>
+          </form>
+          <div className="home-last-div">
+            <p>
+              <Link to="/signup">New Account? Register here I</Link>
+            </p>
+            <p>
+              <a href="#">Corporate Sole Account User? Register Here</a>
+            </p>
+            <p>
+              <a href="#">I Create An Account Number Here</a>
+            </p>
           </div>
-        </section>
+        </div>
+      </section>
     </main>
   );
 };

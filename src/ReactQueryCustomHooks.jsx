@@ -1,6 +1,7 @@
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import customFetch from "./utils";
+import { useParams } from "react-router-dom";
 
 export const useGetAllUsers = () => {
   const { data, isLoading: loading } = useQuery({
@@ -17,7 +18,7 @@ export const useGetUser = () => {
   const { data, loading, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await customFetch("/api/v1/users/me");
+      const { data } = await customFetch("/api/v1/users/me", {withCredentials: true});
       return data;
     },
   });
@@ -136,27 +137,13 @@ export const useCreateAccount = () => {
   return { mutate, isLoading };
 };
 
-export const useEditUser = () => {
+export const useEditProfilePhoto = () => {
   const queryClient = useQueryClient();
   const { mutate: editUser } = useMutation({
     mutationFn: (
-      // fullname,
-      // dateOfBirth,
-      // email,
-      // username,
-      // accountType,
-      // pin,
-      // password,
       formData
     ) => {
       return customFetch.patch(`/api/v1/users/updateMe`, 
-        // fullname,
-        // dateOfBirth,
-        // email,
-        // username,
-        // accountType,
-        // pin,
-        // password,
         formData
       , { headers: {'Content-Type': 'multipart/form-data'}});
     },
@@ -167,6 +154,22 @@ export const useEditUser = () => {
   });
   return editUser;
 };
+
+
+export const useEditUser = () => {
+  const queryClient = useQueryClient();
+  const { mutate: editUser } = useMutation({
+    mutationFn: (fullname) => {
+      return customFetch.patch(`/api/v1/users/updateMe`, {fullname});
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+    },
+    // onError:()=>{}
+  });
+  return editUser;
+};
+
 
 export const useEditSelectedAccount = () => {
   const queryClient = useQueryClient();
@@ -212,7 +215,16 @@ export const useLogin = () => {
   const queryClient = useQueryClient();
   const { mutate: loginUser, isLoading } = useMutation({
     mutationFn: ({ username, password }) => {
-      return customFetch.post("/api/v1/users/login", { username, password });
+      return customFetch.post(
+        "/api/v1/users/login",
+        { username, password },
+        {
+          withCredentials: true, // include credentials (cookies)
+          // headers: {
+          //   "Content-Type": "application/json",
+          // },
+        }
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -267,9 +279,10 @@ export const useTransfer = () => {
 export const useCreateDeposit = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({ transactionAmount, description }) => {
+    mutationFn: ({ transactionAmount, pin, description }) => {
       return customFetch.post("/api/v1/transactions/deposit", {
         transactionAmount,
+        pin,
         description,
       });
     },
@@ -285,6 +298,151 @@ export const useCreateDeposit = () => {
   });
   return { mutate, isLoading };
 };
+
+
+
+
+
+export const useForgotPassword = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (email) => {
+      return customFetch.post("/api/v1/users/forgotPassword", {
+        email
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Your password reset token was successfully sent");
+    },
+    onError: (error) => {
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    },
+  });
+  return { mutate, isLoading };
+};
+
+
+
+export const useResetPassword = () => {
+  const queryClient = useQueryClient();
+  const {token} = useParams();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({password, passwordConfirm}) => {
+      return customFetch.patch(`/api/v1/users/resetPassword/${token}`, {
+        password, passwordConfirm
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Your password reset was successful");
+    },
+    onError: (error) => {
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    },
+  });
+  return { mutate, isLoading };
+};
+
+export const useUpdatePassword = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ password, passwordConfirm, passwordCurrent }) => {
+      return customFetch.patch(`/api/v1/users/updateMyPassword`, {
+        password,
+        passwordConfirm,
+        passwordCurrent
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Your password change was successful");
+    },
+    onError: (error) => {
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    },
+  });
+  return { mutate, isLoading };
+};
+
+
+
+export const useForgotPin = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({email, password}) => {
+      return customFetch.post("/api/v1/users/forgotPin", {
+        email, password
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Your pin reset token was successfully sent");
+    },
+    onError: (error) => {
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    },
+  });
+  return { mutate, isLoading };
+};
+
+
+export const useResetPin = () => {
+  const queryClient = useQueryClient();
+  const { token } = useParams();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ pin, pinConfirm }) => {
+      return customFetch.patch(`/api/v1/users/resetPin/${token}`, {
+        pin,
+        pinConfirm,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Your pin reset was successful");
+    },
+    onError: (error) => {
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    },
+  });
+  return { mutate, isLoading };
+};
+
+
+export const useUpdatePin = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ password, pin, pinConfirm, pinCurrent }) => {
+      return customFetch.patch(`/api/v1/users/updatePin`, {
+        password,
+        pin,
+        pinConfirm,
+        pinCurrent,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Your pin change was successful");
+    },
+    onError: (error) => {
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    },
+  });
+  return { mutate, isLoading };
+};
+
 
 
 // export const useUploadProfilePhoto = () => {

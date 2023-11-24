@@ -43,7 +43,7 @@ const Dashboard = () => {
     userSpecificData,
     getFormattedDate2,
   } = useGlobalContext();
-  const { data, isLoading } = useGetUser({});
+  const { data, isLoading } = useGetUser();
 
   const [user, setUser] = useState("");
   const [isInfo, setIsInfo] = useState(true);
@@ -177,6 +177,10 @@ const Dashboard = () => {
   //   return<h1>loading...</h1>
   // }
 
+  useEffect(()=>{
+    setPerson({...person, dashboardMain: true})
+  }, [])
+
   if (isLoading) {
     return <h1>loading...</h1>;
   }
@@ -228,7 +232,7 @@ const Dashboard = () => {
                   className="view-profile-span"
                   onClick={() => {
                     setProfileOpen(true)
-                    setPerson({...person, dashboardMain: false, viewMyAccounts: false})
+                    setPerson({...person, dashboardMain: false, viewMyAccounts: false, doMoreView: false, viewMore: false})
                   }
                 }
                 >
@@ -856,11 +860,11 @@ const Dashboard = () => {
                   />
                 </section>
                 <div className="view-all-div">
-                  <h5 onClick={() => setAllMovements(!allMovements)}>
+                  {transactionsLength < 1 ? <h5>NO TRANACTIONS</h5>:<h5 onClick={() => setAllMovements(!allMovements)}>
                     {allMovements
                       ? "HIDE TRANSACTIONS"
                       : "VIEW ALL TRANSACTIONS"}
-                  </h5>
+                  </h5>}
                 </div>
               </article>
             </div>
@@ -870,6 +874,7 @@ const Dashboard = () => {
           <section className="profile-section">
             <Profile
               setProfileOpen={setProfileOpen}
+              profileOpen={profileOpen}
               data={data}
               isLoading={isLoading}
             />
@@ -882,16 +887,6 @@ const Dashboard = () => {
 
 const DashboardMain = styled.main`
   .profile-section {
-    /* width: 100%; */
-    /* width: 100%;
-    height: 100%;
-    background: linear-gradient(rgba(2, 2, 0, 0.557), rgba(0, 0, 0, 0.435));
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 3;
-    display: flex;
-    justify-content: center; */
   }
 
   .timer-div {

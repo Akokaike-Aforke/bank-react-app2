@@ -14,6 +14,12 @@ import SharedSignup from "./pages/SharedSignup";
 import Register from "./pages/Register";
 import Complete from "./pages/Complete";
 import Cookies from "js-cookie";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import ChangePassword from "./pages/ChangePassword";
+import ForgotPin from "./pages/ForgotPin";
+import ResetPin from "./pages/ResetPin";
+import ChangePin from "./pages/ChangePin";
 
 
 // import io from "socket.io-client";
@@ -54,6 +60,12 @@ function App() {
               path="dashboard"
               element={tokenAvailable ? <Dashboard /> : <Login />}
             />
+            <Route path="forgotPassword" element={<ForgotPassword />} />
+            <Route path="resetPassword/:token" element={<ResetPassword />} />
+            <Route path="updatePassword" element={<ChangePassword />} />
+            <Route path="forgotPin" element={<ForgotPin />} />
+            <Route path="resetPin/:token" element={<ResetPin />} />
+            <Route path="updatePin" element={<ChangePin />} />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>
