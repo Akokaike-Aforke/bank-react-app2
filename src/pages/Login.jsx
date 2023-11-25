@@ -11,6 +11,7 @@ import startLogOutTimer from "../components/Timer";
 import { useLogin } from "../ReactQueryCustomHooks";
 import Cookies from "js-cookie";
 import { AppProvider, useGlobalContext } from "../context";
+import { TailSpin } from "react-loader-spinner";
 
 const Login = () => {
   const { setPerson, person } = useGlobalContext();
@@ -78,7 +79,12 @@ const Login = () => {
 
   // useEffect(()=>{console.log(userId)}, [userId])
   if (isLoading) {
-    return <h3>Loading.....</h3>;
+    return (
+      <div>
+        <h3>Loading.....</h3>
+        <TailSpin color="red" radius={"8px"} />
+      </div>
+    );
   }
 
   // if (isLoggedIn) {
