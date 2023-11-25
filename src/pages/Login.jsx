@@ -78,14 +78,11 @@ const Login = () => {
   // }, [isLoggedIn, userInfo]);
 
   // useEffect(()=>{console.log(userId)}, [userId])
+
   if (isLoading) {
-    return (
-      <div>
-        <h3>Loading.....</h3>
-        <TailSpin color="red" radius={"8px"} />
-      </div>
-    );
+    return <TailSpin color="#002082" radius={"8px"} />;
   }
+
 
   // if (isLoggedIn) {
   //   return <Navigate to="/dashboard" />;
