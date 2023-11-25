@@ -161,7 +161,7 @@ export const useEditProfilePhoto = () => {
   const queryClient = useQueryClient();
   const { mutate: editUser } = useMutation({
     mutationFn: (profilePhoto) => {
-      return customFetch.patch(`/api/v1/users/updateMe`, profilePhoto);
+      return customFetch.patch(`/api/v1/users/updateMe`, {profilePhoto});
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
