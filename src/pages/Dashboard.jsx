@@ -121,7 +121,8 @@ const Dashboard = ({ isAuthenticated }) => {
   // const timerRef = useRef(null);
 
   const handleLogOut = () => {
-    setPerson({ ...person, viewDashboard: false, openDashboard: false });
+    setPerson({ ...person, viewDashboard: false, transferLog:false, openDeposit: false, openDashboard: false, viewAccounts: false, viewMore: false, doMoreForm: false, doMoreView: false,  });
+    // viewDashboard: true, transferLog:false, openDeposit:false, openDashboard:false, viewMyAccounts: false, viewMore: false, doMoreView: false, dashboardMain: true, dashboardOptionShow: true, dashboardBackground: true
     navigate("/login");
     Cookies.remove("token");
   };
