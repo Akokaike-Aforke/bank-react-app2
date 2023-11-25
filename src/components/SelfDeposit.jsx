@@ -12,7 +12,6 @@ const SelfDeposit = () => {
     const pinRef = useRef(null);
     const[description, setDescription] = useState("")
     const {mutate, isLoading} = useCreateDeposit();
-    console.log(mutate)
     
   const handleDeposit = (e) => {
     e.preventDefault();
@@ -22,11 +21,12 @@ const SelfDeposit = () => {
       description,
     },
     {
-      onSuccess: ()=>{
+      onSuccess: (data)=>{
         depositAmount.current.value = "";
         pinRef.current.value = "";
         setDescription("");
         setPerson({ ...person, openDeposit: false });
+        console.log(data)
       },
       onError: (err)=>{
        console.log(err)
