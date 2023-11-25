@@ -192,7 +192,7 @@ const Dashboard = ({ isAuthenticated }) => {
   if (isLoading) {
     return (
       <div className="spinner">
-        <TailSpin color="#002082" radius={"8px"} />
+        <TailSpin color="#002082" radius={"6px"} />
       </div>
     );
     // return <TailSpin color="red" radius={"8px"} />;
@@ -472,7 +472,11 @@ const Dashboard = ({ isAuthenticated }) => {
                       <button className="doMore-form-button1">Show</button>
                     </form>
                   </div>
-                  {transactionsLoading && <p>Loading...</p>}
+                  {transactionsLoading && (
+                    <div className="spinner">
+                      <TailSpin color="#002082" radius={"3px"} />
+                    </div>
+                  )}
                   {specifiedTransactions.length === 0 && (
                     <p>You do not have any transactions within this period</p>
                   )}
@@ -592,7 +596,11 @@ const Dashboard = ({ isAuthenticated }) => {
                   <h5>STATUS</h5>
                   <h5>AMOUNT</h5>
                 </div>
-                {transactionsLoading && <p>Loading...</p>}
+                {transactionsLoading && (
+                  <div className="spinner">
+                    <TailSpin color="#002082" radius={"3px"} />
+                  </div>
+                )}
                 {specifiedTransactions.length === 0 && (
                   <p>You do not have any transactions within this period</p>
                 )}
@@ -659,7 +667,11 @@ const Dashboard = ({ isAuthenticated }) => {
                       <button onClick={getSpecifiedTransactions}>Show</button>
                     </form>
                   </div>
-                  {transactionsLoading && <p>Loading...</p>}
+                  {transactionsLoading && (
+                    <div className="spinner">
+                      <TailSpin color="#002082" radius={"3px"} />
+                    </div>
+                  )}
                   <h4 className="view_more_h4">
                     OPENING BALANCE &#8358;
                     {specifiedTransactions[0]?.balance?.toFixed(2)}
@@ -772,7 +784,11 @@ const Dashboard = ({ isAuthenticated }) => {
                       <h5>WITHDRAWAL</h5>
                       <h5>BALANCE</h5>
                     </div>
-                    {transactionsLoading && <p>Loading...</p>}
+                    {transactionsLoading && (
+                      <div className="spinner">
+                        <TailSpin color="#002082" radius={"3px"} />
+                      </div>
+                    )}
                     {specifiedTransactions.length === 0 && (
                       <p>You do not have any transactions within this period</p>
                     )}
