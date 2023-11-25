@@ -190,7 +190,12 @@ const Dashboard = ({ isAuthenticated }) => {
   }
 
   if (isLoading) {
-    return <p>Loading...</p>
+    return (
+      <div>
+        <p>Loading...</p>
+        <TailSpin color="red" radius={"8px"} />
+      </div>
+    );
     // return <TailSpin color="red" radius={"8px"} />;
 
   }
