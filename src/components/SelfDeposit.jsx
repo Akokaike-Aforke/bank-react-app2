@@ -37,6 +37,9 @@ const SelfDeposit = () => {
   const handleClose = () =>{
     setPerson({ ...person, openDeposit: false})
   }
+  if(isLoading){
+    console.log("Loading")
+  }
   return (
     <section
       className={
@@ -49,6 +52,7 @@ const SelfDeposit = () => {
         <button className="close-transfer-popup" onClick={handleClose}>
           <FaTimes />
         </button>
+        <p>loading</p>
         <h3 className="deposit-h3">DEPOSIT MONEY</h3>
         <form onSubmit={handleDeposit}>
           <label htmlFor="depositAmount" className="register-new-label">
