@@ -120,9 +120,10 @@ const Dashboard = () => {
   // const timerRef = useRef(null);
 
   const handleLogOut = () => {
-    Cookies.remove("token");
-    setPerson({ ...person, openDashboard: false });
+    setPerson({ ...person, viewDashboard: false, openDashboard: false });
     navigate("/login");
+    Cookies.remove("token");
+    
   };
 
   // useEffect(()=>{
@@ -209,7 +210,7 @@ const Dashboard = () => {
         </section>
       )}
 
-      <section className="dashboard-main">
+      {person.viewDashboard && <section className="dashboard-main">
         <div className="fixed-nav-div">
           <div className="dashboard-div">
             <img src={logo} className="dashboard-img"></img>
@@ -942,7 +943,7 @@ const Dashboard = () => {
             />
           </section>
         )}
-      </section>
+      </section>}
     </DashboardMain>
   );
 };

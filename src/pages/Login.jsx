@@ -38,7 +38,7 @@ const Login = () => {
           const user_id = data.data.data.user.id;
           login(user_id);
           navigate("/dashboard");
-          setPerson({ ...person, dashboardMain: true });
+          setPerson({ ...person, viewDashboard: true, dashboardMain: true });
         },
         onError: (err) => {
           console.log(err.response.data.message);
