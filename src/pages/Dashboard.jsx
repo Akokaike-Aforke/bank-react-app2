@@ -28,7 +28,7 @@ import Profiles from "./Profiles";
 import { BsNodeMinusFill } from "react-icons/bs";
 import Cookies from "js-cookie";
 
-const Dashboard = () => {
+const Dashboard = ({isAuthenticated}) => {
   const {
     loggedUser,
     person,
@@ -178,12 +178,17 @@ const Dashboard = () => {
   // }
 
   useEffect(()=>{
+    if(isAuthenticated)
+    Cookies.get("token")
+  }, [isAuthenticated])
+  useEffect(()=>{
     setPerson({...person, dashboardMain: true})
   }, [])
 
   if (isLoading) {
     return <h1>loading...</h1>;
   }
+  console.log(data)
   // if (transactionsLoading) {
   //   return <article className="view-more-div"></article>
   // }

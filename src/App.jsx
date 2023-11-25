@@ -59,7 +59,7 @@ function App() {
             </Route>
             <Route
               path="dashboard"
-              element={isAuthenticated ? <Dashboard /> : <Login />}
+              element={isAuthenticated ? <Dashboard isAuthenticated={isAuthenticated} /> : <Login />}
             />
             <Route path="forgotPassword" element={tokenAvailable ? <ForgotPassword /> : <Login />} />
             <Route path="resetPassword/:token" element={<ResetPassword />} />
