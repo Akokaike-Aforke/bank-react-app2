@@ -52,10 +52,10 @@ const Profile = ({ data, isLoading, profileOpen }) => {
 
   const handleChange = (e) => {
     e.preventDefault();
-    transformFile(file)
     setFile(e.target.files[0]);
+    transformFile(file);
   };
-  console.log(picture)
+  console.log(`picture: ${picture}`)
 
   //convert file to base 64
   const transformFile = (file) =>{
