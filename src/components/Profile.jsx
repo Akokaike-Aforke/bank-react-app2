@@ -53,6 +53,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
     e.preventDefault();
     setFile(e.target.files[0]);
   };
+  console.log(file)
 useEffect(()=>{
    if (file) {
       const url = URL.createObjectURL(file);
@@ -90,7 +91,8 @@ useEffect(()=>{
             <input
               id="profile-photo"
               type="file"
-              accept=".jpg, .jpeg, .png"
+              // accept=".jpg, .jpeg, .png"
+              accept="image/"
               onChange={handleChange}
               style={{ display: "none" }}
               name="profilePhoto"
