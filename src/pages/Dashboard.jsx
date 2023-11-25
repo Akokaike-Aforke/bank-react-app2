@@ -193,7 +193,7 @@ const Dashboard = () => {
   // }
   const transactionsLength =
     data?.data?.user?.accounts[selectedAccount]?.transactions?.length;
-
+console.log(person.viewDashboard)
   return (
     <DashboardMain className="covid-main">
       {/* <p className="timer-p">You will be logged out in {`${min}:${sec}`}secs</p> */}

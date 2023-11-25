@@ -48,6 +48,7 @@ const Login = () => {
     );
   
   };
+  console.log(person.viewDashboard)
   // console.log(isLoggedIn);
   // console.log(userData);
   useEffect(() => {
