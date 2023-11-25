@@ -1393,6 +1393,8 @@ td {
 /* LOADING STYLE */
 .loading{
   opacity: 0.3
+  /* background: linear-gradient(rgb(6, 32, 111, 0.7), rgba(6, 32, 111, 0.7)); */
+  /* background: linear-gradient(rgba(237, 238, 240, 0.7), rgba(203, 213, 245, 0.7)); */
 }
 
 @media screen and (min-width: 580px) {

@@ -36,7 +36,6 @@ const Verify = () => {
 
     //   return () => clearInterval(timer);
     // }, []);
-console.log(message)
   return (
     <VerifyDiv className="signup-article-div">
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />

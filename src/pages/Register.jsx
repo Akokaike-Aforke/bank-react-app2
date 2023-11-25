@@ -105,10 +105,7 @@ const Register = () => {
   }
   return (
     <div
-      className={
-        isLoading ? "signup-article-div loading" : "signup-article-div"
-      }
-    >
+      className="signup-article-div loading">
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />
       <div className="register-steps-div">
         <h6 className="register-steps-h1">Register</h6>
@@ -123,9 +120,9 @@ const Register = () => {
             <p>3.complete</p>
           </span>
         </div>
-        {isLoading && <TailSpin color="red" radius={"8px"} />}
+        {isLoading && <TailSpin color="white" radius={"8px"} />}
         <form
-          className="register-new-account-form"
+          className={isLoading ? "register-new-account-form loading" : "register-new-account-form"}
           onSubmit={NavigateToComplete}
         >
           <label htmlFor="" className="register-new-label">
