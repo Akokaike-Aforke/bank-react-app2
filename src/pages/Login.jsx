@@ -80,7 +80,11 @@ const Login = () => {
   // useEffect(()=>{console.log(userId)}, [userId])
 
   if (isLoading) {
-    return <TailSpin className="spinner" color="#002082" radius={"8px"} />;
+    return (
+      <div>
+        <TailSpin color="#002082" radius={"8px"} />
+      </div>
+    );
   }
 
 
