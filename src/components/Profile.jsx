@@ -18,6 +18,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imageURL, setImageURL] = useState(null);
+  const [picture, setPicture] = useState("")
   const editUser = useEditUser();
   const editProfilePhoto = useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
@@ -51,9 +52,24 @@ const Profile = ({ data, isLoading, profileOpen }) => {
 
   const handleChange = (e) => {
     e.preventDefault();
+    transformFile(file)
     setFile(e.target.files[0]);
   };
-  console.log(file)
+  console.log(picture)
+
+  //convert file to base 64
+  const transformFile = (file) =>{
+      const reader = new FileReader();
+      if(file){
+        reader.readAsDataURL(file)
+        reader.onloadend = () => {
+          setPicture(reader.result)
+        }
+      }
+      else {
+        setPicture("")
+      }
+  }
 useEffect(()=>{
    if (file) {
       const url = URL.createObjectURL(file);
