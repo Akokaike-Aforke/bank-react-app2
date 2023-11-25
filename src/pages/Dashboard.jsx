@@ -474,7 +474,7 @@ const Dashboard = ({ isAuthenticated }) => {
                   </div>
                   {transactionsLoading && (
                     <div className="spinner">
-                      <TailSpin color="#002082" radius={"3px"} />
+                      <TailSpin color="#002082" radius="3px" />
                     </div>
                   )}
                   {specifiedTransactions.length === 0 && (
@@ -598,7 +598,7 @@ const Dashboard = ({ isAuthenticated }) => {
                 </div>
                 {transactionsLoading && (
                   <div className="spinner">
-                    <TailSpin color="#002082" radius={"3px"} />
+                    <TailSpin color="#002082" radius="3px" />
                   </div>
                 )}
                 {specifiedTransactions.length === 0 && (
@@ -669,7 +669,7 @@ const Dashboard = ({ isAuthenticated }) => {
                   </div>
                   {transactionsLoading && (
                     <div className="spinner">
-                      <TailSpin color="#002082" radius={"3px"} />
+                      <TailSpin color="#002082" radius="3px" />
                     </div>
                   )}
                   <h4 className="view_more_h4">
@@ -786,7 +786,7 @@ const Dashboard = ({ isAuthenticated }) => {
                     </div>
                     {transactionsLoading && (
                       <div className="spinner">
-                        <TailSpin color="#002082" radius={"3px"} />
+                        <TailSpin color="#002082" radius="3px" />
                       </div>
                     )}
                     {specifiedTransactions.length === 0 && (
