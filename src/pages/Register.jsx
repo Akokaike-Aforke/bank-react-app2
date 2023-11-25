@@ -103,6 +103,7 @@ const Register = () => {
     // return <div><p>Loading...</p></div>
     console.log("loading")
   }
+  console.log(`isLoading: ${isLoading}`)
   return (
     <div
       className="signup-article-div loading">
