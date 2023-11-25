@@ -13,7 +13,11 @@ customFetch.interceptors.request.use(
       console.log(token)
     }
     return config;
-  }
+  },
   //  (error) => Promise.reject(error)
+   (error) => {
+     console.log(error)
+     return Promise.reject(error)
+   }
 );
 export default customFetch;
