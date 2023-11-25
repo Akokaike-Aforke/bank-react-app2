@@ -1384,6 +1384,12 @@ td {
   
 }
 
+
+/* LOADING STYLE */
+.loading{
+  opacity: 0.5
+}
+
 @media screen and (min-width: 580px) {
   .home-input-icon-div {
     height: 3rem;

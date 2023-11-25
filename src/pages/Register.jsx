@@ -99,10 +99,11 @@ const Register = () => {
     } else setIsDeactivated(true);
   }, [formData]);
   if(isLoading){
-    return <div><p>Loading...</p></div>
+    // return <div><p>Loading...</p></div>
+    console.log("loading")
   }
   return (
-    <div className="signup-article-div">
+    <div className={isLoading ? "signup-article-div loading" : "signup-article-div"}>
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />
       <div className="register-steps-div">
         <h6 className="register-steps-h1">Register</h6>
