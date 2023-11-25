@@ -22,12 +22,20 @@ const Verify = () => {
     const NavigateToRegister = (e) =>{
       e.preventDefault();
       createTask()
-      navigate('/signup/register')
+      // navigate('/signup/register')
+      setTimeout(()=>{navigate("/signup/register");}, 3000)
     }
     const NavigateToLogin = (e) =>{
         e.preventDefault();
         navigate('/login')
     }
+    
+    // useEffect(() => {
+    //   const timer = setTimeout(() => {}, 1000);
+
+    //   return () => clearInterval(timer);
+    // }, []);
+
   return (
     <VerifyDiv className="signup-article-div">
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />

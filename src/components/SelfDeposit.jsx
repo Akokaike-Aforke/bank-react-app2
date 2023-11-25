@@ -5,6 +5,7 @@ import { useCreateDeposit } from "../ReactQueryCustomHooks";
 import { toast } from 'react-toastify';
 import Cookies from "js-cookie";
 import { AiOutlineConsoleSql } from 'react-icons/ai';
+import { TailSpin } from "react-loader-spinner";
 
 const SelfDeposit = () => {
     const { person, setPerson} = useGlobalContext();
@@ -53,8 +54,12 @@ const SelfDeposit = () => {
         <button className="close-transfer-popup" onClick={handleClose}>
           <FaTimes />
         </button>
-        {isLoading && <p>loading...</p>}
         <h3 className="deposit-h3">DEPOSIT MONEY</h3>
+        {isLoading && (
+          <div className="spinner">
+            <TailSpin width="30" height="30" color="#002082" radius="3" />
+          </div>
+        )}
         <form onSubmit={handleDeposit}>
           <label htmlFor="depositAmount" className="register-new-label">
             Amount

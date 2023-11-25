@@ -6,6 +6,7 @@ import { useEditUser, useTransfer } from "../ReactQueryCustomHooks";
 import { toast } from "react-toastify";
 import styled from "styled-components";
 import Cookies from "js-cookie";
+import { TailSpin } from "react-loader-spinner";
 
 const Transfer = () => {
   const [description, setDescription] = useState("");
@@ -54,6 +55,11 @@ const Transfer = () => {
           <FaTimes />
         </button>
         <h3 className="transfer-h3">TRANSFER FUNDS</h3>
+        {isLoading && (
+          <div className="spinner">
+            <TailSpin width="30" height="30" color="#002082" radius="3" />
+          </div>
+        )}
         <form onSubmit={handleTransfer}>
           <label htmlFor="">Amount</label>
           <input
