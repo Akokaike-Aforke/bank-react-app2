@@ -6,6 +6,7 @@ import fidelityIcon from "../Images/fidelity-icon.png";
 import styled from 'styled-components';
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import customFetch from '../utils';
+import { TailSpin } from "react-loader-spinner";
 
 const Verify = () => {
     const [message, setMessage] = useState("");
@@ -56,6 +57,11 @@ console.log(message)
           <label htmlFor="account-num-reg">
             Generate your 10-digit account number
           </label>
+          {isLoading && (
+            <div className="spinner">
+              <TailSpin width="30" height="30" color="white" radius="3" />
+            </div>
+          )}
           <div>
             <p>{message}</p>
           </div>
