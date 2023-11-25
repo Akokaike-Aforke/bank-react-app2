@@ -210,8 +210,8 @@ const Dashboard = () => {
         </section>
       )}
 
-      {/* {person.viewDashboard && <section className="dashboard-main"> */}
-      <section className="dashboard-main">
+      {person.viewDashboard && <section className="dashboard-main">
+      {/* <section className="dashboard-main"> */}
         <div className="fixed-nav-div">
           <div className="dashboard-div">
             <img src={logo} className="dashboard-img"></img>
@@ -944,7 +944,7 @@ const Dashboard = () => {
             />
           </section>
         )}
-      </section>
+      </section>}
     </DashboardMain>
   );
 };
