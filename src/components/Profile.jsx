@@ -109,8 +109,11 @@ useEffect(()=>{
             <label className="photo-label" htmlFor="profile-photo">
               <BiEdit className="photo-edit-icon" />
               <BsPersonFill className="photo-save-icon" />
-              {imageURL && (
+              {/* {imageURL && (
                 <img className="image-blob" src={imageURL} alt="Selected" />
+              )} */}
+              {picture && (
+                <img className="image-blob" src={picture} alt="Selected" />
               )}
             </label>
             <input
@@ -139,23 +142,36 @@ useEffect(()=>{
               type="text"
               disabled={!editName}
               value={customerName}
-              onChange={e=>setCustomerName(e.target.value)}
+              onChange={(e) => setCustomerName(e.target.value)}
             />
-            <BiEdit className={editName && "editNameOn"} onClick={editName ? handleEditName: ()=>setEditName(true)} />
+            <BiEdit
+              className={editName && "editNameOn"}
+              onClick={editName ? handleEditName : () => setEditName(true)}
+            />
           </form>
           <h5 className="info-h">Username</h5>
           <p className="info-p1">{data?.data?.user?.username}</p>
           <h5 className="info-h">User Type</h5>
           <p className="info-p2">Retail Customer</p>
-          {profileOpen && showBVN && <p className="info-p3">{data?.data?.user?.bvn}</p>}
-          <button className="info-btn" onClick={()=>setShowBVN(!showBVN)}>SHOW BVN</button>
+          {profileOpen && showBVN && (
+            <p className="info-p3">{data?.data?.user?.bvn}</p>
+          )}
+          <button className="info-btn" onClick={() => setShowBVN(!showBVN)}>
+            SHOW BVN
+          </button>
         </div>
         <div className="links-div">
           <h5 className="links-h5">LINKS</h5>
           <div>
-            <Link to="/updatePassword" className="links-password" >Change Password</Link>
-            <Link to="/updatePin" className="links-pin">Change Pin</Link>
-            <Link to="/forgotPin" className="links-pin">Forgot Pin</Link>
+            <Link to="/updatePassword" className="links-password">
+              Change Password
+            </Link>
+            <Link to="/updatePin" className="links-pin">
+              Change Pin
+            </Link>
+            <Link to="/forgotPin" className="links-pin">
+              Forgot Pin
+            </Link>
           </div>
         </div>
       </div>
