@@ -35,7 +35,7 @@ const Verify = () => {
 
     //   return () => clearInterval(timer);
     // }, []);
-
+console.log(message)
   return (
     <VerifyDiv className="signup-article-div">
       <img src={fidelityIcon} alt="fidelity-icon" className="fidelity-icon" />
@@ -56,20 +56,18 @@ const Verify = () => {
           <label htmlFor="account-num-reg">
             Generate your 10-digit account number
           </label>
-          <div
-            type="number"
-            placeholder="Enter Account Number"
-            className="account-number-input">
-              {message}
+          <div>
+            <p>{message}</p>
           </div>
-          <button className="account-number-btn" disabled={isLoading} onClick={NavigateToRegister}>
+          <button
+            className="account-number-btn"
+            disabled={isLoading}
+            onClick={NavigateToRegister}
+          >
             GET STARTED
           </button>
         </div>
-        <button
-          className="verify-button"
-           onClick={NavigateToLogin}
-        >
+        <button className="verify-button" onClick={NavigateToLogin}>
           Already Registered ? Proceed to Login
         </button>
       </div>
