@@ -24,7 +24,7 @@ const Verify = () => {
       e.preventDefault();
       createTask()
       // navigate('/signup/register')
-      setTimeout(()=>navigate("/signup/register"), 20000)
+      setTimeout(()=>navigate("/signup/register"), 10000)
     }
     const NavigateToLogin = (e) =>{
         e.preventDefault();
@@ -54,16 +54,16 @@ console.log(message)
           </span>
         </div>
         <div>
-          <label htmlFor="account-num-reg">
+          <p className='number-p'>
             Generate your 10-digit account number
-          </label>
+          </p>
           {isLoading && (
-            <div className="spinner">
+            <div className="spinner number-spinner">
               <TailSpin width="30" height="30" color="white" radius="3" />
             </div>
           )}
           <div>
-            <p>{message}</p>
+            <p className='message'>{message}</p>
           </div>
           <button
             className="account-number-btn"
@@ -86,6 +86,9 @@ const VerifyDiv = styled.div`
     margin: 9rem auto 5rem;
     width: 80%;
     letter-spacing: 0.5px;
+  }
+  .number-p, .number-spinner, .message{
+    margin-bottom: 1rem;
   }
   .account-number-input {
     display: block;
