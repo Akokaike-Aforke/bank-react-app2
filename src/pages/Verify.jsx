@@ -23,13 +23,13 @@ const Verify = () => {
       e.preventDefault();
       createTask()
       // navigate('/signup/register')
-      setTimeout(()=>{navigate("/signup/register");}, 3000)
+      setTimeout(()=>navigate("/signup/register"), 3000)
     }
     const NavigateToLogin = (e) =>{
         e.preventDefault();
         navigate('/login')
     }
-    
+
     // useEffect(() => {
     //   const timer = setTimeout(() => {}, 1000);
 
