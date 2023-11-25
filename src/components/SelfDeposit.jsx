@@ -12,6 +12,7 @@ const SelfDeposit = () => {
     const pinRef = useRef(null);
     const[description, setDescription] = useState("")
     const {mutate, isLoading} = useCreateDeposit();
+    console.log(mutate)
     
   const handleDeposit = (e) => {
     e.preventDefault();
