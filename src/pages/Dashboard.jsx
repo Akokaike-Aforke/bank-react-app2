@@ -27,6 +27,7 @@ import startLogOutTimer from "../components/Timer";
 import Profiles from "./Profiles";
 import { BsNodeMinusFill } from "react-icons/bs";
 import Cookies from "js-cookie";
+import { TailSpin } from "react-loader-spinner";
 
 const Dashboard = ({ isAuthenticated }) => {
   const {
@@ -190,7 +191,7 @@ const Dashboard = ({ isAuthenticated }) => {
 
   if (isLoading) {
     // console.log(useGetUser())
-    return <h1>loading...</h1>;
+    return <TailSpin color="red" radius={"8px"} />;
 
   }
   console.log(data);
