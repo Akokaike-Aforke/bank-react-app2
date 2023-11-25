@@ -55,6 +55,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
     setFile(e.target.files[0]);
     transformFile(file);
   };
+  console.log(file)
   console.log(`picture: ${picture}`)
 
   //convert file to base 64
