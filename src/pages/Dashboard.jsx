@@ -43,9 +43,9 @@ const Dashboard = ({ isAuthenticated }) => {
     userSpecificData,
     getFormattedDate2,
   } = useGlobalContext();
-  const { data, isLoading, isError, error } = useGetUser();
+  const { data: userData, isLoading, isError, error } = useGetUser();
 
-  const [user, setUser] = useState("");
+  const [data, setData] = useState({});
   const [isInfo, setIsInfo] = useState(true);
   const [value, setValue] = useState(0);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -177,8 +177,10 @@ const Dashboard = ({ isAuthenticated }) => {
   // }
 
   useEffect(() => {
-    if (isAuthenticated) Cookies.get("token");
-  }, [isAuthenticated]);
+    if (isAuthenticated && userData) {
+      setData(userData)
+    }
+  }, [isAuthenticated, userData, isLoading]);
   useEffect(() => {
     setPerson({ ...person, dashboardMain: true });
   }, []);
