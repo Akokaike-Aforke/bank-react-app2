@@ -69,10 +69,6 @@ const Profile = ({ data, isLoading, profileOpen }) => {
         setPicture("")
       }
   }
-  console.log(`file: ${file}`);
-  console.log(`picture: ${picture}`);
-  const pic = transformFile(file);
-  console.log(`pic: ${pic}`);
 useEffect(()=>{
    if (file) {
       const url = URL.createObjectURL(file);
@@ -90,6 +86,16 @@ useEffect(()=>{
     else
     setImageURL(null)
 }, [data?.data?.user, file])
+
+useEffect(()=>{
+  if(file){
+    
+  console.log(`file: ${file}`);
+  console.log(`picture: ${picture}`);
+  const pic = transformFile(file);
+  console.log(`pic: ${pic}`);
+  }
+}, [file, picture])
 
   if (isLoading) {
     return <p>Loading...</p>;
