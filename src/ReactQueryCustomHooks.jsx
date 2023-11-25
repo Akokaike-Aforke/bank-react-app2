@@ -213,7 +213,7 @@ export const useDeleteUser = () => {
 };
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  const { mutate: loginUser, isLoading } = useMutation({
+  const { mutate: loginUser, isLoading, isError, error } = useMutation({
     mutationFn: ({ username, password }) => {
       return customFetch.post(
         "/api/v1/users/login",
@@ -231,7 +231,7 @@ export const useLogin = () => {
     },
     onError: () => {},
   });
-  return { loginUser, isLoading };
+  return { loginUser, isLoading, isError, error };
 };
 
 export const useTransfer = () => {
