@@ -474,7 +474,12 @@ const Dashboard = ({ isAuthenticated }) => {
                   </div>
                   {transactionsLoading && (
                     <div className="spinner">
-                      <TailSpin color="#002082" radius="3" />
+                      <TailSpin
+                        width="30"
+                        height="30"
+                        color="#002082"
+                        radius="3"
+                      />
                     </div>
                   )}
                   {specifiedTransactions.length === 0 && (
@@ -598,7 +603,12 @@ const Dashboard = ({ isAuthenticated }) => {
                 </div>
                 {transactionsLoading && (
                   <div className="spinner">
-                    <TailSpin color="#002082" radius="3" />
+                    <TailSpin
+                      width="30"
+                      height="30"
+                      color="#002082"
+                      radius="3"
+                    />
                   </div>
                 )}
                 {specifiedTransactions.length === 0 && (
@@ -669,7 +679,12 @@ const Dashboard = ({ isAuthenticated }) => {
                   </div>
                   {transactionsLoading && (
                     <div className="spinner">
-                      <TailSpin color="#002082" radius="3" />
+                      <TailSpin
+                        width="30"
+                        height="30"
+                        color="#002082"
+                        radius="3"
+                      />
                     </div>
                   )}
                   <h4 className="view_more_h4">
@@ -786,7 +801,12 @@ const Dashboard = ({ isAuthenticated }) => {
                     </div>
                     {transactionsLoading && (
                       <div className="spinner">
-                        <TailSpin color="#002082" radius="3" />
+                        <TailSpin
+                          width="30"
+                          height="30"
+                          color="#002082"
+                          radius="3"
+                        />
                       </div>
                     )}
                     {specifiedTransactions.length === 0 && (
