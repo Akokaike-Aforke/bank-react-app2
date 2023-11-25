@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../Images/Fidelity-Bank-Logo.png";
 import { useForgotPin } from "../ReactQueryCustomHooks";
 import { ImEye } from "react-icons/im";
+import { TailSpin } from "react-loader-spinner";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +28,11 @@ const ForgotPassword = () => {
         <p className="home-p1">
           Forgot Your Pin? Please provide your email address and password.
         </p>
+        {isLoading && (
+          <div className="spinner">
+            <TailSpin width="30" height="30" color="#002082" radius="3" />
+          </div>
+        )}
         <div className="forgot-password-form-div">
           <form onSubmit={handleSubmit} className="forgot-password-form">
             <div className="home-input-icon-div">

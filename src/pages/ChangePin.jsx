@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../Images/Fidelity-Bank-Logo.png";
 import { useUpdatePin } from "../ReactQueryCustomHooks";
 import { ImEye } from "react-icons/im";
+import { TailSpin } from "react-loader-spinner";
 
 const ChangePin = () => {
   const [password, setPassword] = useState("");
@@ -36,6 +37,11 @@ const ChangePin = () => {
         <p className="home-p1">
           Please enter the details below to change your pin
         </p>
+        {isLoading && (
+          <div className="spinner">
+            <TailSpin width="30" height="30" color="#002082" radius="3" />
+          </div>
+        )}
         <div className="reset-password-form-div">
           <form onSubmit={handleSubmit} className="reset-password-form">
             <div className="home-input-icon-div">
@@ -72,10 +78,7 @@ const ChangePin = () => {
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
               />
-              <ImEye
-                className="icon2"
-                onClick={() => setSeePin(!seePin)}
-              />
+              <ImEye className="icon2" onClick={() => setSeePin(!seePin)} />
             </div>
             <div className="home-input-icon-div">
               <input

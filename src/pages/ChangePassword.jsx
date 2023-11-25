@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../Images/Fidelity-Bank-Logo.png";
 import { useUpdatePassword } from "../ReactQueryCustomHooks";
 import { ImEye } from "react-icons/im";
+import { TailSpin } from "react-loader-spinner";
 
 
 const ChangePassword = () => {
@@ -33,6 +34,9 @@ const ChangePassword = () => {
         <h1 className="home-h1">Welcome to Fidelity Online Banking</h1>
 
         <p className="home-p1">Please enter your new password</p>
+        {isLoading && <div className="spinner">
+          <TailSpin width="30" height="30" color="#002082" radius="3" />
+        </div>}
         <div className="reset-password-form-div">
           <form onSubmit={handleSubmit} className="reset-password-form">
             <div className="home-input-icon-div">
