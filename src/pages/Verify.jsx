@@ -24,7 +24,7 @@ const Verify = () => {
       e.preventDefault();
       createTask()
       // navigate('/signup/register')
-      setTimeout(()=>navigate("/signup/register"), 10000)
+      setTimeout(()=>navigate("/signup/register"), 5000)
     }
     const NavigateToLogin = (e) =>{
         e.preventDefault();

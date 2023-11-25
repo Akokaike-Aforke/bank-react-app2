@@ -199,6 +199,7 @@ const Dashboard = ({ isAuthenticated }) => {
 
   }
   console.log(data);
+  console.log(`person.doMoreView: ${person.doMoreView}`)
   // if (transactionsLoading) {
   //   return <article className="view-more-div"></article>
   // }
