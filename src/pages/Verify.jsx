@@ -54,9 +54,9 @@ console.log(message)
           </span>
         </div>
         <div>
-          <p className='number-p'>
+          {!message && <p className='number-p'>
             Generate your 10-digit account number
-          </p>
+          </p>}
           {isLoading && (
             <div className="spinner number-spinner">
               <TailSpin width="30" height="30" color="white" radius="3" />
