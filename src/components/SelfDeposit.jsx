@@ -26,6 +26,9 @@ const SelfDeposit = () => {
         pinRef.current.value = "";
         setDescription("");
         setPerson({ ...person, openDeposit: false });
+      },
+      onError: (err)=>{
+       console.log(err)
       }
     }
     )

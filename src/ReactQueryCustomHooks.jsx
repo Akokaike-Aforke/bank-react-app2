@@ -276,7 +276,6 @@ export const useCreateDeposit = () => {
       console.log(error);
     },
   });
-  console.log(mutate)
   return { mutate, isLoading };
 };
 
