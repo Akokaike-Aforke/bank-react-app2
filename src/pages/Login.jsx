@@ -81,7 +81,7 @@ const Login = () => {
 
   if (isLoading) {
     return (
-      <div>
+      <div className="spinner">
         <TailSpin color="#002082" radius={"8px"} />
       </div>
     );

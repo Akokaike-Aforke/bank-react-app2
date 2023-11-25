@@ -1350,7 +1350,6 @@ td {
 }
 .spinner{
   margin-left: 3rem;
-  border: 1px solid #000;
 }
 @keyframes fadeIn {
   0%{
