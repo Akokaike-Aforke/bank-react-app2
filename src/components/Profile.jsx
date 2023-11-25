@@ -18,26 +18,41 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imageURL, setImageURL] = useState(null);
-  const [picture, setPicture] = useState("")
+  const [profilePhoto, setProfilePhoto] = useState("")
   const editUser = useEditUser();
   const editProfilePhoto = useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
   const [showBVN, setShowBVN] = useState(false)
   const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
-  const handleSaveProfile = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("profilePhoto", file);
-    editProfilePhoto(formData, {
-      onSuccess: (data) => {
-        console.log(data?.data?.data?.filename);
-        const filename = data?.data?.data?.filename;
-        if (filename) {
-          setImageURL(`http://localhost:5000/profileImages/${filename}`);
-        }
-      },
-    });
-  };
+  // const handleSaveProfile = async (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append("profilePhoto", file);
+  //   editProfilePhoto(formData, {
+  //     onSuccess: (data) => {
+  //       console.log(data?.data?.data?.filename);
+  //       const filename = data?.data?.data?.filename;
+  //       if (filename) {
+  //         setImageURL(`http://localhost:5000/profileImages/${filename}`);
+  //       }
+  //     },
+  //   });
+  // };
+
+
+   const handleSaveProfile = async (e) => {
+     e.preventDefault();
+     editProfilePhoto(profilePhoto, {
+       onSuccess: (data) => {
+        //  console.log(data?.data?.data?.filename);
+        //  const filename = data?.data?.data?.filename;
+        //  if (filename) {
+        //    setImageURL(`http://localhost:5000/profileImages/${filename}`);
+        //  }
+       },
+     });
+   };
+
 
   const handleEditName = (e) =>{
     e.preventDefault();
@@ -62,11 +77,11 @@ const Profile = ({ data, isLoading, profileOpen }) => {
       if(file){
         reader.readAsDataURL(file)
         reader.onloadend = () => {
-          setPicture(reader.result)
+          setProfilePhoto(reader.result)
         }
       }
       else {
-        setPicture("")
+        setProfilePhoto("")
       }
   }
 useEffect(()=>{
@@ -91,11 +106,11 @@ useEffect(()=>{
   if(file){
     
   console.log(`file: ${file}`);
-  console.log(`picture: ${picture}`);
+  console.log(`profilePhoto: ${profilePhoto}`);
   const pic = transformFile(file);
   console.log(`pic: ${pic}`);
   }
-}, [file, picture])
+}, [file, profilePhoto])
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -112,8 +127,8 @@ useEffect(()=>{
               {/* {imageURL && (
                 <img className="image-blob" src={imageURL} alt="Selected" />
               )} */}
-              {picture && (
-                <img className="image-blob" src={picture} alt="Selected" />
+              {profilePhoto && (
+                <img className="image-blob" src={profilePhoto} alt="Selected" />
               )}
             </label>
             <input

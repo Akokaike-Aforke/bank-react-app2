@@ -137,15 +137,31 @@ export const useCreateAccount = () => {
   return { mutate, isLoading };
 };
 
+// export const useEditProfilePhoto = () => {
+//   const queryClient = useQueryClient();
+//   const { mutate: editUser } = useMutation({
+//     mutationFn: (
+//       formData
+//     ) => {
+//       return customFetch.patch(`/api/v1/users/updateMe`, 
+//         formData
+//       , { headers: {'Content-Type': 'multipart/form-data'}});
+//     },
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["users"] });
+//     },
+//     // onError:()=>{}
+//   });
+//   return editUser;
+// };
+
+
+
 export const useEditProfilePhoto = () => {
   const queryClient = useQueryClient();
   const { mutate: editUser } = useMutation({
-    mutationFn: (
-      formData
-    ) => {
-      return customFetch.patch(`/api/v1/users/updateMe`, 
-        formData
-      , { headers: {'Content-Type': 'multipart/form-data'}});
+    mutationFn: (profilePhoto) => {
+      return customFetch.patch(`/api/v1/users/updateMe`, profilePhoto);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
