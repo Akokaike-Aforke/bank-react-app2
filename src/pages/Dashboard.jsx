@@ -189,7 +189,9 @@ const Dashboard = ({ isAuthenticated }) => {
   }
 
   if (isLoading) {
+    // console.log(useGetUser())
     return <h1>loading...</h1>;
+
   }
   console.log(data);
   // if (transactionsLoading) {
