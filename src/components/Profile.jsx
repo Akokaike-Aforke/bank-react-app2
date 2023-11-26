@@ -48,6 +48,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
      e.preventDefault();
      editProfilePhoto(profilePhoto, {
        onSuccess: (data) => {
+         console.log(data)
         //  console.log(data?.data?.data?.filename);
         //  const filename = data?.data?.data?.filename;
         //  if (filename) {
