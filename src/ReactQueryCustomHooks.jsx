@@ -159,7 +159,7 @@ export const useCreateAccount = () => {
 
 export const useEditProfilePhoto = () => {
   const queryClient = useQueryClient();
-  const { mutate: editUser } = useMutation({
+  const { mutate: editUser, isLoading } = useMutation({
     mutationFn: (profilePhoto) => {
       return customFetch.patch(
         `/api/v1/users/updateMe`,
@@ -169,6 +169,7 @@ export const useEditProfilePhoto = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success("Your profile image was updated successfully")
     },
     onError:(error)=>{
       const { data } = { ...error.response };
@@ -176,7 +177,7 @@ export const useEditProfilePhoto = () => {
       console.log(error);
     }
   });
-  return editUser;
+  return {editUser, isLoading};
 };
 
 

@@ -11,6 +11,9 @@ import customFetch from "./../utils";
 import { BiEdit } from "react-icons/bi";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import { TailSpin } from "react-loader-spinner";
+
+
 const Profile = ({ data, isLoading, profileOpen }) => {
   const { getFormattedDate, selectedAccount, person } = useGlobalContext();
   const { deleteUser } = useDeleteUser();
@@ -20,7 +23,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const [imageURL, setImageURL] = useState(null);
   const [profilePhoto, setProfilePhoto] = useState("")
   const editUser = useEditUser();
-  const editProfilePhoto = useEditProfilePhoto();
+  const {editUser: editProfilePhoto, isLoading: profileLoading} = useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
   const [showBVN, setShowBVN] = useState(false)
   const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
@@ -121,12 +124,18 @@ useEffect(()=>{
         <div className="photo-div">
           <h5 className="profile-h5">PROFILE</h5>
           <form className="photo-form" onSubmit={handleSaveProfile}>
+            {profileLoading && (
+              <div className="spinner">
+                <TailSpin width="30" height="30" color="#002082" radius="3" />
+              </div>
+            )}
             <label className="photo-label" htmlFor="profile-photo">
               <BiEdit className="photo-edit-icon" />
               <BsPersonFill className="photo-save-icon" />
               {/* {imageURL && (
                 <img className="image-blob" src={imageURL} alt="Selected" />
               )} */}
+
               {profilePhoto && (
                 <img className="image-blob" src={profilePhoto} alt="Selected" />
               )}
