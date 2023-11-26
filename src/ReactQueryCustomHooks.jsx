@@ -177,7 +177,7 @@ export const useEditProfilePhoto = () => {
       console.log(error);
     }
   });
-  return {editUser, isLoading};
+  return editUser;
 };
 
 
