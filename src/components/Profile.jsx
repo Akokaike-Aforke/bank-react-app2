@@ -110,17 +110,17 @@ const Profile = ({ data, isLoading, profileOpen }) => {
 // }, [data?.data?.user, file])
 
 
-useEffect(() => {
-  if (file) {
-    const url = URL.createObjectURL(file);
-    setProfilePhoto(url);
-  } 
-  else if (data?.data?.user?.profilePhoto) {
-    setProfilePhoto(data?.data?.user?.profilePhoto);
-  } 
-  else 
-  {setProfilePhoto("")}
-}, [file, data?.data?.user?.profilePhoto]);
+// useEffect(() => {
+//   if (file) {
+//     const url = URL.createObjectURL(file);
+//     setProfilePhoto(url);
+//   } 
+//   else if (data?.data?.user?.profilePhoto) {
+//     setProfilePhoto(data?.data?.user?.profilePhoto);
+//   } 
+//   else 
+//   {setProfilePhoto("")}
+// }, [file, data?.data?.user?.profilePhoto]);
 
 useEffect(()=>{
   if(file){
