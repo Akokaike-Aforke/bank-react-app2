@@ -24,7 +24,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const [profilePhoto, setProfilePhoto] = useState("")
   const editUser = useEditUser();
   // const {editUser: editProfilePhoto, isLoading: profileLoading} = useEditProfilePhoto();
-  const {mutate, isLoading} = useEditProfilePhoto();
+  const {mutate} = useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
   const [showBVN, setShowBVN] = useState(false)
   const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
