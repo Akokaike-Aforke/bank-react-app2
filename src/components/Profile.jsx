@@ -23,7 +23,8 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const [imageURL, setImageURL] = useState(null);
   const [profilePhoto, setProfilePhoto] = useState("")
   const editUser = useEditUser();
-  const {editUser: editProfilePhoto, isLoading: profileLoading} = useEditProfilePhoto();
+  // const {editUser: editProfilePhoto, isLoading: profileLoading} = useEditProfilePhoto();
+  const editProfilePhoto = useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
   const [showBVN, setShowBVN] = useState(false)
   const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
@@ -137,11 +138,11 @@ useEffect(()=>{
         <div className="photo-div">
           <h5 className="profile-h5">PROFILE</h5>
           <form className="photo-form" onSubmit={handleSaveProfile}>
-            {profileLoading && (
+            {/* {profileLoading && (
               <div className="spinner">
                 <TailSpin width="30" height="30" color="#002082" radius="3" />
               </div>
-            )}
+            )} */}
             <label className="photo-label" htmlFor="profile-photo">
               <BiEdit className="photo-edit-icon" />
               <BsPersonFill className="photo-save-icon" />
