@@ -87,23 +87,36 @@ const Profile = ({ data, isLoading, profileOpen }) => {
         setProfilePhoto("")
       }
   }
-useEffect(()=>{
-   if (file) {
-      const url = URL.createObjectURL(file);
-      setImageURL(url);
-    }
-  else if (data?.data?.user?.profilePhoto){
-    const filepath = data?.data?.user
-      ?.profilePhoto.replace(/^public\\/, "")
-      .replace(/\\/g, "/")
-      .replace(/ /g, "%20");
-    setImageURL(
-      `http://localhost:5000/${filepath}`
-    );
-  }
-    else
-    setImageURL(null)
-}, [data?.data?.user, file])
+// useEffect(()=>{
+//    if (file) {
+//       const url = URL.createObjectURL(file);
+//       setImageURL(url);
+//     }
+//   else if (data?.data?.user?.profilePhoto){
+//     const filepath = data?.data?.user
+//       ?.profilePhoto.replace(/^public\\/, "")
+//       .replace(/\\/g, "/")
+//       .replace(/ /g, "%20");
+//     setImageURL(
+//       `http://localhost:5000/${filepath}`
+//     );
+//   }
+//     else
+//     setImageURL(null)
+// }, [data?.data?.user, file])
+
+
+useEffect(() => {
+  if (file) {
+    const url = URL.createObjectURL(file);
+    setProfilePhoto(url);
+  } 
+  else if (data?.data?.user?.profilePhoto) {
+    setProfilePhoto(data?.data?.user?.profilePhoto);
+  } 
+  else 
+  {setProfilePhoto("")}
+}, [file, data?.data?.user?.profilePhoto]);
 
 useEffect(()=>{
   if(file){
