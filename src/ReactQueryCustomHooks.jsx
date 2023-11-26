@@ -166,7 +166,11 @@ export const useEditProfilePhoto = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
-    // onError:()=>{}
+    onError:(error)=>{
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    }
   });
   return editUser;
 };
