@@ -46,7 +46,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
 
    const handleSaveProfile = async (e) => {
      e.preventDefault();
-     editProfilePhoto(profilePhoto, {
+     editProfilePhoto("profilePhoto", {
        onSuccess: (data) => {
          console.log(data)
         //  console.log(data?.data?.data?.filename);
