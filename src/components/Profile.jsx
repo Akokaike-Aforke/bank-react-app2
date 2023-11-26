@@ -51,6 +51,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
        onSuccess: (data) => {
          console.log(`testing: ${profilePhoto}`)
          console.log(`data testing: ${data}`)
+         console.log("more testing")
         //  console.log(data?.data?.data?.filename);
         //  const filename = data?.data?.data?.filename;
         //  if (filename) {
