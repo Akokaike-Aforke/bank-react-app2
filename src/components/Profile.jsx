@@ -24,7 +24,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const [profilePhoto, setProfilePhoto] = useState("")
   const editUser = useEditUser();
   // const {editUser: editProfilePhoto, isLoading: profileLoading} = useEditProfilePhoto();
-  const editProfilePhoto = useEditProfilePhoto();
+  const {mutate, isLoading} = useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
   const [showBVN, setShowBVN] = useState(false)
   const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
@@ -47,7 +47,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
    const handleSaveProfile = async (e) => {
      e.preventDefault();
      console.log("testing save profile")
-     editProfilePhoto({profilePhoto: "profiles"}, {
+     mutate("profiles", {
        onSuccess: (data) => {
          console.log(`testing: ${profilePhoto}`)
          console.log(`data testing: ${data}`)

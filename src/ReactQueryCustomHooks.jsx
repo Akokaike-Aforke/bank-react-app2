@@ -159,8 +159,8 @@ export const useCreateAccount = () => {
 
 export const useEditProfilePhoto = () => {
   const queryClient = useQueryClient();
-  const { mutate: editUser, isLoading } = useMutation({
-    mutationFn: ({profilePhoto}) => {
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (profilePhoto) => {
       return customFetch.patch(
         `/api/v1/users/updateMe`,
         { profilePhoto },
@@ -177,7 +177,7 @@ export const useEditProfilePhoto = () => {
       console.log(error);
     }
   });
-  return editUser;
+  return {mutate, isLoading};
 };
 
 
