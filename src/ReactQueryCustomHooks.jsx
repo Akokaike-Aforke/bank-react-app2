@@ -157,27 +157,50 @@ export const useCreateAccount = () => {
 
 
 
+// export const useEditProfilePhoto = () => {
+//   const queryClient = useQueryClient();
+//   const { mutate, isLoading } = useMutation({
+//     mutationFn: (profilePhoto) => {
+//       return customFetch.patch(
+//         `/api/v1/users/updateMe`,
+//         { profilePhoto },
+//         { headers: { "Content-Type": "multipart/form-data" } }
+//       );
+//     },
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["users"] });
+//       toast.success("Your profile image was updated successfully")
+//     },
+//     onError:(error)=>{
+//       const { data } = { ...error.response };
+//       toast.error(data.message);
+//       console.log(error);
+//     }
+//   });
+//   return {mutate, isLoading};
+// };
+
+
+
 export const useEditProfilePhoto = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
-    mutationFn: (profilePhoto) => {
-      return customFetch.patch(
-        `/api/v1/users/updateMe`,
-        { profilePhoto },
-        { headers: { "Content-Type": "multipart/form-data" } }
-      );
+    mutationFn: ({ profilePhoto}) => {
+      return customFetch.patch(`/api/v1/users/updateMe`, {
+        profilePhoto: "profilePhoto"
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast.success("Your profile image was updated successfully")
+      toast.success("Your profile picture was updated successfully");
     },
-    onError:(error)=>{
+    onError: (error) => {
       const { data } = { ...error.response };
       toast.error(data.message);
       console.log(error);
-    }
+    },
   });
-  return {mutate, isLoading};
+  return { mutate, isLoading };
 };
 
 
