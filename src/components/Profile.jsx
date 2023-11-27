@@ -21,46 +21,22 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imageURL, setImageURL] = useState(null);
-  const [profilePhoto, setProfilePhoto] = useState("")
-  const editUser = useEditUser();
+  const [profilePhoto, setProfilePhoto] = useState({})
+  const {editUser, isLoading: editUserLoading} = useEditUser();
   // const {editUser: editProfilePhoto, isLoading: profileLoading} = useEditProfilePhoto();
-  const {mutate} = useEditProfilePhoto();
+  // const {mutate} = useEditProfilePhoto();
+  const { editUser: editProfilePhoto, isLoading: profileLoading } =
+    useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
   const [showBVN, setShowBVN] = useState(false)
   const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
-  // const handleSaveProfile = async (e) => {
-  //   e.preventDefault();
-  //   const formData = new FormData();
-  //   formData.append("profilePhoto", file);
-  //   editProfilePhoto(formData, {
-  //     onSuccess: (data) => {
-  //       console.log(data?.data?.data?.filename);
-  //       const filename = data?.data?.data?.filename;
-  //       if (filename) {
-  //         setImageURL(`http://localhost:5000/profileImages/${filename}`);
-  //       }
-  //     },
-  //   });
-  // };
 
-
-   const handleSaveProfile = async (e) => {
-     e.preventDefault();
-     console.log("testing save profile")
-     mutate(profilePhoto, {
-       onSuccess: (data) => {
-         console.log(`testing: ${profilePhoto}`)
-         console.log(`data testing: ${data}`)
-         console.log("more testing")
-        //  console.log(data?.data?.data?.filename);
-        //  const filename = data?.data?.data?.filename;
-        //  if (filename) {
-        //    setImageURL(`http://localhost:5000/profileImages/${filename}`);
-        //  }
-       },
-     });
-   };
-
+  const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("profilePhoto", file);
+    editProfilePhoto(formData);
+  };
 
   const handleEditName = (e) =>{
     e.preventDefault();
@@ -76,63 +52,20 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const handleChange = (e) => {
     e.preventDefault();
     setFile(e.target.files[0]);
-    transformFile(file);
   };
 
-  //convert file to base 64
-  const transformFile = (file) =>{
-      const reader = new FileReader();
-      if(file){
-        reader.readAsDataURL(file)
-        reader.onloadend = () => {
-          setProfilePhoto(reader.result)
-        }
-      }
-      else {
-        setProfilePhoto("")
-      }
-  }
-// useEffect(()=>{
-//    if (file) {
-//       const url = URL.createObjectURL(file);
-//       setImageURL(url);
-//     }
-//   else if (data?.data?.user?.profilePhoto){
-//     const filepath = data?.data?.user
-//       ?.profilePhoto.replace(/^public\\/, "")
-//       .replace(/\\/g, "/")
-//       .replace(/ /g, "%20");
-//     setImageURL(
-//       `http://localhost:5000/${filepath}`
-//     );
-//   }
-//     else
-//     setImageURL(null)
-// }, [data?.data?.user, file])
+  useEffect(() => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setImageURL(url);
+    } 
+    else if (data?.data?.user?.profilePhoto) {
+      setImageURL(data?.data?.user?.profilePhoto);
+    } 
+    else setImageURL(null);
+  }, [file, data?.data?.user.profilePhoto]);
 
-
-// useEffect(() => {
-//   if (file) {
-//     const url = URL.createObjectURL(file);
-//     setProfilePhoto(url);
-//   } 
-//   else if (data?.data?.user?.profilePhoto) {
-//     setProfilePhoto(data?.data?.user?.profilePhoto);
-//   } 
-//   else 
-//   {setProfilePhoto("")}
-// }, [file, data?.data?.user?.profilePhoto]);
-
-useEffect(()=>{
-  if(file){
-    
-  console.log(`file: ${file}`);
-  console.log(`profilePhoto: ${profilePhoto}`);
-  const pic = transformFile(file);
-  console.log(`pic: ${pic}`);
-  }
-}, [file, profilePhoto])
-
+ 
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -142,20 +75,16 @@ useEffect(()=>{
         <div className="photo-div">
           <h5 className="profile-h5">PROFILE</h5>
           <form className="photo-form" onSubmit={handleSaveProfile}>
-            {/* {profileLoading && (
+            {profileLoading && (
               <div className="spinner">
                 <TailSpin width="30" height="30" color="#002082" radius="3" />
               </div>
-            )} */}
+            )}
             <label className="photo-label" htmlFor="profile-photo">
               <BiEdit className="photo-edit-icon" />
               <BsPersonFill className="photo-save-icon" />
-              {/* {imageURL && (
+              {imageURL && (
                 <img className="image-blob" src={imageURL} alt="Selected" />
-              )} */}
-
-              {profilePhoto && (
-                <img className="image-blob" src={profilePhoto} alt="Selected" />
               )}
             </label>
             <input
@@ -178,6 +107,11 @@ useEffect(()=>{
             <label className="info-label" htmlFor="profile-customer-name">
               Customer Name
             </label>
+            {editUserLoading && (
+              <div className="spinner">
+                <TailSpin width="30" height="30" color="#002082" radius="3" />
+              </div>
+            )}
             <input
               className={!editName ? "info-input disabled" : "info-input"}
               id="profile-customer-name"
@@ -187,7 +121,7 @@ useEffect(()=>{
               onChange={(e) => setCustomerName(e.target.value)}
             />
             <BiEdit
-              className={editName && "editNameOn"}
+              className={editName ? "editName editNameOn" : "editName"}
               onClick={editName ? handleEditName : () => setEditName(true)}
             />
           </form>
@@ -324,6 +258,9 @@ const SectionProfile = styled.section`
   .disabled{
     border: none;
     background-color: transparent;
+  }
+  .editName{
+    cursor: pointer;
   }
   .editNameOn{
     color: green;
