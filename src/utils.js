@@ -11,13 +11,11 @@ customFetch.interceptors.request.use(
     const token = Cookies.get("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(token)
     }
     return config;
   },
   //  (error) => Promise.reject(error)
    (error) => {
-     console.log(error)
      return Promise.reject(error)
    }
 );

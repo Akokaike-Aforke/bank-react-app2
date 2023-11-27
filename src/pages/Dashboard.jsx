@@ -110,57 +110,67 @@ const Dashboard = ({ isAuthenticated }) => {
 
   // Cookies.get("token");
 
-  //   const min = String(Math.trunc(seconds / 60)).padStart(2, 0);
-  //   const sec = String(seconds % 60).padStart(2, 0);
+    const min = String(Math.trunc(seconds / 60)).padStart(2, 0);
+    const sec = String(seconds % 60).padStart(2, 0);
 
-  //   const handleValue = () =>{
-  //     if(value === 0)setValue(1)
-  //     else if(value === 1)setValue(0)
-  //   }
-  //   let availableBalanceFixed, clearedBalanceFixed, dashboardUser;
-  // const timerRef = useRef(null);
+    const handleValue = () =>{
+      if(value === 0)setValue(1)
+      else if(value === 1)setValue(0)
+    }
+  const timerRef = useRef(null);
 
   const handleLogOut = () => {
     setPerson({ ...person, viewDashboard: false, transferLog:false, openDeposit: false, openDashboard: false, viewAccounts: false, viewMore: false, doMoreForm: false, doMoreView: false,  });
-    // viewDashboard: true, transferLog:false, openDeposit:false, openDashboard:false, viewMyAccounts: false, viewMore: false, doMoreView: false, dashboardMain: true, dashboardOptionShow: true, dashboardBackground: true
     navigate("/login");
     Cookies.remove("token");
   };
 
-  // useEffect(()=>{
-  //   startTime && startLogOutTimer(timerRef);
-  // },[])
+  useEffect(()=>{
+    startTime && startLogOutTimer(timerRef);
+  },[])
 
-  // useEffect(() => {
-  //   let slider = setInterval(() => {
-  //     handleValue();
-  //   }, 3000);
-  //   return () => clearInterval(slider);
-  // }, [value]);
+  useEffect(() => {
+    let slider = setInterval(() => {
+      handleValue();
+    }, 3000);
+    return () => clearInterval(slider);
+  }, [value]);
 
-  // useEffect(()=>{
-  //   const timer = setInterval(()=>{
-  //     setSeconds(seconds=>seconds-1)
-  //   }, 1000)
-  //   const resetTimer = () => {
-  //     setSeconds(130);
-  //   };
-  //   window.addEventListener("keydown", resetTimer);
-  //   window.addEventListener("mousemove", resetTimer);
-  //   return () => {
-  //     clearInterval(timer);
-  //     window.removeEventListener("mousemove", resetTimer);
-  //     window.removeEventListener("keydown", resetTimer);
-  //   };
+  useEffect(()=>{
+    const timer = setInterval(()=>{
+      setSeconds(seconds=>seconds-1)
+    }, 1000)
+    const resetTimer = () => {
+      setSeconds(130);
+    };
+    window.addEventListener("keydown", resetTimer);
+    window.addEventListener("mousemove", resetTimer);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("keydown", resetTimer);
+    };
 
-  // },[])
+  },[])
 
-  // useEffect(()=>{
-  //   if(seconds === -1){
-  //     Cookies.remove("token")
-  //     navigate("/login")
-  //   }
-  // }, [seconds])
+  useEffect(()=>{
+    if(seconds === -1){
+      
+    setPerson({
+      ...person,
+      viewDashboard: false,
+      transferLog: false,
+      openDeposit: false,
+      openDashboard: false,
+      viewAccounts: false,
+      viewMore: false,
+      doMoreForm: false,
+      doMoreView: false,
+    });
+      Cookies.remove("token")
+      navigate("/login")
+    }
+  }, [seconds])
 
   // useEffect(() => {
   //   if(!isLoading)
@@ -199,8 +209,6 @@ const Dashboard = ({ isAuthenticated }) => {
     // return <TailSpin color="red" radius={"8px"} />;
 
   }
-  console.log(data);
-  console.log(`person.doMoreView: ${person.doMoreView}`)
   // if (transactionsLoading) {
   //   return <article className="view-more-div"></article>
   // }
@@ -212,7 +220,6 @@ const Dashboard = ({ isAuthenticated }) => {
     data?.data?.user?.accounts[selectedAccount]?.transactions?.length;
   return (
     <DashboardMain className="covid-main">
-      {/* <p className="timer-p">You will be logged out in {`${min}:${sec}`}secs</p> */}
       {isInfo && (
         <section className="covid-section fade-in">
           <div className="covid-div">
@@ -325,6 +332,12 @@ const Dashboard = ({ isAuthenticated }) => {
               </button>
             </nav>
           </div>
+          <div className="timer-div">
+            <p className="timer-p">
+              You will be logged out in {`${min}:${sec}`}secs
+            </p>
+          </div>
+
           {person.openDashboard && (
             <section>
               {person.dashboardBackground && (
@@ -1026,9 +1039,9 @@ const DashboardMain = styled.main`
     text-align: right;
     color: #002082;
   }
-  /* .timer-p{
-    z-index: 5
-  } */
+  .timer-p{
+    margin-top: 1rem;
+  }
   .pulse {
     animation: pulse 1s ease-in-out forwards infinite;
   }

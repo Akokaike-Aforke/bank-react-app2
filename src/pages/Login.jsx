@@ -28,12 +28,10 @@ const Login = () => {
   // const [userId, setUserId] = useState(null)
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("loggin in")
     loginUser(
       { username, password: userPassword },
       {
         onSuccess: (data) => {
-          console.log(data)
           const { token } = data.data;
           Cookies.set("token", token, { path: "/" });
           const user_id = data.data.data.user.id;
@@ -49,7 +47,6 @@ const Login = () => {
     );
   
   };
-  console.log(person.viewDashboard)
   // console.log(isLoggedIn);
   // console.log(userData);
   useEffect(() => {

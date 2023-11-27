@@ -40,7 +40,6 @@ function App() {
       setTokenAvailable(false);
     }
   }, [isAuthenticated]);
-  console.log(isAuthenticated)
   return (
     <AppProvider>
       <BrowserRouter>
