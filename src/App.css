@@ -1157,14 +1157,14 @@ td {
   border-radius: 10px;
 }
 .fidelity-icon {
-  width: 65px;
+  width: 45px;
   position: absolute;
   top: 60px;
   right: 60px;
   z-index: 5;
 }
 .register-steps-div {
-  margin: 9rem auto 5rem;
+  margin: 7.4rem auto 5rem;
   width: 80%;
   letter-spacing: 0.5px;
 }
@@ -1173,7 +1173,7 @@ td {
   padding-bottom: 1.2rem;
   text-align: center;
   font-weight: 200;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 /* VERIFY */
@@ -1192,6 +1192,7 @@ td {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0.85rem;
 }
 .verify-span {
   background: #78b945;
@@ -1502,6 +1503,21 @@ td {
   .doMore-view-article2 {
     display: grid;
   }
+  .fidelity-icon {
+  width: 65px;
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  z-index: 5;
+}
+.register-steps-h1 {
+  font-size: 25px;
+}
+.verify-span,
+.register-span,
+.complete-span {
+  font-size: 1rem;
+}
 }
 @media screen and (min-width: 880px) {
   .transactions-div {
