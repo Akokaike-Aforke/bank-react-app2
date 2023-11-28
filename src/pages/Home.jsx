@@ -159,8 +159,8 @@ const HomeMain = styled.main`
   }
   .home-main-login-btn,
   .home-main-signup-btn {
-    height: 20px;
-    /* padding: 2px 10px; */
+    height: 23px;
+    padding: 2px 10px;
     letter-spacing: 0.5px;
     border: none;
     border-radius: 5px;

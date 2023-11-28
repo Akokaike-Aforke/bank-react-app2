@@ -107,7 +107,7 @@ const Login = () => {
       <section className="home-section">
         <img src={logo} alt="fidelity logo" className="home-logo" />
         <h1 className="home-h1">Welcome to Fidelity Online Banking</h1>
-        <p className="home-p1">
+        <p className="login-p1">
           Please log in safely. Protect your login information.
         </p>
         <div className="home-form-div">
@@ -115,7 +115,7 @@ const Login = () => {
             <div className="home-input-icon-div">
               <input
                 type="text"
-                className="home-username"
+                className="home-username login-username"
                 placeholder="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}

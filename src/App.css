@@ -112,7 +112,7 @@ body {
 .home-logo {
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 13px;
   height: 20px;
 }
 
@@ -124,6 +124,10 @@ body {
 }
 .home-p1 {
   font-size: 1rem;
+  margin-bottom: 2rem;
+}
+.login-p1 {
+  font-size: 0.9rem;
   margin-bottom: 2rem;
 }
 .home-form-div {
@@ -147,7 +151,7 @@ body {
 }
 .home-input-icon-div {
   width: 100%;
-  height: 2.5rem;
+  height: 2rem;
   margin-bottom: 2rem;
   border: none;
   border: 1px solid hsl(0, 0%, 87%);
@@ -162,10 +166,11 @@ body {
   border: none;
   padding: 10px;
   border-radius: 5px;
+  font-size: 13px;
 }
 .home-username::placeholder,
 .home-password::placeholder {
-  font-size: 16px;
+  font-size: 13px;
   color: rgb(181, 181, 182);
 }
 .home-username:focus,
@@ -178,26 +183,26 @@ body {
 .icon1,
 .icon2 {
   position: absolute;
-  top: 12px;
+  top: 9px;
   right: 10px;
-  font-size: 16px;
+  font-size: 13px;
   color: #002082;
   cursor: pointer;
 }
 .home-forgot-p {
   text-align: right;
-  font-size: 14px;
+  font-size: 12px;
   /* margin-bottom: 1rem; */
   color: #002082;
   text-decoration: none;
 }
 .home-signin-btn {
   width: 100%;
-  height: 2.5rem;
+  height: 2rem;
   background: #6abf5c;
   color: white;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -1404,15 +1409,44 @@ td {
   .home-logo {
     height: 30px;
 }
+.login-p1 {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+.home-input-icon-div {
+  width: 100%;
+  height: 2.5rem;
+  margin-bottom: 2rem;
+  border: none;
+  border: 1px solid hsl(0, 0%, 87%);
+  position: relative;
+  border-radius: 5px;
+}
+.home-username,
+.home-password {
+  font-size: 16px;
+}
+.home-username::placeholder,
+.home-password::placeholder {
+  font-size: 16px;
+}
+.icon1,
+.icon2 {
+  top: 12px;
+  font-size: 15px;
+}
+.home-forgot-p {
+  font-size: 14px;
+}
+.home-signin-btn {
+  height: 2.5rem;
+  font-size: 16px;
+}
 }
 
 @media screen and (min-width: 580px) {
   .home-input-icon-div {
     height: 3rem;
-  }
-  .home-password::placeholder,
-  .home-username::placeholder {
-    font-size: 19px;
   }
   .icon1,
   .icon2 {
