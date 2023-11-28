@@ -41,7 +41,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const handleEditName = (e) =>{
     e.preventDefault();
     if(customerName && customerName !== data?.data?.user?.fullname && editName)
-    editUser(customerName, 
+    editUser(customerName.toLowerCase().trim(), 
       {
         onSuccess: (data) =>{
           setEditName(false);
@@ -133,7 +133,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
             <p className="info-p3">{data?.data?.user?.bvn}</p>
           )}
           <button className="info-btn" onClick={() => setShowBVN(!showBVN)}>
-            SHOW BVN
+            {showBVN ? "HIDE BVN" : "SHOW BVN"}
           </button>
         </div>
         <div className="links-div">

@@ -11,7 +11,7 @@ const ForgotPassword = () => {
   const { mutate, isLoading } = useForgotPin();
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutate({email, password}, {
+    mutate({email: email.trim(), password: password.trim()}, {
       onSuccess: (data) => {
         console.log(data);
       },

@@ -15,7 +15,6 @@ const Verify = () => {
     const {mutate: createTask, isLoading} = useMutation({
       mutationFn: () => customFetch.post("/api/v1/accounts/accountNumber", {}),
       onSuccess: (data)=>{
-        console.log(data);
         setMessage("Your account number was successfully generated");
       },
       onError: (err)=>{console.log(err)}

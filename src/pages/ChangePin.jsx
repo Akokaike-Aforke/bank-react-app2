@@ -17,7 +17,7 @@ const ChangePin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(
-      { password, pin, pinConfirm, pinCurrent },
+      { password: password.trim(), pin: pin.trim(), pinConfirm: pinConfirm.trim(), pinCurrent: pinCurrent.trim() },
       {
         onSuccess: (data) => {
           console.log(data);

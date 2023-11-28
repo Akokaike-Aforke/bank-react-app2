@@ -31,7 +31,7 @@ const Home = () => {
           <div className="home-main-div-dropdown">
             <div className="dropdown-personal">
               <button className="btn-personal">Personal</button>
-              <div className="dropdown-content">
+              <div className="dropdown-content dropdown-content-personal">
                 <ul>
                   <li>
                     <a href="#">Savings Account</a>
@@ -159,12 +159,13 @@ const HomeMain = styled.main`
   }
   .home-main-login-btn,
   .home-main-signup-btn {
-    height: 40px;
-    padding: 2px 10px;
+    height: 20px;
+    /* padding: 2px 10px; */
     letter-spacing: 0.5px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 0.65rem;
   }
   .home-main-login-btn {
     background: #6cc049;
@@ -178,11 +179,11 @@ const HomeMain = styled.main`
     border: none;
     color: #6cc048;
     background: transparent;
-    font-size: 20px;
+    font-size: 15px;
     cursor: pointer;
   }
   .home-main-logo {
-    height: 30px;
+    height: 20px;
   }
   .home-main-div-dropdown {
     display: flex;
@@ -218,6 +219,9 @@ const HomeMain = styled.main`
     display: none;
     z-index: 1;
   }
+  .dropdown-content-personal {
+    margin-left: 2rem;
+  }
   .dropdown-personal:hover .dropdown-content {
     display: block;
   }
@@ -241,6 +245,22 @@ const HomeMain = styled.main`
     color: wheat;
   }
   .personal-btn {
+  }
+  @media screen and (min-width: 450px) {
+    .home-main-logo {
+      height: 30px;
+    }
+    .home-main-fabars-btn {
+      font-size: 20px;
+    }
+    .home-main-login-btn,
+    .home-main-signup-btn {
+      height: 40px;
+      padding: 2px 10px;
+    }
+    .dropdown-content-personal{
+      margin-left: 0;
+    }
   }
 `;
 export default Home

@@ -9,7 +9,7 @@ const ForgotPassword = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         mutate(
-            email,
+            email.trim(),
             {
                 onSuccess: (data) => {
                     console.log(data)

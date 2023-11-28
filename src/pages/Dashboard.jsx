@@ -91,7 +91,6 @@ const Dashboard = ({ isAuthenticated }) => {
       },
       {
         onSuccess: (data) => {
-          console.log(data?.data?.data?.specifiedTransactions);
           setSpecifiedTransactions(data?.data?.data?.specifiedTransactions);
         },
       }
@@ -206,16 +205,8 @@ const Dashboard = ({ isAuthenticated }) => {
         <TailSpin color="#002082" radius={"6px"} />
       </div>
     );
-    // return <TailSpin color="red" radius={"8px"} />;
 
   }
-  // if (transactionsLoading) {
-  //   return <article className="view-more-div"></article>
-  // }
-
-  // if(!isLoggedIn){
-  //   return <Navigate to="/login" />
-  // }
   const transactionsLength =
     data?.data?.user?.accounts[selectedAccount]?.transactions?.length;
   return (
@@ -465,7 +456,7 @@ const Dashboard = ({ isAuthenticated }) => {
                         onChange={handleDoMore}
                         name="selectedAccount"
                       >
-                        <option value="" selected>
+                        <option value="" select>
                           --Acount--
                         </option>
                         {data?.data?.user?.accounts?.map((account, index) => {

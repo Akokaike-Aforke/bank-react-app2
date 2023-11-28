@@ -112,11 +112,12 @@ body {
 .home-logo {
   position: absolute;
   right: 10px;
-  top: 40px;
+  top: 10px;
+  height: 20px;
 }
 
 .home-h1 {
-  font-size: 1.3rem;
+  font-size: 0.9rem;
   width: 80%;
   margin-bottom: 1.5rem;
   color: #002082;
@@ -125,7 +126,7 @@ body {
   font-size: 1rem;
   margin-bottom: 2rem;
 }
-.home-form-div{
+.home-form-div {
   border-top: 3px solid #002082;
   border-left: 1px solid hsl(0, 0%, 87%);
   border-right: 1px solid hsl(0, 0%, 87%);
@@ -135,7 +136,7 @@ body {
   justify-content: center;
   align-items: center;
 }
-.home-form{
+.home-form {
   width: 80%;
   margin-top: 2rem;
   margin-bottom: 2rem;
@@ -225,15 +226,14 @@ body {
   color: #002082;
 }
 
-
-
-
 /* FORGOT PASSWORD */
-.forgot-password-section, .reset-password-section{
+.forgot-password-section,
+.reset-password-section {
   width: 65%;
   max-width: 600px;
 }
-.forgot-password-form-div, .reset-password-form-div{
+.forgot-password-form-div,
+.reset-password-form-div {
   border-top: 3px solid #002082;
   border-left: 1px solid hsl(0, 0%, 87%);
   border-right: 1px solid hsl(0, 0%, 87%);
@@ -243,12 +243,14 @@ body {
   justify-content: center;
   align-items: center;
 }
-.forgot-password-form, .reset-password-form{
+.forgot-password-form,
+.reset-password-form {
   width: 80%;
   padding-bottom: 2rem;
   padding-top: 2rem;
 }
-.forgot-password-input, .reset-password-input {
+.forgot-password-input,
+.reset-password-input {
   width: 100%;
   background-color: #f5f6f8;
   border: none;
@@ -258,10 +260,11 @@ body {
   height: 100%;
   font-size: 1rem;
 }
-.forgot-password-input{
+.forgot-password-input {
   height: 2.5rem;
 }
-.forgot-password-btn, .reset-password-btn {
+.forgot-password-btn,
+.reset-password-btn {
   width: 100%;
   height: 2.5rem;
   background: #6abf5c;
@@ -273,8 +276,6 @@ body {
   cursor: pointer;
   margin-top: 1rem;
 }
-
-
 
 /* DASHBOARD */
 .covid-main {
@@ -654,9 +655,9 @@ body {
   transition: all 0.4s ease;
   cursor: pointer;
 }
-.view_more_form button:hover{
-   color: white;
-    background-color: rgb(14, 35, 139);
+.view_more_form button:hover {
+  color: white;
+  background-color: rgb(14, 35, 139);
 }
 
 .view-more-table-article {
@@ -1341,64 +1342,68 @@ td {
   color: white;
   text-decoration: none;
 }
-.navigateToDashboardLink{
+.navigateToDashboardLink {
   color: white;
   text-decoration: none;
 }
 
-
 /* ANIMATION FOR PAGES */
-.fade-in{
+.fade-in {
   opacity: 0;
   animation: fadeIn 1s ease-in-out forwards;
 }
-.spinner{
+.spinner {
   margin-left: 3rem;
   margin-top: 3rem;
   margin-bottom: 3rem;
 }
 @keyframes fadeIn {
-  0%{
+  0% {
     opacity: 0;
   }
-  100%{
+  100% {
     opacity: 1;
   }
-  
 }
-.scale-animation{
+.scale-animation {
   transform: scale(0);
   animation: scaleInto 1s ease-in-out forwards;
   transition: all 1s ease;
 }
 @keyframes scaleInto {
-  0%{
+  0% {
     transform: scale(0);
   }
-  100%{
+  100% {
     transform: scale(1);
   }
-  
 }
-.scale-animation-back{
+.scale-animation-back {
   animation: scaleBack 1s ease-in-out 1s;
 }
 @keyframes scaleBack {
-  0%{
+  0% {
     transform: scale(1);
   }
-  100%{
+  100% {
     transform: scale(0);
   }
-  
 }
 
-
 /* LOADING STYLE */
-.loading{
-  opacity: 0.3
+.loading {
+  opacity: 0.3;
   /* background: linear-gradient(rgb(6, 32, 111, 0.7), rgba(6, 32, 111, 0.7)); */
   /* background: linear-gradient(rgba(237, 238, 240, 0.7), rgba(203, 213, 245, 0.7)); */
+}
+
+@media screen and (min-width: 450px) {
+  .home-h1 {
+    font-size: 1.3rem;
+  }
+  .home-logo {
+    height: 30px;
+}
 }
 
 @media screen and (min-width: 580px) {

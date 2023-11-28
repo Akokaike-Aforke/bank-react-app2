@@ -42,15 +42,15 @@ const Register = () => {
     e.preventDefault();
     mutate(
       {
-        fullname: formData.fullname,
+        fullname: formData.fullname.toLowerCase().trim(),
         dateOfBirth: formData.dateOfBirth,
-        email: formData.email,
-        username: formData.username,
-        password: formData.password,
-        passwordConfirm: formData.passwordConfirm,
+        email: formData.email.toLocaleLowerCase().trim(),
+        username: formData.username.toLowerCase().trim(),
+        password: formData.password.trim(),
+        passwordConfirm: formData.passwordConfirm.trim(),
         accountType: formData.accountType,
-        pin: formData.pin,
-        pinConfirm: formData.pinConfirm,
+        pin: formData.pin.trim(),
+        pinConfirm: formData.pinConfirm.trim(),
       },
       {
         onSuccess: (data) => {

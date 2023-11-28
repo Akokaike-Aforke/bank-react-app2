@@ -29,7 +29,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     loginUser(
-      { username, password: userPassword },
+      { username: username.toLowerCase().trim(), password: userPassword.trim() },
       {
         onSuccess: (data) => {
           const { token } = data.data;

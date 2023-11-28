@@ -16,7 +16,7 @@ const ChangePassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     mutate(
-      { password, passwordConfirm, passwordCurrent },
+      { password: password.trim(), passwordConfirm: passwordConfirm.trim(), passwordCurrent: passwordCurrent.trim() },
       {
         onSuccess: (data) => {
           console.log(data);

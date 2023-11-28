@@ -24,7 +24,7 @@ const Transfer = () => {
     const pin = pinRef.current.value;
     console.log(typeof transferAmount);
     transfer(
-      { receiverUsername, transactionAmount: transferAmount, pin, description, },
+      { receiverUsername: receiverUsername.toLowerCase().trim(), transactionAmount: transferAmount.trim(), pin: pin.trim(), description: description.trim(), },
       {
         onSuccess: (data) => {
           transferAmountRef.current.value = "";
@@ -39,7 +39,6 @@ const Transfer = () => {
         },
         onError: (err) => {
           toast.error(err.response.data.message);
-          console.log(err.response.data.message);
         },
       }
     );
@@ -71,7 +70,7 @@ const Transfer = () => {
           <label htmlFor="">Transfer to:</label>
           <input
             type="text"
-            placeholder="transfer to"
+            placeholder="transfer to username"
             className="transfer-person"
             ref={receiverUsernameRef}
           />

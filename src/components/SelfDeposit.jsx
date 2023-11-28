@@ -18,8 +18,8 @@ const SelfDeposit = () => {
     e.preventDefault();
     const pin = pinRef.current.value;
     mutate({
-      transactionAmount: (depositAmount.current.value) * 1, pin, 
-      description,
+      transactionAmount: (depositAmount.current.value) * 1, pin: pin.trim(), 
+      description: description.trim(),
     },
     {
       onSuccess: (data)=>{
