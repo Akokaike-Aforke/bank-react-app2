@@ -1198,7 +1198,7 @@ td {
   background: #78b945;
 }
 .complete-span {
-  margin-bottom: 5rem;
+  margin-bottom: 1.9rem;
 }
 /* .account-number-input{
   display: block;
@@ -1235,9 +1235,12 @@ td {
 }
 .new-register {
   width: 100%;
-  height: 50px;
+  height: 35px;
   margin-bottom: 1rem;
   position: relative;
+}
+.register-new-label{
+  font-size: 0.8rem;
 }
 .register-firstname,
 .register-lastname,
@@ -1253,17 +1256,19 @@ td {
   height: 100%;
   border-radius: 4px;
   padding-left: 2rem;
-  font-size: 18px;
+  font-size: 15px;
 }
 .seePassword-icon {
   position: absolute;
-  top: 20px;
+  top: 14px;
   right: 20px;
   color: #000;
+  font-size: 0.8rem;
+  cursor: pointer;
 }
 .register-new-icon {
   position: absolute;
-  top: 17px;
+  top: 11px;
   left: 10px;
   color: #000;
 }
@@ -1271,6 +1276,7 @@ td {
   margin-bottom: 1rem;
   padding-left: 1rem;
   border-radius: 4px;
+  font-size: 14px;
 }
 .register-radio-div {
   padding: 0.5rem;
@@ -1286,7 +1292,7 @@ td {
 .register-new-account-btn {
   display: block;
   width: 100%;
-  height: 50px;
+  height: 35px;
   margin-top: 3rem;
   margin-bottom: 2rem;
   /* background: #e0e0e0; */
@@ -1443,6 +1449,9 @@ td {
   height: 2.5rem;
   font-size: 16px;
 }
+.register-new-label{
+  font-size: 0.9rem;
+}
 }
 
 @media screen and (min-width: 580px) {
@@ -1474,6 +1483,12 @@ td {
   .register-steps-div {
     width: 70%;
   }
+  .new-register {
+  height: 40px;
+}
+.register-new-icon{
+  top: 13px;
+}
 }
 @media screen and (min-width: 700px) {
   .dashboard-summary-image-div {
