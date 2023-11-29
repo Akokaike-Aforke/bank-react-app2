@@ -22,6 +22,7 @@ const Login = () => {
   const [btnActive, setBtnActive] = useState(true);
   const [value, setValue] = useState(2);
   const [seePassword, setSeePassword] = useState(false);
+  const [navigateToDashboard, setNavigateToDashboard] = useState(false)
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const [userData, setUserData] = useState({});
   const { loginUser, isLoading } = useLogin();
@@ -36,8 +37,9 @@ const Login = () => {
           Cookies.set("token", token, { path: "/" });
           const user_id = data.data.data.user.id;
           login(user_id);
-          navigate("/dashboard");
-          setPerson({ ...person, viewDashboard: true, dashboardMain: true });
+          // navigate("/dashboard");
+          setNavigateToDashboard(true);
+          // setPerson({ ...person, viewDashboard: true, dashboardMain: true });
         },
         onError: (err) => {
           console.log(err.response.data.message);
@@ -75,6 +77,13 @@ const Login = () => {
   // }, [isLoggedIn, userInfo]);
 
   // useEffect(()=>{console.log(userId)}, [userId])
+
+  useEffect(()=>{
+    if(navigateToDashboard){
+      navigate("/dashboard");
+      setPerson({ ...person, viewDashboard: true, dashboardMain: true });
+    }
+  }, [navigateToDashboard, person.viewDashboard, person.dashboardMain])
 
   if (isLoading) {
     return (

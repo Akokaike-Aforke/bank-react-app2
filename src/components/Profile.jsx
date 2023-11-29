@@ -5,6 +5,7 @@ import { useGlobalContext } from "../context";
 import { useEditUser, useDeleteUser, useEditProfilePhoto } from "../ReactQueryCustomHooks";
 import { toast } from "react-toastify";
 import { ImEye } from "react-icons/im";
+import { IoMdCheckmarkCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { BsPersonFill } from "react-icons/bs";
 import customFetch from "./../utils";
@@ -28,6 +29,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const { editUser: editProfilePhoto, isLoading: profileLoading } =
     useEditProfilePhoto();
   const [editName, setEditName] = useState(false)
+  const [editNameOn, setEditNameOn] = useState(false)
   const [showBVN, setShowBVN] = useState(false)
   const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
 
@@ -38,17 +40,25 @@ const Profile = ({ data, isLoading, profileOpen }) => {
     editProfilePhoto(formData);
   };
 
-  const handleEditName = (e) =>{
+  const handleSaveName = (e) =>{
     e.preventDefault();
-    if(customerName && customerName !== data?.data?.user?.fullname && editName)
+    if(customerName && customerName === data?.data?.user?.fullname)
+    {
+      setEditName(false)
+      return;
+    }
     editUser(customerName.toLowerCase().trim(), 
       {
         onSuccess: (data) =>{
           setEditName(false);
+          setEditNameOn(false)
         }
       })
   }
-
+  const handleEditName = (e) =>{
+    e.preventDefault();
+    setEditName(true);
+  }
   const handleChange = (e) => {
     e.preventDefault();
     setFile(e.target.files[0]);
@@ -64,6 +74,15 @@ const Profile = ({ data, isLoading, profileOpen }) => {
     } 
     else setImageURL(null);
   }, [file, data?.data?.user.profilePhoto]);
+
+  useEffect(()=>{
+    if(customerName && customerName !== data?.data?.user?.fullname){
+      setEditNameOn(true)
+    }
+    else{
+      setEditNameOn(false)
+    }
+  }, [customerName, data?.data?.user?.fullname])
 
  
   if (isLoading) {
@@ -84,7 +103,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
               <BiEdit className="photo-edit-icon" />
               <BsPersonFill className="photo-save-icon" />
               {imageURL && (
-                <img className="image-blob" src={imageURL} alt="Selected" />
+                <img className="image-blob" src={imageURL} />
               )}
             </label>
             <input
@@ -112,18 +131,28 @@ const Profile = ({ data, isLoading, profileOpen }) => {
                 <TailSpin width="30" height="30" color="#002082" radius="3" />
               </div>
             )}
-            <input
-              className={!editName ? "info-input disabled" : "info-input"}
-              id="profile-customer-name"
-              type="text"
-              disabled={!editName}
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-            />
-            <BiEdit
-              className={editName ? "editName editNameOn" : "editName"}
-              onClick={editName ? handleEditName : () => setEditName(true)}
-            />
+            <div className="info-input-div">
+              <input
+                className={!editName ? "info-input disabled" : "info-input"}
+                id="profile-customer-name"
+                type="text"
+                disabled={!editName}
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
+              {editName ? (
+                <button
+                  onClick={handleSaveName}
+                  className={editNameOn ? "editName editNameOn" : "editName"}
+                >
+                  <IoMdCheckmarkCircle />
+                </button>
+              ) : (
+                <button className="editName" onClick={handleEditName}>
+                  <BiEdit />
+                </button>
+              )}
+            </div>
           </form>
           <h5 className="info-h">Username</h5>
           <p className="info-p1">{data?.data?.user?.username}</p>
@@ -246,24 +275,40 @@ const SectionProfile = styled.section`
   .info-label {
     display: block;
   }
-  .info-input {
-    width: 20rem;
+  .info-input-div {
+    width: 15rem;
     height: 2rem;
+    display: flex;
+    align-items: center;
+  }
+  .info-input {
+    width: 100%;
+    height: 100%;
     border: 1px solid green;
     border-radius: 3px;
     padding: 5px;
     font-size: 1rem;
     text-transform: capitalize;
   }
-  .disabled{
+  .disabled {
     border: none;
     background-color: transparent;
   }
-  .editName{
+  .editName {
+    border: none;
+    background-color: transparent;
+    font-size: 1.2rem;
     cursor: pointer;
+    /* position: relative;
+    position: absolute;
+    top: 0.25rem; */
   }
-  .editNameOn{
+  .editNameOn {
     color: green;
+  }
+  .editIcon {
+    position: absolute;
+    top: 1px;
   }
   .info-form {
     margin-bottom: 2rem;
@@ -273,11 +318,12 @@ const SectionProfile = styled.section`
     margin-left: 1rem;
   }
   .info-p1,
-  .info-p2, .info-p3 {
+  .info-p2,
+  .info-p3 {
     margin-bottom: 1rem;
     margin-left: 1rem;
   }
-  .info-p1{
+  .info-p1 {
     text-transform: capitalize;
   }
   .info-btn {
@@ -298,6 +344,11 @@ const SectionProfile = styled.section`
     display: block;
     text-decoration: none;
   }
+  @media screen and (min-width: 450px) {
+  .info-input-div {
+    width: 20rem;
+  }
+}
   @media screen and (min-width: 770px) {
     .profile-div {
       grid-template-columns: 1fr 1fr 1fr;
