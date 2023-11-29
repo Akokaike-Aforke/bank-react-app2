@@ -199,7 +199,7 @@ const Register = () => {
                   type="radio"
                   className="account-type"
                   name="accountType"
-                  value="fixed deposit"
+                  value="fixed-deposit"
                   checked={formData.accountType === "fixed deposit"}
                   onChange={handleChange}
                 />
