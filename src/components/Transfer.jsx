@@ -24,7 +24,7 @@ const Transfer = () => {
     const pin = pinRef.current.value;
     console.log(typeof transferAmount);
     transfer(
-      { receiverUsername: receiverUsername.toLowerCase().trim(), transactionAmount: transferAmount.trim(), pin: pin.trim(), description: description.trim(), },
+      { receiverUsername: receiverUsername.toLowerCase().trim(), transactionAmount: transactionAmount.trim(), pin: pin.trim(), description: description.trim(), },
       {
         onSuccess: (data) => {
           transferAmountRef.current.value = "";
