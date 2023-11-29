@@ -200,7 +200,7 @@ const Register = () => {
                   className="account-type"
                   name="accountType"
                   value="fixed-deposit"
-                  checked={formData.accountType === "fixed deposit"}
+                  checked={formData.accountType === "fixed-deposit"}
                   onChange={handleChange}
                 />
                 <label htmlFor="fixed-deposit">Fixed Deposit</label>
