@@ -205,7 +205,9 @@ const ReviewsAll = () => {
                     textToHighlight={datum.review}
                   />
                 ) : (
-                  <span>{datum.review}</span>
+                  <span>
+                    <p className="p-review">{datum.review}</p>
+                  </span>
                 )}
               </p>
               <p className="thumb-p">Was this review helpful?</p>
@@ -361,7 +363,6 @@ const ReviewDiv = styled.main`
     width: 90%;
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
-    color: red;
   }
   .p-no-reviews1,
   .p-no-reviews2 {
