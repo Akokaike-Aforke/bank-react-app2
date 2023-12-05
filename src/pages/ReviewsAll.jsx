@@ -74,12 +74,12 @@ const ReviewsAll = () => {
     useEffect(()=>{
       const getHelpfulArray = localStorage.getItem(`${userData?.data?.user?.id}_helpfulArray`);
       console.log(getHelpfulArray)
-      const getUnhelpfulArray = localStorage.getItem("unhelpfulArray")
+      // const getUnhelpfulArray = localStorage.getItem("unhelpfulArray")
       if(getHelpfulArray){
       setClickedID(JSON.parse(getHelpfulArray))
     }
-      if(getUnhelpfulArray)
-      setClickedIDUnhelpful(getUnhelpfulArray)
+      // if(getUnhelpfulArray)
+      // setClickedIDUnhelpful(getUnhelpfulArray)
     }, [])
     useEffect(()=>{
         localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
