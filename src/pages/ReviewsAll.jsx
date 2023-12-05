@@ -34,7 +34,7 @@ const ReviewsAll = () => {
       setClickedID(clickedID.filter((removeId) => removeId !== id));
       mutate({ id, helpful: -1, unhelpful: 0 });
     } else {
-      mutate({ id, helpful: 1, unhelpful: unhelpful ? -1 : 0 });
+      mutate({ id, helpful: 1, unhelpful: isNotHelpful ? -1 : 0 });
       setClickedID([...clickedID, id]);
       setIsHelpful(true);
     }
