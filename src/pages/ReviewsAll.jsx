@@ -49,7 +49,7 @@ const ReviewsAll = () => {
       mutate({ id, helpful: 0, unhelpful: -1 });
     } else {
       setClickedIDUnhelpful([...clickedIDUnhelpful, id]);
-      mutate({ id, helpful: helpful ? -1 : 0, unhelpful: 1 });
+      mutate({ id, helpful: isHelpful ? -1 : 0, unhelpful: 1 });
       setIsNotHelpful(true);
     }
   };
