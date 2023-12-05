@@ -42,8 +42,8 @@ const Login = () => {
           // setPerson({ ...person, viewDashboard: true, dashboardMain: true });
         },
         onError: (err) => {
-          console.log(err.response.data.message);
-          toast.error(err.response.data.message);
+          // console.log(err.response.data.message);
+          // toast.error(err.response.data.message);
         },
       }
     );

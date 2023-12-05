@@ -46,18 +46,24 @@ const ReviewsAll = () => {
       setClickedIDUnhelpful(
         clickedIDUnhelpful.filter((removeId) => removeId !== id)
       );
-      mutate({ id, helpful: 0, unhelpful: -1 }, {
-        onSuccess: () => {
-          setIsNotHelpful(false)
+      mutate(
+        { id, helpful: 0, unhelpful: -1 },
+        {
+          onSuccess: () => {
+            setIsNotHelpful(false);
+          },
         }
-      });
+      );
     } else {
       setClickedIDUnhelpful([...clickedIDUnhelpful, id]);
-      mutate({ id, helpful: isHelpful ? -1 : 0, unhelpful: 1 },
-      {
-        onSuccess: () => {
-      setIsNotHelpful(true);}
-      });
+      mutate(
+        { id, helpful: isHelpful ? -1 : 0, unhelpful: 1 },
+        {
+          onSuccess: () => {
+            setIsNotHelpful(true);
+          },
+        }
+      );
     }
   };
 
@@ -334,7 +340,6 @@ const ReviewDiv = styled.main`
     margin-right: 1rem;
     border: 1px solid black;
     min-width: 60px;
-    
   }
   .profilePhoto {
     height: 100%;
@@ -409,7 +414,7 @@ const ReviewDiv = styled.main`
   }
   .star-rating-div {
     text-align: center;
-    margin-bottom: 1.5rem;
+    /* margin-bottom: 1.5rem; */
     flex-grow: 1;
     text-align: left;
   }

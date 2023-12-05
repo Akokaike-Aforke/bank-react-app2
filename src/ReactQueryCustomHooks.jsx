@@ -18,7 +18,9 @@ export const useGetUser = () => {
   const { data, loading, isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await customFetch("/api/v1/users/me", {withCredentials: true});
+      const { data } = await customFetch("/api/v1/users/me", {
+        withCredentials: true,
+      });
       return data;
     },
   });
@@ -28,20 +30,26 @@ export const useGetUser = () => {
 export const useGetSpecifiedTransactions = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({ startDate, endDate, activity, clientUsername, selectedAccount }) => {
+    mutationFn: ({
+      startDate,
+      endDate,
+      activity,
+      clientUsername,
+      selectedAccount,
+    }) => {
       return customFetch.post("/api/v1/transactions/transactionHistory", {
         startDate,
         endDate,
         activity,
         clientUsername,
-        selectedAccount
+        selectedAccount,
       });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
     },
   });
-  return {mutate, isLoading}
+  return { mutate, isLoading };
 };
 
 // export const useFetchTasks = () => {
@@ -147,18 +155,16 @@ export const useEditProfilePhoto = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast.success("profile picture was successfully updated")
+      toast.success("profile picture was successfully updated");
     },
-        onError:(error)=>{
-          const { data } = { ...error.response };
-          toast.error(data.message);
-          console.log(error);
-        }
+    onError: (error) => {
+      const { data } = { ...error.response };
+      toast.error(data.message);
+      console.log(error);
+    },
   });
-  return {editUser, isLoading};
+  return { editUser, isLoading };
 };
-
-
 
 // export const useEditProfilePhoto = () => {
 //   const queryClient = useQueryClient();
@@ -182,8 +188,6 @@ export const useEditProfilePhoto = () => {
 //   });
 //   return {mutate, isLoading};
 // };
-
-
 
 // export const useEditProfilePhoto = () => {
 //   const queryClient = useQueryClient();
@@ -210,7 +214,6 @@ export const useEditProfilePhoto = () => {
 //   return { mutate, isLoading };
 // };
 
-
 export const useEditUser = () => {
   const queryClient = useQueryClient();
   const { mutate: editUser, isLoading } = useMutation({
@@ -219,7 +222,7 @@ export const useEditUser = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
-      toast.success("Your name has been updated successfully")
+      toast.success("Your name has been updated successfully");
     },
     onError: (error) => {
       const { data } = { ...error.response };
@@ -227,20 +230,20 @@ export const useEditUser = () => {
       console.log(error);
     },
   });
-  return {editUser, isLoading};
+  return { editUser, isLoading };
 };
-
 
 export const useEditSelectedAccount = () => {
   const queryClient = useQueryClient();
   const { mutate: editSelectedAccount } = useMutation({
-    mutationFn: async ({
-      selectedAccount,
-    }) => {
-      const response = await customFetch.patch(`/api/v1/users/updateSelectedAccount`, {
-        selectedAccount,
-      });
-      return response.data
+    mutationFn: async ({ selectedAccount }) => {
+      const response = await customFetch.patch(
+        `/api/v1/users/updateSelectedAccount`,
+        {
+          selectedAccount,
+        }
+      );
+      return response.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
@@ -273,7 +276,12 @@ export const useDeleteUser = () => {
 };
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  const { mutate: loginUser, isLoading, isError, error } = useMutation({
+  const {
+    mutate: loginUser,
+    isLoading,
+    isError,
+    error,
+  } = useMutation({
     mutationFn: ({ username, password }) => {
       return customFetch.post(
         "/api/v1/users/login",
@@ -314,8 +322,6 @@ export const useTransfer = () => {
   return { transfer, isLoading };
 };
 
-
-
 export const useCreateDeposit = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
@@ -339,16 +345,12 @@ export const useCreateDeposit = () => {
   return { mutate, isLoading };
 };
 
-
-
-
-
 export const useForgotPassword = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
     mutationFn: (email) => {
       return customFetch.post("/api/v1/users/forgotPassword", {
-        email
+        email,
       });
     },
     onSuccess: () => {
@@ -364,15 +366,14 @@ export const useForgotPassword = () => {
   return { mutate, isLoading };
 };
 
-
-
 export const useResetPassword = () => {
   const queryClient = useQueryClient();
-  const {token} = useParams();
+  const { token } = useParams();
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({password, passwordConfirm}) => {
+    mutationFn: ({ password, passwordConfirm }) => {
       return customFetch.patch(`/api/v1/users/resetPassword/${token}`, {
-        password, passwordConfirm
+        password,
+        passwordConfirm,
       });
     },
     onSuccess: () => {
@@ -395,7 +396,7 @@ export const useUpdatePassword = () => {
       return customFetch.patch(`/api/v1/users/updateMyPassword`, {
         password,
         passwordConfirm,
-        passwordCurrent
+        passwordCurrent,
       });
     },
     onSuccess: () => {
@@ -411,14 +412,13 @@ export const useUpdatePassword = () => {
   return { mutate, isLoading };
 };
 
-
-
 export const useForgotPin = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({email, password}) => {
+    mutationFn: ({ email, password }) => {
       return customFetch.post("/api/v1/users/forgotPin", {
-        email, password
+        email,
+        password,
       });
     },
     onSuccess: () => {
@@ -433,7 +433,6 @@ export const useForgotPin = () => {
   });
   return { mutate, isLoading };
 };
-
 
 export const useResetPin = () => {
   const queryClient = useQueryClient();
@@ -458,7 +457,6 @@ export const useResetPin = () => {
   return { mutate, isLoading };
 };
 
-
 export const useUpdatePin = () => {
   const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
@@ -482,8 +480,6 @@ export const useUpdatePin = () => {
   });
   return { mutate, isLoading };
 };
-
-
 
 // export const useUploadProfilePhoto = () => {
 //   const queryClient = useQueryClient();
@@ -514,56 +510,44 @@ export const useUpdatePin = () => {
 //   return { mutate, isLoading };
 // };
 
-
-
-
-export const useCreateReview = () =>{
+export const useCreateReview = () => {
   const queryClient = useQueryClient();
-  const {mutate, isLoading} = useMutation({
-    mutationFn: ({review, rating}) => {
-      return customFetch.post("/api/v1/reviews", {review, rating})
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ review, rating }) => {
+      return customFetch.post("/api/v1/reviews", { review, rating });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["reviews"]})
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
     },
     onError: (error) => {
-      console.log(error)
-    }
-  })
-  return {mutate, isLoading}
-}
+      console.log(error);
+    },
+  });
+  return { mutate, isLoading };
+};
 
 export const useGetAllReviews = () => {
-  const {data, isLoading} = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["reviews"],
     queryFn: async () => {
-      const {data} = await customFetch("/api/v1/reviews")
+      const { data } = await customFetch("/api/v1/reviews");
       // const { data } = await customFetch(
       //   `/api/v1/reviews/searchReviews/?s=${searchTerm}`
       // );
-      return data
-    }
-  })
-  return {data, isLoading}
-}
+      return data;
+    },
+  });
+  return { data, isLoading };
+};
 
 export const useUpdateHelpful = () => {
   const queryClient = useQueryClient();
-  const {mutate, isLoading} = useMutation({
-    mutationFn: ({id, helpful, unhelpful}) => {customFetch.patch(`/api/v1/reviews/updateReviewHelpful/${id}`, {helpful, unhelpful})},
-    onError: () => {},
-    onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["reviews"]})
-    }
-  })
-  return {mutate, isLoading}
-}
-
-export const useUpdateUnHelpful = () => {
-  const queryClient = useQueryClient();
   const { mutate, isLoading } = useMutation({
-    mutationFn: ({id, helpful, unhelpful}) => {
-      customFetch.patch(`/api/v1/reviews/updateReviewUnHelpful/${id}`, {helpful, unhelpful});
+    mutationFn: ({ id, helpful, unhelpful }) => {
+      customFetch.patch(`/api/v1/reviews/updateReviewHelpful/${id}`, {
+        helpful,
+        unhelpful,
+      });
     },
     onError: () => {},
     onSuccess: () => {
@@ -573,3 +557,19 @@ export const useUpdateUnHelpful = () => {
   return { mutate, isLoading };
 };
 
+export const useUpdateUnHelpful = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({ id, helpful, unhelpful }) => {
+      customFetch.patch(`/api/v1/reviews/updateReviewUnHelpful/${id}`, {
+        helpful,
+        unhelpful,
+      });
+    },
+    onError: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+    },
+  });
+  return { mutate, isLoading };
+};

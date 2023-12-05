@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaBars, FaLessThanEqual, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 import { useGlobalContext } from "../context";
-import { useEditUser, useDeleteUser, useEditProfilePhoto } from "../ReactQueryCustomHooks";
+import {
+  useEditUser,
+  useDeleteUser,
+  useEditProfilePhoto,
+} from "../ReactQueryCustomHooks";
 import { toast } from "react-toastify";
 import { ImEye } from "react-icons/im";
 import { IoMdCheckmarkCircle } from "react-icons/io";
@@ -14,7 +18,6 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { TailSpin } from "react-loader-spinner";
 
-
 const Profile = ({ data, isLoading, profileOpen }) => {
   const { getFormattedDate, selectedAccount, person } = useGlobalContext();
   const { deleteUser } = useDeleteUser();
@@ -22,16 +25,16 @@ const Profile = ({ data, isLoading, profileOpen }) => {
   const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imageURL, setImageURL] = useState(null);
-  const [profilePhoto, setProfilePhoto] = useState({})
-  const {editUser, isLoading: editUserLoading} = useEditUser();
+  const [profilePhoto, setProfilePhoto] = useState({});
+  const { editUser, isLoading: editUserLoading } = useEditUser();
   // const {editUser: editProfilePhoto, isLoading: profileLoading} = useEditProfilePhoto();
   // const {mutate} = useEditProfilePhoto();
   const { editUser: editProfilePhoto, isLoading: profileLoading } =
     useEditProfilePhoto();
-  const [editName, setEditName] = useState(false)
-  const [editNameOn, setEditNameOn] = useState(false)
-  const [showBVN, setShowBVN] = useState(false)
-  const [customerName, setCustomerName] = useState(data?.data?.user?.fullname)
+  const [editName, setEditName] = useState(false);
+  const [editNameOn, setEditNameOn] = useState(false);
+  const [showBVN, setShowBVN] = useState(false);
+  const [customerName, setCustomerName] = useState(data?.data?.user?.fullname);
 
   const handleSaveProfile = async (e) => {
     e.preventDefault();
@@ -40,25 +43,23 @@ const Profile = ({ data, isLoading, profileOpen }) => {
     editProfilePhoto(formData);
   };
 
-  const handleSaveName = (e) =>{
+  const handleSaveName = (e) => {
     e.preventDefault();
-    if(customerName && customerName === data?.data?.user?.fullname)
-    {
-      setEditName(false)
+    if (customerName && customerName === data?.data?.user?.fullname) {
+      setEditName(false);
       return;
     }
-    editUser(customerName.toLowerCase().trim(), 
-      {
-        onSuccess: (data) =>{
-          setEditName(false);
-          setEditNameOn(false)
-        }
-      })
-  }
-  const handleEditName = (e) =>{
+    editUser(customerName.toLowerCase().trim(), {
+      onSuccess: (data) => {
+        setEditName(false);
+        setEditNameOn(false);
+      },
+    });
+  };
+  const handleEditName = (e) => {
     e.preventDefault();
     setEditName(true);
-  }
+  };
   const handleChange = (e) => {
     e.preventDefault();
     setFile(e.target.files[0]);
@@ -68,23 +69,19 @@ const Profile = ({ data, isLoading, profileOpen }) => {
     if (file) {
       const url = URL.createObjectURL(file);
       setImageURL(url);
-    } 
-    else if (data?.data?.user?.profilePhoto) {
+    } else if (data?.data?.user?.profilePhoto) {
       setImageURL(data?.data?.user?.profilePhoto);
-    } 
-    else setImageURL(null);
+    } else setImageURL(null);
   }, [file, data?.data?.user.profilePhoto]);
 
-  useEffect(()=>{
-    if(customerName && customerName !== data?.data?.user?.fullname){
-      setEditNameOn(true)
+  useEffect(() => {
+    if (customerName && customerName !== data?.data?.user?.fullname) {
+      setEditNameOn(true);
+    } else {
+      setEditNameOn(false);
     }
-    else{
-      setEditNameOn(false)
-    }
-  }, [customerName, data?.data?.user?.fullname])
+  }, [customerName, data?.data?.user?.fullname]);
 
- 
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -178,7 +175,10 @@ const Profile = ({ data, isLoading, profileOpen }) => {
             <Link to="/reviews" className="links-pin">
               Leave a Review
             </Link>
-            <Link to={{pathname: "/reviewsAll", state: {data}}} className="links-pin">
+            <Link
+              to={{ pathname: "/reviewsAll", state: { data } }}
+              className="links-pin"
+            >
               See All Review
             </Link>
           </div>
@@ -349,10 +349,10 @@ const SectionProfile = styled.section`
     text-decoration: none;
   }
   @media screen and (min-width: 450px) {
-  .info-input-div {
-    width: 20rem;
+    .info-input-div {
+      width: 20rem;
+    }
   }
-}
   @media screen and (min-width: 770px) {
     .profile-div {
       grid-template-columns: 1fr 1fr 1fr;
