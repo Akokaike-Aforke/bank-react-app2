@@ -73,7 +73,7 @@ const ReviewsAll = () => {
     }, [searchTerm])
     useEffect(()=>{
       const getHelpfulArray = localStorage.getItem(`${userData?.data?.user?.id}_helpfulArray`);
-      console.log(getHelpfulArray)
+      console.log(`helpful: ${getHelpfulArray}`)
       // const getUnhelpfulArray = localStorage.getItem("unhelpfulArray")
       if(getHelpfulArray){
       setClickedID(JSON.parse(getHelpfulArray))
