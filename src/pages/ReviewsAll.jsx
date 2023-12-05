@@ -178,10 +178,10 @@ const ReviewsAll = () => {
         {data?.map((datum) => (
           <article className="profile-article" key={datum.id}>
             <div className="profilePhoto-div">
-              <img
+              {datum?.createdBy?.profilePhoto && <img
                 src={datum?.createdBy?.profilePhoto}
                 className="profilePhoto"
-              />
+              />}
             </div>
 
             <div className="star-rating-div">
