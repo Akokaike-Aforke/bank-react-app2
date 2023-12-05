@@ -326,7 +326,6 @@ const ReviewDiv = styled.main`
   .profile-article {
     width: 100%;
     height: auto;
-    border: 1px solid red;
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
@@ -383,7 +382,6 @@ const ReviewDiv = styled.main`
   }
   .thumb-span {
     display: flex;
-    margin-bottom: 0.5rem;
   }
   .thumb-btn1,
   .thumb-btn2 {
