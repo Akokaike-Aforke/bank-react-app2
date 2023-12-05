@@ -71,16 +71,18 @@ const ReviewsAll = () => {
       };
       handleSearch();
     }, [searchTerm])
-    useEffect(()=>{
-      const getHelpfulArray = localStorage.getItem(`${userData?.data?.user?.id}_helpfulArray`);
-      console.log(`helpful: ${getHelpfulArray}`)
+    useEffect(() => {
+      const getHelpfulArray = localStorage.getItem(
+        `${userData?.data?.user?.id}_helpfulArray`
+      );
+      console.log(`helpful: ${getHelpfulArray}`);
       // const getUnhelpfulArray = localStorage.getItem("unhelpfulArray")
-      if(getHelpfulArray){
-      setClickedID(JSON.parse(getHelpfulArray))
-    }
+      if (getHelpfulArray) {
+        setClickedID(JSON.parse(getHelpfulArray));
+      }
       // if(getUnhelpfulArray)
       // setClickedIDUnhelpful(getUnhelpfulArray)
-    }, [])
+    }, [userData?.data?.user?.id]);
     useEffect(()=>{
         localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
       }, [clickedID])
