@@ -126,6 +126,7 @@ const ReviewsAll = () => {
 
   return (
     <ReviewDiv>
+      <AppProvider userId={userId}></AppProvider>
       <div className="main-div">
         <h2>User feedback</h2>
         <div className="ratings-avg-div"></div>
@@ -160,13 +161,13 @@ const ReviewsAll = () => {
         {isLoading ? (
           <span className="dna-wrapper">
             <Dna
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="dna-loading"
-            wrapperStyle={{}}
-            wrapperClass="dna-wrapper"
-          />
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="dna-loading"
+              wrapperStyle={{}}
+              wrapperClass="dna-wrapper"
+            />
           </span>
         ) : (
           data.length === 0 && (
@@ -219,10 +220,24 @@ const ReviewsAll = () => {
               </p>
               <p className="thumb-p">Was this review helpful?</p>
               <span className="thumb-span">
-                <button className={clickedID?.includes(datum.id) ? "thumb-btn1 helpful" : "thumb-btn1"} onClick={() => handleHelpful(datum.id)}>
+                <button
+                  className={
+                    clickedID?.includes(datum.id)
+                      ? "thumb-btn1 helpful"
+                      : "thumb-btn1"
+                  }
+                  onClick={() => handleHelpful(datum.id)}
+                >
                   <MdThumbDownOffAlt />
                 </button>
-                <button className={clickedIDUnhelpful?.includes(datum.id) ? "thumb-btn2 helpful" : "thumb-btn2"} onClick={() => handleUnhelpful(datum.id)}>
+                <button
+                  className={
+                    clickedIDUnhelpful?.includes(datum.id)
+                      ? "thumb-btn2 helpful"
+                      : "thumb-btn2"
+                  }
+                  onClick={() => handleUnhelpful(datum.id)}
+                >
                   <MdThumbUpOffAlt />
                 </button>
               </span>
