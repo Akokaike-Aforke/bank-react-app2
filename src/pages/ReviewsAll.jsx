@@ -9,6 +9,7 @@ import { MdThumbUpOffAlt } from "react-icons/md";
 import Highlighter from "react-highlight-words";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { Dna } from "react-loader-spinner";
+import { AppProvider, useGlobalContext } from "../context";
 
 const ReviewsAll = () => {
     // const { data, isLoading: reviewsLoading } = useGetAllReviews();
