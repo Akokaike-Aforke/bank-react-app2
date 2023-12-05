@@ -377,7 +377,7 @@ const ReviewDiv = styled.main`
   }
   .thumb-span {
     display: flex;
-    margin-bottom: 1.3rem;
+    margin-bottom: 0.5rem;
   }
   .thumb-btn1,
   .thumb-btn2 {
