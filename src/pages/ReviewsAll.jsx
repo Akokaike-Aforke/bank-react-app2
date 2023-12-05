@@ -184,7 +184,7 @@ const ReviewsAll = () => {
                   className="profilePhoto"
                 />
               ) : (
-                <p className="p-initials">{datum?.createdBy?.fullname.split(" ").map(initials => initials.charAt(0).toUpperCase())}</p>
+                <p className="p-initials">{datum?.createdBy?.fullname.split(" ").map(initials => initials.charAt(0).toUpperCase().join(""))}</p>
               )}
             </div>
 
