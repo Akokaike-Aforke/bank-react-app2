@@ -24,32 +24,25 @@ const ReviewsAll = () => {
     const {mutate, isLoading: helpfulLoading} = useUpdateHelpful();
     const handleHelpful = (id) => {
         if(clickedID?.includes(id)){
-          console.log("already added")
           setClickedID(clickedID.filter(removeId => removeId !== id))
           mutate({id, helpful: -1, unhelpful: 0})
         }
         else
         {
-          console.log("not added")
           mutate({id, helpful: 1, unhelpful : 0})
           setClickedID([...clickedID, id])
         }
       }
     
-    const handleUnhelpful = async (id) => {
-      try {
+    const handleUnhelpful = (id) => {
         if (clickedIDUnhelpful?.includes(id)) {
           setClickedIDUnhelpful(clickedIDUnhelpful.filter((removeId) => removeId !== id));
           mutate({ id, helpful: 0, unhelpful: -1 });
-        } else {
+        }
+        else{
           setClickedIDUnhelpful([...clickedIDUnhelpful, id]);
-          console.log(isHelpful);
           mutate({ id, helpful: 0, unhelpful: 1 });
         }
-        localStorage.setItem(`unhelpfulArray`, clickedIDUnhelpful)
-      } catch (err) {
-        console.log(err);
-      }
     };
 
     useEffect(()=>{
@@ -75,17 +68,20 @@ const ReviewsAll = () => {
       const getHelpfulArray = localStorage.getItem(
         `${userData?.data?.user?.id}_helpfulArray`
       );
-      console.log(`helpful: ${getHelpfulArray}`);
-      // const getUnhelpfulArray = localStorage.getItem("unhelpfulArray")
+      const getUnhelpfulArray = localStorage.getItem(
+        `${userData?.data?.user?.id}_unhelpfulArray`
+      );
       if (getHelpfulArray) {
         setClickedID(JSON.parse(getHelpfulArray));
       }
-      // if(getUnhelpfulArray)
-      // setClickedIDUnhelpful(getUnhelpfulArray)
+      if(getUnhelpfulArray){
+      setClickedIDUnhelpful(JSON.parse(getUnhelpfulArray))
+      }
     }, [userData?.data?.user?.id]);
     useEffect(()=>{
         localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
-      }, [clickedID])
+        localStorage.setItem(`${userData?.data?.user?.id}_unhelpfulArray`, JSON.stringify(clickedIDUnhelpful));
+      }, [clickedID, clickedIDUnhelpful])
     // useEffect(() => {
     //   const storedData = localStorage.getItem("helpfulArray");
     //   const data = JSON.parse(storedData)
