@@ -373,7 +373,7 @@ const ReviewDiv = styled.main`
   }
   .thumb-p {
     font-size: 0.8rem;
-    margin-bottom: 0.2rem;
+    margin-bottom: 1.3rem;
   }
   .thumb-span {
     display: flex;
