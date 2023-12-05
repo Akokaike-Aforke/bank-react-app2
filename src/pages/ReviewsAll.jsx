@@ -319,7 +319,7 @@ const ReviewDiv = styled.main`
   }
   .profile-article {
     width: 100%;
-    height: 180px;
+    height: auto;
     border: 1px solid red;
     margin-bottom: 1rem;
     display: flex;
@@ -334,6 +334,7 @@ const ReviewDiv = styled.main`
     margin-right: 1rem;
     border: 1px solid black;
     min-width: 60px;
+    
   }
   .profilePhoto {
     height: 100%;
