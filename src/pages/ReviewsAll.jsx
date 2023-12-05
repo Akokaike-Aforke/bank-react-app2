@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useCreateReview, useGetAllReviews, useUpdateHelpful, useGetUser } from "../ReactQueryCustomHooks";
-import customFetch from "./../utils"
+import {
+  useCreateReview,
+  useGetAllReviews,
+  useUpdateHelpful,
+  useGetUser,
+} from "../ReactQueryCustomHooks";
+import customFetch from "./../utils";
 import styled from "styled-components";
 import { FaRegStar } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
@@ -10,94 +15,97 @@ import Highlighter from "react-highlight-words";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { Dna } from "react-loader-spinner";
 
-
 const ReviewsAll = () => {
-    // const { data, isLoading: reviewsLoading } = useGetAllReviews();
-    const { data: userData} = useGetUser();
-    const [searchTerm, setSearchTerm] = useState("")
-    const [data, setData] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [isHelpful, setIsHelpful] = useState(false);
-    const [isNotHelpful, setIsNotHelpful] = useState(false);
-    const [clickedID, setClickedID] = useState([]);
-    const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
-    const {mutate, isLoading: helpfulLoading} = useUpdateHelpful();
-    const handleHelpful = (id) => {
-          setClickedIDUnhelpful(
-            clickedIDUnhelpful.filter((removeId) => removeId !== id)
-          );
-        if(clickedID?.includes(id)){
-          setClickedID(clickedID.filter(removeId => removeId !== id))
-          mutate({id, helpful: -1, unhelpful: 0})
-        }
-        else
-        {
-          mutate({id, helpful: 1, unhelpful : 0})
-          setClickedID([...clickedID, id])
-        }
-      }
-    
-    const handleUnhelpful = (id) => {
-        setClickedID(clickedID.filter((removeId) => removeId !== id));
-        if (clickedIDUnhelpful?.includes(id)) {
-          setClickedIDUnhelpful(clickedIDUnhelpful.filter((removeId) => removeId !== id));
-          mutate({ id, helpful: 0, unhelpful: -1 });
-        }
-        else{
-          setClickedIDUnhelpful([...clickedIDUnhelpful, id]);
-          mutate({ id, helpful: 0, unhelpful: 1 });
-        }
-    };
+  // const { data, isLoading: reviewsLoading } = useGetAllReviews();
+  const { data: userData } = useGetUser();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isHelpful, setIsHelpful] = useState(false);
+  const [isNotHelpful, setIsNotHelpful] = useState(false);
+  const [clickedID, setClickedID] = useState([]);
+  const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
+  const { mutate, isLoading: helpfulLoading } = useUpdateHelpful();
+  const handleHelpful = (id) => {
+    setClickedIDUnhelpful(
+      clickedIDUnhelpful.filter((removeId) => removeId !== id)
+    );
+    if (clickedID?.includes(id)) {
+      setClickedID(clickedID.filter((removeId) => removeId !== id));
+      mutate({ id, helpful: -1, unhelpful: 0 });
+    } else {
+      mutate({ id, helpful: 1, unhelpful: unhelpful ? -1 : 0 });
+      setClickedID([...clickedID, id]);
+      setIsHelpful(true);
+    }
+  };
 
-    useEffect(()=>{
-      const handleSearch = async () => {
-        try {
-          setIsLoading(true)
-          const response = await customFetch(
-            `/api/v1/reviews/searchReviews/?s=${searchTerm}`
-          );
-          setData(response.data.data.reviews);
-        } 
-        catch (err) {
-          console.log(err);
-        }
-        finally{
-          setIsLoading(false)
-        }
-        
-      };
-      handleSearch();
-    }, [searchTerm])
-    useEffect(() => {
-      const getHelpfulArray = localStorage.getItem(
-        `${userData?.data?.user?.id}_helpfulArray`
+  const handleUnhelpful = (id) => {
+    setClickedID(clickedID.filter((removeId) => removeId !== id));
+    if (clickedIDUnhelpful?.includes(id)) {
+      setClickedIDUnhelpful(
+        clickedIDUnhelpful.filter((removeId) => removeId !== id)
       );
-      const getUnhelpfulArray = localStorage.getItem(
-        `${userData?.data?.user?.id}_unhelpfulArray`
-      );
-      if (getHelpfulArray) {
-        setClickedID(JSON.parse(getHelpfulArray));
+      mutate({ id, helpful: 0, unhelpful: -1 });
+    } else {
+      setClickedIDUnhelpful([...clickedIDUnhelpful, id]);
+      mutate({ id, helpful: helpful ? -1 : 0, unhelpful: 1 });
+      setIsNotHelpful(true);
+    }
+  };
+
+  useEffect(() => {
+    const handleSearch = async () => {
+      try {
+        setIsLoading(true);
+        const response = await customFetch(
+          `/api/v1/reviews/searchReviews/?s=${searchTerm}`
+        );
+        setData(response.data.data.reviews);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
       }
-      if(getUnhelpfulArray){
-      setClickedIDUnhelpful(JSON.parse(getUnhelpfulArray))
-      }
-    }, [userData?.data?.user?.id]);
-    useEffect(()=>{
-        localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
-        localStorage.setItem(`${userData?.data?.user?.id}_unhelpfulArray`, JSON.stringify(clickedIDUnhelpful));
-      }, [clickedID, clickedIDUnhelpful])
-    // useEffect(() => {
-    //   const storedData = localStorage.getItem("helpfulArray");
-    //   const data = JSON.parse(storedData)
-    //   if (storedData) {
-    //     // Parse the JSON string to get the original array
-    //     setClickedID(data);
-    //   }
-    // }, []);
-  if(isLoading){
-    console.log("Loading...")
+    };
+    handleSearch();
+  }, [searchTerm]);
+  useEffect(() => {
+    const getHelpfulArray = localStorage.getItem(
+      `${userData?.data?.user?.id}_helpfulArray`
+    );
+    const getUnhelpfulArray = localStorage.getItem(
+      `${userData?.data?.user?.id}_unhelpfulArray`
+    );
+    if (getHelpfulArray) {
+      setClickedID(JSON.parse(getHelpfulArray));
+    }
+    if (getUnhelpfulArray) {
+      setClickedIDUnhelpful(JSON.parse(getUnhelpfulArray));
+    }
+  }, [userData?.data?.user?.id]);
+  useEffect(() => {
+    localStorage.setItem(
+      `${userData?.data?.user?.id}_helpfulArray`,
+      JSON.stringify(clickedID)
+    );
+    localStorage.setItem(
+      `${userData?.data?.user?.id}_unhelpfulArray`,
+      JSON.stringify(clickedIDUnhelpful)
+    );
+  }, [clickedID, clickedIDUnhelpful]);
+  // useEffect(() => {
+  //   const storedData = localStorage.getItem("helpfulArray");
+  //   const data = JSON.parse(storedData)
+  //   if (storedData) {
+  //     // Parse the JSON string to get the original array
+  //     setClickedID(data);
+  //   }
+  // }, []);
+  if (isLoading) {
+    console.log("Loading...");
   }
-  console.log(clickedID)
+  console.log(clickedID);
   console.log(userData?.data?.user?.id);
 
   return (
@@ -334,23 +342,24 @@ const ReviewDiv = styled.main`
     display: flex;
     align-items: center;
   }
-  .search{
+  .search {
     color: red;
     background-color: transparent;
   }
-  .dna-wrapper{
+  .dna-wrapper {
     display: block;
-    margin: 0 auto
+    margin: 0 auto;
   }
   .p-review {
     width: 90%;
     font-size: 0.95rem;
     margin-bottom: 1rem;
   }
-  .p-no-reviews1, .p-no-reviews2{
+  .p-no-reviews1,
+  .p-no-reviews2 {
     font-size: 1.05rem;
   }
-  .p-no-reviews1{
+  .p-no-reviews1 {
     margin-bottom: 1rem;
   }
   .thumb-p {
@@ -375,7 +384,7 @@ const ReviewDiv = styled.main`
   .thumb-btn1 {
     margin-right: 1rem;
   }
-  .helpful{
+  .helpful {
     background-color: black;
     color: white;
   }
