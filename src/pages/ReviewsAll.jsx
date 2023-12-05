@@ -22,7 +22,6 @@ const ReviewsAll = () => {
     const [clickedID, setClickedID] = useState([]);
     const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
     const {mutate, isLoading: helpfulLoading} = useUpdateHelpful();
-     const { userId} = useGlobalContext();
     const handleHelpful = (id) => {
         if(clickedID?.includes(id)){
           console.log("already added")
@@ -100,7 +99,6 @@ const ReviewsAll = () => {
     console.log("Loading...")
   }
   console.log(clickedID)
-  console.log(userId)
 
   return (
     <ReviewDiv>
