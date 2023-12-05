@@ -218,7 +218,7 @@ const ReviewsAll = () => {
                   }
                   onClick={() => handleHelpful(datum.id)}
                 >
-                  <MdThumbDownOffAlt />
+                  <MdThumbUpOffAlt />
                 </button>
                 <button
                   className={
@@ -228,7 +228,7 @@ const ReviewsAll = () => {
                   }
                   onClick={() => handleUnhelpful(datum.id)}
                 >
-                  <MdThumbUpOffAlt />
+                  <MdThumbDownOffAlt />
                 </button>
               </span>
             </div>
