@@ -14,9 +14,11 @@ import { MdThumbUpOffAlt } from "react-icons/md";
 import Highlighter from "react-highlight-words";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { Dna } from "react-loader-spinner";
+import { AppProvider, useGlobalContext } from "../context";
 
 const ReviewsAll = () => {
   // const { data, isLoading: reviewsLoading } = useGetAllReviews();
+  const {getFormattedDate} = useGlobalContext()
   const { data: userData } = useGetUser();
   const [searchTerm, setSearchTerm] = useState("");
   const [data, setData] = useState([]);
@@ -26,6 +28,10 @@ const ReviewsAll = () => {
   const [clickedID, setClickedID] = useState([]);
   const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
   const { mutate, isLoading: helpfulLoading } = useUpdateHelpful();
+  const name = "joe luck peace"
+  const initials = name.split(" ").filter((ini, index) =>index < 2).map(ini => ini.charAt(0).toUpperCase()).join("")
+  console.log(initials)
+  console.log("initials")
   const handleHelpful = (id) => {
     setClickedIDUnhelpful(
       clickedIDUnhelpful.filter((removeId) => removeId !== id)
@@ -184,7 +190,13 @@ const ReviewsAll = () => {
                   className="profilePhoto"
                 />
               ) : (
-                <p className="p-initials">{datum?.createdBy?.fullname.split(" ").map(initials => initials.charAt(0).toUpperCase().join(""))}</p>
+                <span className="p-initials">
+                  {datum?.createdBy?.fullname
+                    .split(" ")
+                    .filter((ini, index) => index < 2)
+                    .map((ini) => ini.charAt(0).toUpperCase())
+                    .join("")}
+                </span>
               )}
             </div>
 
@@ -204,7 +216,7 @@ const ReviewsAll = () => {
                     </span>
                   );
                 })}
-                <span className="date-span">{datum?.createdAt}</span>
+                <span className="date-span">{getFormattedDate(datum?.createdAt)}</span>
               </div>
               <p>
                 {searchTerm ? (
@@ -299,7 +311,7 @@ const ReviewDiv = styled.main`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: black;
+    background-color: rgb(45, 47, 49);
     /* text-align: center; */
   }
   .search-icon {
@@ -330,7 +342,7 @@ const ReviewDiv = styled.main`
   .profile-article {
     width: 100%;
     height: auto;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(209, 215, 220);
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
@@ -342,10 +354,12 @@ const ReviewDiv = styled.main`
     height: 60px;
     width: 60px;
     margin-right: 1rem;
-    border: 1px solid black;
     min-width: 60px;
     border-radius: 50%;
-    /* background-color: black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(45, 47, 49);
   }
   .profilePhoto {
     height: 100%;
@@ -354,8 +368,10 @@ const ReviewDiv = styled.main`
     object-fit: cover;
     display: block;
   }
-  .p-initials{
-    /* color: white; */
+  .p-initials {
+    color: white;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
   }
   .fullname {
     margin-bottom: 0.5rem;
@@ -388,7 +404,7 @@ const ReviewDiv = styled.main`
   }
   .thumb-p {
     font-size: 0.8rem;
-    margin-bottom: 1.3rem;
+    margin-bottom: 0.3rem;
   }
   .thumb-span {
     display: flex;
@@ -432,6 +448,7 @@ const ReviewDiv = styled.main`
   }
   .active-star {
     color: #032fb3;
+    /* color: #7edf55; */
     display: inline;
   }
   .inactive-star {
