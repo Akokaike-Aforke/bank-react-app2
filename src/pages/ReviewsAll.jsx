@@ -72,7 +72,7 @@ const ReviewsAll = () => {
       handleSearch();
     }, [searchTerm])
     useEffect(()=>{
-      const getHelpfulArray = localStorage.getItem(`${data?.data?.user?.id}_helpfulArray`);
+      const getHelpfulArray = localStorage.getItem(`${userData?.data?.user?.id}_helpfulArray`);
       console.log(getHelpfulArray)
       const getUnhelpfulArray = localStorage.getItem("unhelpfulArray")
       if(getHelpfulArray){
@@ -85,7 +85,7 @@ const ReviewsAll = () => {
       setClickedIDUnhelpful(getUnhelpfulArray)
     }, [])
     useEffect(()=>{
-        localStorage.setItem(`${data?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
+        localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
       }, [clickedID])
     // useEffect(() => {
     //   const storedData = localStorage.getItem("helpfulArray");
@@ -99,6 +99,7 @@ const ReviewsAll = () => {
     console.log("Loading...")
   }
   console.log(clickedID)
+  console.log(userData?.data?.user?.id);
 
   return (
     <ReviewDiv>
