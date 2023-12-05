@@ -34,10 +34,6 @@ const ReviewsAll = () => {
           mutate({id, helpful: 1, unhelpful : 0})
           setClickedID([...clickedID, id])
         }
-        localStorage.setItem(
-          `${userData?.data?.user?.id}_helpfulArray`,
-          JSON.stringify(clickedID)
-        );
       }
     
     const handleUnhelpful = async (id) => {
@@ -85,9 +81,9 @@ const ReviewsAll = () => {
       if(getUnhelpfulArray)
       setClickedIDUnhelpful(getUnhelpfulArray)
     }, [])
-    // useEffect(()=>{
-    //     localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
-    //   }, [clickedID])
+    useEffect(()=>{
+        localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
+      }, [clickedID])
     // useEffect(() => {
     //   const storedData = localStorage.getItem("helpfulArray");
     //   const data = JSON.parse(storedData)
