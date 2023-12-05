@@ -83,7 +83,7 @@ const ReviewsAll = () => {
     }
       if(getUnhelpfulArray)
       setClickedIDUnhelpful(getUnhelpfulArray)
-    }, [])
+    }, [userData])
     useEffect(()=>{
         localStorage.setItem(`${userData?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
       }, [clickedID])
