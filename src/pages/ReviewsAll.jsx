@@ -23,6 +23,9 @@ const ReviewsAll = () => {
     const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
     const {mutate, isLoading: helpfulLoading} = useUpdateHelpful();
     const handleHelpful = (id) => {
+          setClickedIDUnhelpful(
+            clickedIDUnhelpful.filter((removeId) => removeId !== id)
+          );
         if(clickedID?.includes(id)){
           setClickedID(clickedID.filter(removeId => removeId !== id))
           mutate({id, helpful: -1, unhelpful: 0})
@@ -35,6 +38,7 @@ const ReviewsAll = () => {
       }
     
     const handleUnhelpful = (id) => {
+        setClickedID(clickedID.filter((removeId) => removeId !== id));
         if (clickedIDUnhelpful?.includes(id)) {
           setClickedIDUnhelpful(clickedIDUnhelpful.filter((removeId) => removeId !== id));
           mutate({ id, helpful: 0, unhelpful: -1 });
