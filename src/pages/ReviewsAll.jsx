@@ -12,8 +12,10 @@ import { Dna } from "react-loader-spinner";
 import { AppProvider, useGlobalContext } from "../context";
 
 
-const ReviewsAll = () => {
+const ReviewsAll = (props) => {
     // const { data, isLoading: reviewsLoading } = useGetAllReviews();
+    const dataPassed = props.location.state;
+    console.log(dataPassed)
     const [searchTerm, setSearchTerm] = useState("")
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -23,26 +25,10 @@ const ReviewsAll = () => {
     const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
     const {mutate, isLoading: helpfulLoading} = useUpdateHelpful();
      const { userId} = useGlobalContext();
-    // const [localArray, setLocalArray] = useState([])
-    // const num = ["123", "456", "789", "111"]
-    // localStorage.setItem("numArr", JSON.stringify(num));
-    // const nums = JSON.parse(localStorage.getItem("numArr"));
-    // console.log(num)
-    // console.log(nums)
-    // // if(nums){
-    // //   setLocalArray(nums)
-    // // }
-    // // console.log(localArray)
-    // const num = ["121", "566", "345"];
-    // const nums = [...num, "564", "231"]
-    // console.log(nums)
-
     const handleHelpful = (id) => {
-      let filtered;
         if(clickedID?.includes(id)){
           console.log("already added")
           setClickedID(clickedID.filter(removeId => removeId !== id))
-          // localStorage.setItem("helpfulArray", JSON.stringify(clickedID))
           mutate({id, helpful: -1, unhelpful: 0})
         }
         else
@@ -50,19 +36,8 @@ const ReviewsAll = () => {
           console.log("not added")
           mutate({id, helpful: 1, unhelpful : 0})
           setClickedID([...clickedID, id])
-          // localStorage.setItem("helpfulArray", JSON.stringify(clickedID));
         }
-        
-          console.log(filtered)
-        console.log(clickedID)
-        // await customFetch.patch(`/api/v1/reviews/updateReviewHelpful/${id}`);
       }
-
-          
-          console.log(localStorage.getItem("helpfulArray"))
-  //  const getEx = localStorage.getItem("helpfulArray")
-  //  console.log(getEx)
-  //  console.log(clickedID)
     
     const handleUnhelpful = async (id) => {
       try {

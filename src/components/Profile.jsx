@@ -178,7 +178,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
             <Link to="/reviews" className="links-pin">
               Leave a Review
             </Link>
-            <Link to="/reviewsAll" className="links-pin">
+            <Link to={{pathname: "/reviewsAll", state: {data}}} className="links-pin">
               See All Review
             </Link>
           </div>
