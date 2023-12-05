@@ -361,6 +361,7 @@ const ReviewDiv = styled.main`
     width: 90%;
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
+    color: red;
   }
   .p-no-reviews1,
   .p-no-reviews2 {
