@@ -11,6 +11,7 @@ import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { Dna } from "react-loader-spinner";
 import { AppProvider, useGlobalContext } from "../context";
 
+
 const ReviewsAll = () => {
     // const { data, isLoading: reviewsLoading } = useGetAllReviews();
     const [searchTerm, setSearchTerm] = useState("")
@@ -21,6 +22,7 @@ const ReviewsAll = () => {
     const [clickedID, setClickedID] = useState([]);
     const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
     const {mutate, isLoading: helpfulLoading} = useUpdateHelpful();
+     const { userId} = useGlobalContext();
     // const [localArray, setLocalArray] = useState([])
     // const num = ["123", "456", "789", "111"]
     // localStorage.setItem("numArr", JSON.stringify(num));
