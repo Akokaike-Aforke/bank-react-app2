@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useCreateReview, useGetAllReviews, useUpdateHelpful } from "../ReactQueryCustomHooks";
+import { useCreateReview, useGetAllReviews, useUpdateHelpful, useGetUser } from "../ReactQueryCustomHooks";
 import customFetch from "./../utils"
 import styled from "styled-components";
 import { FaRegStar } from "react-icons/fa6";
@@ -9,13 +9,11 @@ import { MdThumbUpOffAlt } from "react-icons/md";
 import Highlighter from "react-highlight-words";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { Dna } from "react-loader-spinner";
-import { AppProvider, useGlobalContext } from "../context";
 
 
-const ReviewsAll = (props) => {
+const ReviewsAll = () => {
     // const { data, isLoading: reviewsLoading } = useGetAllReviews();
-    const dataPassed = props.location.state;
-    console.log(dataPassed)
+    const { data: userData} = useGetUser();
     const [searchTerm, setSearchTerm] = useState("")
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false)
@@ -75,7 +73,7 @@ const ReviewsAll = (props) => {
       handleSearch();
     }, [searchTerm])
     useEffect(()=>{
-      const getHelpfulArray = localStorage.getItem(`${userId}_helpfulArray`);
+      const getHelpfulArray = localStorage.getItem(`${data?.data?.user?.id}_helpfulArray`);
       console.log(getHelpfulArray)
       const getUnhelpfulArray = localStorage.getItem("unhelpfulArray")
       if(getHelpfulArray){
@@ -88,7 +86,7 @@ const ReviewsAll = (props) => {
       setClickedIDUnhelpful(getUnhelpfulArray)
     }, [])
     useEffect(()=>{
-        localStorage.setItem(`${userId}_helpfulArray`, JSON.stringify(clickedID));
+        localStorage.setItem(`${data?.data?.user?.id}_helpfulArray`, JSON.stringify(clickedID));
       }, [clickedID])
     // useEffect(() => {
     //   const storedData = localStorage.getItem("helpfulArray");
@@ -106,7 +104,6 @@ const ReviewsAll = (props) => {
 
   return (
     <ReviewDiv>
-      <AppProvider userId={userId}></AppProvider>
       <div className="main-div">
         <h2>User feedback</h2>
         <div className="ratings-avg-div"></div>
