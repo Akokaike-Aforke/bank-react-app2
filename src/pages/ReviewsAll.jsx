@@ -326,6 +326,7 @@ const ReviewDiv = styled.main`
   .profile-article {
     width: 100%;
     height: auto;
+    border-bottom: 1px solid black;
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
