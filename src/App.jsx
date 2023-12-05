@@ -20,6 +20,8 @@ import ChangePassword from "./pages/ChangePassword";
 import ForgotPin from "./pages/ForgotPin";
 import ResetPin from "./pages/ResetPin";
 import ChangePin from "./pages/ChangePin";
+import Reviews from "./pages/Reviews";
+import ReviewsAll from "./pages/ReviewsAll";
 
 
 // import io from "socket.io-client";
@@ -66,6 +68,8 @@ function App() {
             <Route path="forgotPin" element={tokenAvailable ? <ForgotPin /> : <Login />} />
             <Route path="resetPin/:token" element={<ResetPin />} />
             <Route path="updatePin" element={tokenAvailable ? <ChangePin /> : <Login />} />
+            <Route path="reviews" element={<Reviews />} />
+            <Route path="reviewsAll" element={<ReviewsAll />} />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>

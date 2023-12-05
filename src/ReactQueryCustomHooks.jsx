@@ -514,3 +514,62 @@ export const useUpdatePin = () => {
 //   return { mutate, isLoading };
 // };
 
+
+
+
+export const useCreateReview = () =>{
+  const queryClient = useQueryClient();
+  const {mutate, isLoading} = useMutation({
+    mutationFn: ({review, rating}) => {
+      return customFetch.post("/api/v1/reviews", {review, rating})
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["reviews"]})
+    },
+    onError: (error) => {
+      console.log(error)
+    }
+  })
+  return {mutate, isLoading}
+}
+
+export const useGetAllReviews = () => {
+  const {data, isLoading} = useQuery({
+    queryKey: ["reviews"],
+    queryFn: async () => {
+      const {data} = await customFetch("/api/v1/reviews")
+      // const { data } = await customFetch(
+      //   `/api/v1/reviews/searchReviews/?s=${searchTerm}`
+      // );
+      return data
+    }
+  })
+  return {data, isLoading}
+}
+
+export const useUpdateHelpful = () => {
+  const queryClient = useQueryClient();
+  const {mutate, isLoading} = useMutation({
+    mutationFn: ({id, helpful, unhelpful}) => {customFetch.patch(`/api/v1/reviews/updateReviewHelpful/${id}`, {helpful, unhelpful})},
+    onError: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["reviews"]})
+    }
+  })
+  return {mutate, isLoading}
+}
+
+export const useUpdateUnHelpful = () => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation({
+    mutationFn: ({id, helpful, unhelpful}) => {
+      customFetch.patch(`/api/v1/reviews/updateReviewUnHelpful/${id}`, {helpful, unhelpful});
+    },
+    onError: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reviews"] });
+    },
+  });
+  return { mutate, isLoading };
+};
+

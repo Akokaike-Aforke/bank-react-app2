@@ -102,9 +102,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
             <label className="photo-label" htmlFor="profile-photo">
               <BiEdit className="photo-edit-icon" />
               <BsPersonFill className="photo-save-icon" />
-              {imageURL && (
-                <img className="image-blob" src={imageURL} />
-              )}
+              {imageURL && <img className="image-blob" src={imageURL} />}
             </label>
             <input
               id="profile-photo"
@@ -176,6 +174,12 @@ const Profile = ({ data, isLoading, profileOpen }) => {
             </Link>
             <Link to="/forgotPin" className="links-pin">
               Forgot Pin
+            </Link>
+            <Link to="/reviews" className="links-pin">
+              Leave a Review
+            </Link>
+            <Link to="/reviewsAll" className="links-pin">
+              See All Review
             </Link>
           </div>
         </div>
