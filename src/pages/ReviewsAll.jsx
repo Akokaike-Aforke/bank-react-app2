@@ -345,7 +345,7 @@ const ReviewDiv = styled.main`
     border: 1px solid black;
     min-width: 60px;
     border-radius: 50%;
-    background-color: black;
+    /* background-color: black; */
   }
   .profilePhoto {
     height: 100%;
@@ -355,7 +355,7 @@ const ReviewDiv = styled.main`
     display: block;
   }
   .p-initials{
-    color: white;
+    /* color: white; */
   }
   .fullname {
     margin-bottom: 0.5rem;
