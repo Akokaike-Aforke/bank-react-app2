@@ -126,6 +126,7 @@ const ReviewsAll = () => {
     console.log("Loading...")
   }
   console.log(clickedID)
+  console.log(userId)
 
   return (
     <ReviewDiv>
