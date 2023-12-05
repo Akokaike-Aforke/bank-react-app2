@@ -178,10 +178,14 @@ const ReviewsAll = () => {
         {data?.map((datum) => (
           <article className="profile-article" key={datum.id}>
             <div className="profilePhoto-div">
-              {datum?.createdBy?.profilePhoto && <img
-                src={datum?.createdBy?.profilePhoto}
-                className="profilePhoto"
-              />}
+              {datum?.createdBy?.profilePhoto ? (
+                <img
+                  src={datum?.createdBy?.profilePhoto}
+                  className="profilePhoto"
+                />
+              ) : (
+                <p className="p-initials">{datum?.createdBy?.fullname.split(" ").map(initials => initials.charAt(0).toUpperCase())}</p>
+              )}
             </div>
 
             <div className="star-rating-div">
@@ -340,6 +344,8 @@ const ReviewDiv = styled.main`
     margin-right: 1rem;
     border: 1px solid black;
     min-width: 60px;
+    border-radius: 50%;
+    background-color: black;
   }
   .profilePhoto {
     height: 100%;
@@ -347,6 +353,9 @@ const ReviewDiv = styled.main`
     border-radius: 50%;
     object-fit: cover;
     display: block;
+  }
+  .p-initials{
+    color: white;
   }
   .fullname {
     margin-bottom: 0.5rem;
