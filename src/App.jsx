@@ -22,6 +22,7 @@ import ResetPin from "./pages/ResetPin";
 import ChangePin from "./pages/ChangePin";
 import Reviews from "./pages/Reviews";
 import ReviewsAll from "./pages/ReviewsAll";
+import SlideshowSlick from "./components/SlideShowSlick";
 
 
 // import io from "socket.io-client";
@@ -70,6 +71,7 @@ function App() {
             <Route path="updatePin" element={tokenAvailable ? <ChangePin /> : <Login />} />
             <Route path="reviews" element={<Reviews />} />
             <Route path="reviewsAll" element={<ReviewsAll />} />
+            <Route path="slideShowSlick" element={<SlideshowSlick />} />
             <Route path="*" element={<Error />} />
           </Route>
         </Routes>

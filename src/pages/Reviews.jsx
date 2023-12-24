@@ -1,141 +1,119 @@
-import React, { useState } from 'react'
-import { useCreateReview, useGetAllReviews } from '../ReactQueryCustomHooks'
+import React, { useState } from "react";
+import { useCreateReview, useGetAllReviews } from "../ReactQueryCustomHooks";
 import styled from "styled-components";
 import { FaRegStar } from "react-icons/fa6";
+import { toast } from "react-toastify";
 
 const Reviews = () => {
-  const [review, setReview] = useState("")
-  const [rating, setRating] = useState("")
-  const[value, setValue] = useState(0);
-  const {data, isLoading: reviewsLoading} = useGetAllReviews()
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState("");
+  const [value, setValue] = useState(0);
+  // const {data, isLoading: reviewsLoading} = useGetAllReviews()
   const { mutate, isLoading } = useCreateReview();
   const submitReview = (e) => {
     e.preventDefault();
-    mutate({review, rating}, {
-      onSuccess: (data) => {console.log(data)},
-      onError: (error) => {console.log(error)}
-    })
-  }
-  // const handleRating = (id) => {
-  //   const filtered = 
-  // }
-  if(isLoading){
-    return <p>Loading...</p>
-  }
-  if(reviewsLoading){
-    return <p>Reviews loading...</p>
-  }
+    // if(review)
+    mutate(
+      { review, rating },
+      {
+        onSuccess: (data) => {
+          toast.success("Your review has been sent")
+          setReview("")
+          setValue(0)
+        },
+        onError: (error) => {
+          toast.error("There was an issue sending your review")
+          console.log(error);
+        },
+      }
+    );
+  };
+
   return (
     <ReviewDiv>
-      <form onSubmit={submitReview}>
-        <div className='review-textarea'>
-        <label htmlFor="review-text">review:</label>
-        <textarea
-          id="review-text"
-          value={review}
-          onChange={(e) => setReview(e.target.value)}
-        ></textarea>
+      <form className="review-form" onSubmit={submitReview}>
+        <h5 className="review-h5">Leave Your Review</h5>
+        <div className="review-textarea">
+          <label htmlFor="review-text" className="review-label">
+            Review:
+          </label>
+          <textarea
+            className="textarea"
+            id="review-text"
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+          ></textarea>
         </div>
-        rating:
-        {/* <input
+        <div className="rating-div">
+          <p className="rating-p">Rating:</p>
+          {/* <input
           type="number"
           value={rating}
           onChange={(e) => setRating(e.target.value)}
         /> */}
-        {[1, 2, 3, 4, 5].map((star, index) => {
-          return (
-            <span key={index} className="star-span">
+          {[1, 2, 3, 4, 5].map((star, index) => {
+            return (
               <FaRegStar
-                onClick={() => {setRating(index + 1); setValue(index + 1)}}
+                onClick={() => {
+                  setRating(index + 1);
+                  setValue(index + 1);
+                }}
                 className={value >= star ? "active-star" : "inactive-star"}
               />
-            </span>
-          );
-        })}
-        <button>submit</button>
+            );
+          })}
+        </div>
+        <button className="submit-btn">submit</button>
       </form>
-        {data?.data?.reviews?.map((datum) => (
-          <article className="profile-article" key={datum.id}>
-            <p className="profile-name">
-              <img
-                src={datum?.createdBy?.profilePhoto}
-                className="profilePhoto"
-              />
-              <span>{`${datum?.createdBy?.fullname}`.toUpperCase()}</span>
-            </p>
-            <p className="p-review">
-              {datum.review}
-              <span className="review-span">{datum?.createdAt}</span>
-            </p>
-            <div className="star-rating-div">
-              {[1, 2, 3, 4, 5].map((star, index) => {
-                return (
-                  <span key={index} className="star-span">
-                    <FaRegStar
-                      className={
-                        index < datum?.rating ? "active-star" : "inactive-star"
-                      }
-                    />
-                  </span>
-                );
-              })}
-            </div>
-          </article>
-        ))}
     </ReviewDiv>
   );
-}
+};
 
 const ReviewDiv = styled.main`
-.review-textarea{
-  display: flex;
-  align-items: center;
-}
-  .profile-article {
-    width: 220px;
-    height: 180px;
-    border: 1px solid red;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  .review-form {
+    width: 80%;
+    max-width: 700px;
+    margin: 5rem auto 0;
   }
-  .profile-name {
+  .review-h5{
+    margin-bottom: 1rem;
+  }
+  .review-label {
+    width: 70px;
+    min-width: 70px;
+  }
+  .review-textarea {
     display: flex;
     align-items: center;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 0.88rem;
-    column-gap: 1rem;
-    margin-top: 1.5rem;
+    margin-bottom: 1rem;
   }
-  .profilePhoto {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    object-fit: cover;
+  .textarea {
+    width: 400px;
+    height: 60px;
   }
-  .p-review {
-    width: 90%;
-    margin-right: auto;
-    margin-left: auto;
-    border: 1px solid black;
-    font-size: 0.84rem;
+  .rating-div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
   }
-  .review-span {
-    display: block;
-    font-size: 0.7rem;
+  .rating-p {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    width: 70px;
   }
-  .star-rating-div {
-    text-align: center;
-    margin-bottom: 1.5rem;
+  .submit-btn {
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    background-color: #4364c9;
+    color: white;
+    transition: all 0.4s ease;
+    letter-spacing: 0.5;
+    cursor: pointer;
+    border: none;
   }
-  .star-span {
-    /* display: flex; */
-    /* display: inline;
-  width: auto;
-  border: 2px solid black; */
+  .submit-btn:hover {
+    background-color: #0641f1;
   }
   .active-star {
     color: #032fb3;
@@ -148,4 +126,4 @@ const ReviewDiv = styled.main`
   }
 `;
 
-export default Reviews
+export default Reviews;

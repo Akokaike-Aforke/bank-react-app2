@@ -3,9 +3,29 @@ import logo from '../Images/Fidelity-Bank-Logo.png'
 import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import {
+  useGetAllReviews
+} from "../ReactQueryCustomHooks";
+import { FaStar } from "react-icons/fa6";
+import { FaRegStar } from "react-icons/fa6";
+import Slider from "react-slick";
 
 const Home = () => {
   const navigate = useNavigate();
+  const {data, isLoading} = useGetAllReviews();
+  console.log(data?.data?.reviews[0])
+    const settings = {
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      autoplay: true,
+      // margin-left: "15px"
+    };
+  // if(isLoading){
+  //   return <p></p>
+  // }
   return (
     <HomeMain>
       <section className="home-main-section">
@@ -133,19 +153,73 @@ const Home = () => {
           </div>
         </div>
       </section>
+      <p>Thank you for your time in assessing my app.</p>
+      <p>Kindly navigate to your profile and leave a review when done.</p>
+      <p>Ideas on how to fix any bugs observed will be greatly appreciated.</p>
+      <div className="reviews-div">
+        {/* <article className="review-article"> */}
+          <Slider className="review-article" {...settings}>
+            {data?.data?.reviews.map((review, index) => {
+              console.log(review?.createdBy?.fullname);
+              return (
+                <div className="review-profile">
+                  <div className="pad-div">
+                    <div className="img-name-div">
+                      <div className="img-div">
+                        {review?.createdBy?.profilePhoto ? (
+                          <img
+                            className="photo"
+                            src={review?.createdBy?.profilePhoto}
+                            alt=""
+                          />
+                        ) : (
+                          <span className="p-initials">
+                            {review?.createdBy?.fullname
+                              .split(" ")
+                              .filter((ini, index) => index < 2)
+                              .map((ini) => ini.charAt(0).toUpperCase())
+                              .join("")}
+                          </span>
+                        )}
+                      </div>
+                      <p>{review?.createdBy?.fullname}</p>
+                    </div>
+                    <p className="review-p">{review?.review}</p>
+                    <div className="star-div">
+                      {[1, 2, 3, 4, 5].map((star, index) => {
+                        return (
+                          <span key={index} className="star-span">
+                            {/* <FaRegStar */}
+                            {index < review?.rating ? (
+                              <FaStar className="colored" />
+                            ) : (
+                              <FaRegStar className="not-colored" />
+                            )}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </Slider>
+        {/* </article> */}
+      </div>
     </HomeMain>
   );
 }
 const HomeMain = styled.main`
   width: 100%;
   max-height: 100vh;
-  display: flex;
-  justify-content: center;
   position: relative;
   display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
   .home-main-section {
     width: 100%;
+    margin-bottom: auto;
   }
   .home-main-div1 {
     width: 100%;
@@ -246,6 +320,75 @@ const HomeMain = styled.main`
   }
   .personal-btn {
   }
+  .reviews-div {
+    width: 95%;
+    height: 300px;
+    margin: 0 auto 5rem;
+    transform: skewY(-7deg);
+    display: flex;
+    align-items: center;
+    background-color: #012168;
+  }
+  .review-article {
+    width: 95%;
+    height: 180px;
+    transform: skewY(5deg);
+    margin: 0 auto;
+  }
+  .review-profile {
+    box-sizing: border-box;
+    width: 200px;
+    height: 180px;
+    padding-right: 1rem;
+    min-height: 100%;
+  }
+  .pad-div {
+    width: 100%;
+    height: 180px;
+    display: block;
+    background-color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .img-name-div {
+    display: flex;
+    column-gap: 0.9rem;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .img-div {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(45, 47, 49);
+  }
+
+  .photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+  }
+  .p-initials {
+    color: white;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+  .review-p {
+    display: block;
+    margin-bottom: auto;
+    font-size: 0.85rem;
+  }
+  .colored {
+    color: #6cc049;
+  }
   @media screen and (min-width: 450px) {
     .home-main-logo {
       height: 30px;
@@ -258,7 +401,7 @@ const HomeMain = styled.main`
       height: 40px;
       padding: 2px 10px;
     }
-    .dropdown-content-personal{
+    .dropdown-content-personal {
       margin-left: 0;
     }
   }
