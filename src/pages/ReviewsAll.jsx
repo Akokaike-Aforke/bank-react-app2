@@ -40,10 +40,10 @@ const ReviewsAll = () => {
   const ratingData = rating?.map(
     (rating) => (rating.numReviewsEach / numRatings) * 100
   );
-  function insertZerosBetweenElements(arr) {
-    return arr.flatMap((num, index) => (index === 0 ? [num] : [5, num]));
-  }
-  const newRatingData = [...insertZerosBetweenElements(ratingData)];
+  // function insertZerosBetweenElements(arr) {
+  //   return arr.flatMap((num, index) => (index === 0 ? [num] : [5, num]));
+  // }
+  // const newRatingData = [...insertZerosBetweenElements(ratingData)];
   const starsArray = Array(5).fill(<FaRegStar />);
   const starsInFivePlaces = ratingData.map((star, index) => (
     <div key={index}>
