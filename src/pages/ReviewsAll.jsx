@@ -75,7 +75,7 @@ const ReviewsAll = () => {
       },
       {
         label: "background",
-        data: Array(ratingData.length).fill(100),
+        data: Array(ratingData?.length).fill(100),
         backgroundColor: "#d1d7dc",
         stack: "stack1",
         barPercentage: 0.6,
