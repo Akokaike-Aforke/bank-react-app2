@@ -268,60 +268,7 @@ const ReviewsAll = () => {
             <div className="stars-div">{starsInFivePlaces}</div>
           </div>
         </article>
-        <h2>Reviews</h2>
-        <div className="form-div">
-          <form action="" className="search-form">
-            <div className="search-div">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Search reviews"
-                onChange={(e) => setSearchTerm(e.target.value)}
-                value={searchTerm}
-              />
-              <span className="search-span">
-                <FaSearch className="search-icon" />
-              </span>
-            </div>
-          </form>
-          <form className="rating-form">
-            <h4 className="rating-h4">Filter ratings</h4>
-            <select
-              className="rating-select"
-              name="ratings"
-              value={selectedRating}
-              onChange={handleRatings}
-            >
-              <option value="all">All ratings</option>
-              <option value="5">Five stars</option>
-              <option value="4">Four stars</option>
-              <option value="3">Three stars</option>
-              <option value="2">Two stars</option>
-              <option value="1">One star</option>
-            </select>
-          </form>
-        </div>
-        {isLoading ? (
-          <span className="dna-wrapper">
-            <Dna
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="dna-loading"
-              wrapperStyle={{}}
-              wrapperClass="dna-wrapper"
-            />
-          </span>
-        ) : (
-          data.length === 0 && (
-            <div>
-              <p className="p-no-reviews1">{`No Reviews matching '${searchTerm}'`}</p>
-              <p className="p-no-reviews2">
-                No reviews matched your search. Try searching with another term.
-              </p>
-            </div>
-          )
-        )}
+        
        
       </div>
     </ReviewDiv>
