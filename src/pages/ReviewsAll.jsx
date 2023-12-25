@@ -243,7 +243,7 @@ const ReviewsAll = () => {
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
             <div className="avg-rating-div">
-              <h1 className="avg-h1">{ratingsAvg}</h1>
+              {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>}
               <span className="avg-stars">
                 <p className="avg-stars-p">
                   {[1, 2, 3, 4, 5].map((star, index) =>
