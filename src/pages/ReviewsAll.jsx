@@ -242,33 +242,7 @@ const ReviewsAll = () => {
   return (
     <ReviewDiv>
       <div className="main-div">
-        <article className="feedback-article">
-          <h2>User feedback</h2>
-          <div className="ratings-avg-div">
-            <div className="avg-rating-div">
-              <h1 className="avg-h1">{ratingsAvg}</h1>
-              <span className="avg-stars">
-                <p className="avg-stars-p">
-                  {[1, 2, 3, 4, 5].map((star, index) =>
-                    ratingsAvg - index > 0 && ratingsAvg - index < 1 ? (
-                      <FaStarHalfAlt className="colored" key={index} />
-                    ) : index < ratingsAvg ? (
-                      <FaStar className="colored" key={index} />
-                    ) : (
-                      <FaRegStar className="not-colored" key={index} />
-                    )
-                  )}
-                </p>
-                <p className="colored avg-p">Course Rating</p>
-              </span>
-            </div>
-            <div className="bar-div">
-              <Bar className="bar" data={state} options={chartOptions} />
-            </div>
-            <div className="stars-div">{starsInFivePlaces}</div>
-          </div>
-        </article>
-        
+       
        
       </div>
     </ReviewDiv>
