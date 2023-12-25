@@ -246,7 +246,7 @@ const ReviewsAll = () => {
               <h1 className="avg-h1">{ratingsAvg}</h1>
               <span className="avg-stars">
                 <p className="avg-stars-p">
-                  {starsArray.map((star, index) =>
+                  {starsArray?.map((star, index) =>
                     ratingsAvg - index > 0 && ratingsAvg - index < 1 ? (
                       <FaStarHalfAlt className="colored" key={index}/>
                     ) : index < ratingsAvg ? (
