@@ -242,7 +242,7 @@ const ReviewsAll = () => {
   return (
     <ReviewDiv>
       <div className="main-div">
-        <article className="feedback-article">
+        {/* <article className="feedback-article">
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
             <div className="avg-rating-div">
@@ -267,7 +267,7 @@ const ReviewsAll = () => {
             </div>
             <div className="stars-div">{starsInFivePlaces}</div>
           </div>
-        </article>
+        </article> */}
         <h2>Reviews</h2>
         <div className="form-div">
           <form action="" className="search-form">
@@ -322,6 +322,84 @@ const ReviewsAll = () => {
             </div>
           )
         )}
+        {data?.map((datum) => (
+          <article className="profile-article" key={datum.id}>
+            <div className="profilePhoto-div">
+              {datum?.createdBy?.profilePhoto ? (
+                <img
+                  src={datum?.createdBy?.profilePhoto}
+                  className="profilePhoto"
+                />
+              ) : (
+                <span className="p-initials">
+                  {datum?.createdBy?.fullname
+                    .split(" ")
+                    .filter((ini, index) => index < 2)
+                    .map((ini) => ini.charAt(0).toUpperCase())
+                    .join("")}
+                </span>
+              )}
+            </div>
+
+            <div className="star-rating-div">
+              <p className="fullname">{datum?.createdBy?.fullname}</p>
+              <div className="star-div">
+                {[1, 2, 3, 4, 5].map((star, index) => {
+                  return (
+                    <span key={index} className="star-span">
+                      {/* <FaRegStar */}
+                      {index < datum?.rating ? (
+                        <FaStar className="colored" />
+                      ) : (
+                        <FaRegStar className="not-colored" />
+                      )}
+                    </span>
+                  );
+                })}
+                <span className="date-span">
+                  {getFormattedDate(datum?.createdAt)}
+                </span>
+              </div>
+              <div>
+                {searchTerm ? (
+                  <Highlighter
+                    highlightClassName="search"
+                    searchWords={searchTerm.split(" ")}
+                    autoEscape={true}
+                    textToHighlight={datum.review}
+                  />
+                ) : (
+                  <span>
+                    <p className="p-review">{datum.review}</p>
+                  </span>
+                )}
+              </div>
+              <p className="thumb-p">Was this review helpful?</p>
+              <span className="thumb-span">
+                <button
+                  className={
+                    clickedID?.includes(datum.id)
+                      ? "thumb-btn1 helpful"
+                      : "thumb-btn1"
+                  }
+                  onClick={() => handleHelpful(datum.id)}
+                >
+                  <MdThumbUpOffAlt />
+                </button>
+                <button
+                  className={
+                    clickedIDUnhelpful?.includes(datum.id)
+                      ? "thumb-btn2 helpful"
+                      : "thumb-btn2"
+                  }
+                  onClick={() => handleUnhelpful(datum.id)}
+                >
+                  <MdThumbDownOffAlt />
+                </button>
+              </span>
+            </div>
+          </article>
+        ))}
       </div>
     </ReviewDiv>
   );
