@@ -236,6 +236,7 @@ const ReviewsAll = () => {
   if (isLoading) {
     console.log("");
   }
+  console.log(starsArray)
   return (
     <ReviewDiv>
       <div className="main-div">
