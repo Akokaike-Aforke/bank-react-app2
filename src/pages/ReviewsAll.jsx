@@ -242,7 +242,7 @@ const ReviewsAll = () => {
         <article className="feedback-article">
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
-            <div className="avg-rating-div">
+            {/* <div className="avg-rating-div">
               {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>}
               <span className="avg-stars">
                 <p className="avg-stars-p">
@@ -258,7 +258,7 @@ const ReviewsAll = () => {
                 </p>
                 <p className="colored avg-p">Course Rating</p>
               </span>
-            </div>
+            </div> */}
             <div className="bar-div">
               <Bar
                 className="bar"
@@ -266,9 +266,9 @@ const ReviewsAll = () => {
                 options={chartOptions}
               />
             </div>
-            <div className="stars-div">
+            {/* <div className="stars-div">
               {starsInFivePlaces}
-            </div>
+            </div> */}
           </div>
         </article>
         <h2>Reviews</h2>
