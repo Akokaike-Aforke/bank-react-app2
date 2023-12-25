@@ -44,12 +44,12 @@ const ReviewsAll = () => {
   //   return arr.flatMap((num, index) => (index === 0 ? [num] : [5, num]));
   // }
   // const newRatingData = [...insertZerosBetweenElements(ratingData)];
-  const starsArray = Array(5).fill(<FaRegStar />);
+  // const starsArray = Array(5).fill(<FaRegStar />);
   const starsInFivePlaces = ratingData.map((star, index) => (
     <div key={index}>
       <span className="star-span">
         <p className="stars-p">
-          {[...starsArray].map((star, value) =>
+          {[1, 2, 3, 4, 5].map((star, value) =>
             value < 5 - index ? (
               <FaStar className="colored" key={value} />
             ) : (
@@ -236,7 +236,6 @@ const ReviewsAll = () => {
   if (isLoading) {
     console.log("");
   }
-  console.log(starsArray)
   return (
     <ReviewDiv>
       <div className="main-div">
@@ -247,7 +246,7 @@ const ReviewsAll = () => {
               <h1 className="avg-h1">{ratingsAvg}</h1>
               <span className="avg-stars">
                 <p className="avg-stars-p">
-                  {starsArray?.map((star, index) =>
+                  {[1, 2, 3, 4, 5].map((star, index) =>
                     ratingsAvg - index > 0 && ratingsAvg - index < 1 ? (
                       <FaStarHalfAlt className="colored" key={index}/>
                     ) : index < ratingsAvg ? (
