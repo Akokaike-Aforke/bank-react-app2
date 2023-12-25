@@ -45,7 +45,7 @@ const ReviewsAll = () => {
   // }
   // const newRatingData = [...insertZerosBetweenElements(ratingData)];
   // const starsArray = Array(5).fill(<FaRegStar />);
-  const starsInFivePlaces = ratingData.map((star, index) => (
+  const starsInFivePlaces = ratingData?.map((star, index) => (
     <div key={index}>
       <span className="star-span">
         <p className="stars-p">
