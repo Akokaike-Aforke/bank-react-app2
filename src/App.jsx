@@ -45,7 +45,7 @@ function App() {
   }, [isAuthenticated]);
   return (
     <AppProvider>
-      <BrowserRouter basename="https://aforke-bankify.netlify.app/">
+      <BrowserRouter>
         <Routes>
           {/* <Route path="/" element={<SharedLayout />}> */}
           <Route path="/" element={<SharedLayout />}>
