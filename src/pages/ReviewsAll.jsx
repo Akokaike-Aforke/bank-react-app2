@@ -160,9 +160,12 @@ const ReviewsAll = () => {
 
 
   useEffect(() => {
+    const avg =
+      rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
+      if(avg)
       setRatingsAvg(
         parseFloat(
-          rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
+          avg
         )
       );
   }, [rating]);
