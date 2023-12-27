@@ -36,7 +36,7 @@ const ReviewsAll = () => {
   const [rating, setRating] = useState({});
   const [selectedRating, setSelectedRating] = useState("");
   // const [numRatings, setNumRatings] = useState(null);
-  // const [ratingsAvg, setRatingsAvg] = useState(null);
+  const [ratingsAvg, setRatingsAvg] = useState("");
   let ratingData;
 
   // function insertZerosBetweenElements(arr) {
@@ -159,14 +159,15 @@ const ReviewsAll = () => {
   }, []);
 
 
-let ratingsAvg;
   useEffect(()=>{
     
  
   if( rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating)
-  ratingsAvg = parseFloat(
+  {
+    console.log(53)
+    setRatingsAvg(parseFloat(
     rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
-  );
+  ));}
   
   }, [])
 console.log(ratingsAvg);
