@@ -228,8 +228,11 @@ const ReviewsAll = () => {
     </div>
   ));
 
+  // const ratingsAvg = parseFloat(
+  //   rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
+  // );
   const ratingsAvg = parseFloat(
-    rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
+    rating?.data?.data
   );
   console.log(ratingsAvg)
 
