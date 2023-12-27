@@ -278,6 +278,7 @@ useEffect(() => {
          100
      );
    }
+   console.log(rating?.data?.data?.stats[0]);
   return (
     <ReviewDiv>
       <div className="main-div">
