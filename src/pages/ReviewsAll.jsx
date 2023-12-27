@@ -34,17 +34,17 @@ const ReviewsAll = () => {
   const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
   const { mutate, isLoading: helpfulLoading } = useUpdateHelpful();
   const [rating, setRating] = useState({});
-  const [selectedRating, setSelectedRating] = useState("")
+  const [selectedRating, setSelectedRating] = useState("");
   // const [numRatings, setNumRatings] = useState(null);
   // const [ratingsAvg, setRatingsAvg] = useState(null);
   let ratingData;
- 
+
   // function insertZerosBetweenElements(arr) {
   //   return arr.flatMap((num, index) => (index === 0 ? [num] : [5, num]));
   // }
   // const newRatingData = [...insertZerosBetweenElements(ratingData)];
   // const starsArray = Array(5).fill(<FaRegStar />);
- 
+
   const handleHelpful = (id) => {
     setClickedIDUnhelpful(
       clickedIDUnhelpful.filter((removeId) => removeId !== id)
@@ -94,8 +94,12 @@ const ReviewsAll = () => {
     const handleRatings = async (e) => {
       try {
         let response;
-        if (selectedRating === "all") response = await customFetch(`/api/v1/reviews`);
-        else response = await customFetch(`/api/v1/reviews?rating=${selectedRating}`);
+        if (selectedRating === "all")
+          response = await customFetch(`/api/v1/reviews`);
+        else
+          response = await customFetch(
+            `/api/v1/reviews?rating=${selectedRating}`
+          );
         setData(response.data.data.reviews);
       } catch (err) {
         console.log(err);
@@ -131,31 +135,28 @@ const ReviewsAll = () => {
     handleSearch();
   }, [searchTerm]);
 
-
-useEffect(() => {
-  const handleSearch = async () => {
-    try {
-      const ratings = await customFetch(`/api/v1/reviews/review-stats`);
-      console.log(ratings)
-      // setRating(ratings?.data?.data?.stats[0]?.eachTotals);
-      setRating(ratings);
-      // setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
-      // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
-      // setRatingsAvg(
-      //   parseFloat(
-      //     ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-      //   )
-      // );
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  handleSearch();
-}, []);
-
-
+  useEffect(() => {
+    const handleSearch = async () => {
+      try {
+        const ratings = await customFetch(`/api/v1/reviews/review-stats`);
+        console.log(ratings);
+        // setRating(ratings?.data?.data?.stats[0]?.eachTotals);
+        setRating(ratings);
+        // setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
+        // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
+        // setRatingsAvg(
+        //   parseFloat(
+        //     ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+        //   )
+        // );
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    handleSearch();
+  }, []);
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
@@ -191,110 +192,105 @@ useEffect(() => {
   //   )
   // );
 
+  // ratingData = rating?.map(
 
+  ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map((rate) => {
+    //  console.log(rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews);
+    console.log(rate);
+    console.log(
+      (rate?.numReviewsEach /
+        rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
+        100
+    );
+    return (
+      (rate.numReviewsEach /
+        rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
+      100
+    );
+  });
+  console.log(ratingData);
+  console.log(rating?.data?.data?.stats[0]);
 
+  const starsInFivePlaces = ratingData?.map((star, index) => (
+    <div key={index}>
+      <span className="star-span">
+        <p className="stars-p">
+          {[1, 2, 3, 4, 5].map((star, value) =>
+            value < 5 - index ? (
+              <FaStar className="colored" key={value} />
+            ) : (
+              <FaRegStar className="not-colored" key={value} />
+            )
+          )}
+        </p>
+        <span className="percent-span">{Math.round(star)}%</span>
+      </span>
+    </div>
+  ));
 
-  // const ratingsAvg = parseFloat(
-  //   rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-  // );
-  
-     // ratingData = rating?.map(
-     
-     ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
-       (rate) =>{
-        //  console.log(rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews);
-         console.log(rate);
-         console.log((rate?.numReviewsEach /
-           rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
-         100)
-        return (rate.numReviewsEach /
-           rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
-         100}
-     );
-     console.log(ratingData)
-     console.log(rating?.data?.data?.stats[0]);
+  const ratingsAvg = parseFloat(
+    rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+  );
 
+  //  const state = {
+  //    labels: starsInFivePlaces,
+  //    datasets: [
+  //      {
+  //        label: "rating",
+  //        data: ratingData,
+  //        stack: "stack1",
+  //        backgroundColor: "#6a6f73",
+  //        barPercentage: 0.6,
+  //        categoryPercentage: 0.4,
+  //        maxBarThickness: 30,
+  //      },
+  //      {
+  //        label: "background",
+  //        data: Array(ratingData?.length).fill(100),
+  //        backgroundColor: "#d1d7dc",
+  //        stack: "stack1",
+  //        barPercentage: 0.6,
+  //        categoryPercentage: 0.4,
+  //        maxBarThickness: 30,
+  //      },
+  //    ],
+  //  };
 
- const starsInFivePlaces = ratingData?.map((star, index) => (
-   <div key={index}>
-     <span className="star-span">
-       <p className="stars-p">
-         {[1, 2, 3, 4, 5].map((star, value) =>
-           value < 5 - index ? (
-             <FaStar className="colored" key={value} />
-           ) : (
-             <FaRegStar className="not-colored" key={value} />
-           )
-         )}
-       </p>
-       <span className="percent-span">{Math.round(star)}%</span>
-     </span>
-   </div>
- ));
-
-
-
-//  const state = {
-//    labels: starsInFivePlaces,
-//    datasets: [
-//      {
-//        label: "rating",
-//        data: ratingData,
-//        stack: "stack1",
-//        backgroundColor: "#6a6f73",
-//        barPercentage: 0.6,
-//        categoryPercentage: 0.4,
-//        maxBarThickness: 30,
-//      },
-//      {
-//        label: "background",
-//        data: Array(ratingData?.length).fill(100),
-//        backgroundColor: "#d1d7dc",
-//        stack: "stack1",
-//        barPercentage: 0.6,
-//        categoryPercentage: 0.4,
-//        maxBarThickness: 30,
-//      },
-//    ],
-//  };
-
-//  const chartOptions = {
-//    plugins: {
-//      title: {
-//        display: false,
-//        // text: "Users Gained between 2016-2020",
-//      },
-//      legend: {
-//        display: false,
-//      },
-//    },
-//    indexAxis: "y",
-//    elements: {
-//      line: {
-//        borderWidth: 0, // Hide lines
-//      },
-//      point: {
-//        radius: 0, // Hide data points
-//      },
-//    },
-//    scales: {
-//      x: {
-//        beginAtZero: true,
-//        max: 100,
-//        display: false,
-//      },
-//      y: {
-//        type: "category",
-//        beginAtZero: true,
-//        position: "right",
-//        display: false,
-//        // categoryPercentage: 0.7,
-//        // barPercentage: 0.9
-//      },
-//    },
-//  };
-
-
+  //  const chartOptions = {
+  //    plugins: {
+  //      title: {
+  //        display: false,
+  //        // text: "Users Gained between 2016-2020",
+  //      },
+  //      legend: {
+  //        display: false,
+  //      },
+  //    },
+  //    indexAxis: "y",
+  //    elements: {
+  //      line: {
+  //        borderWidth: 0, // Hide lines
+  //      },
+  //      point: {
+  //        radius: 0, // Hide data points
+  //      },
+  //    },
+  //    scales: {
+  //      x: {
+  //        beginAtZero: true,
+  //        max: 100,
+  //        display: false,
+  //      },
+  //      y: {
+  //        type: "category",
+  //        beginAtZero: true,
+  //        position: "right",
+  //        display: false,
+  //        // categoryPercentage: 0.7,
+  //        // barPercentage: 0.9
+  //      },
+  //    },
+  //  };
 
   return (
     <ReviewDiv>
