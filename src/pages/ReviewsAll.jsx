@@ -40,10 +40,10 @@ const ReviewsAll = () => {
   let ratingData;
   if(rating){
   // ratingData = rating?.map(
-  ratingData = rating?.data?.data?.stats[0]?.eachTotals.map(
+  ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
     (rating) =>
       (rating.numReviewsEach /
-        rating?.data?.data?.stats[0]?.groupTotals[0].numReviews) *
+        rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
       100
   );}
   // function insertZerosBetweenElements(arr) {
