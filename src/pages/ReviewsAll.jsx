@@ -36,7 +36,7 @@ const ReviewsAll = () => {
   const [rating, setRating] = useState({});
   const [selectedRating, setSelectedRating] = useState("");
   // const [numRatings, setNumRatings] = useState(null);
-  const [ratingsAvg, setRatingsAvg] = useState("");
+  const [ratingsAvg, setRatingsAvg] = useState(0);
   let ratingData;
 
   // function insertZerosBetweenElements(arr) {
