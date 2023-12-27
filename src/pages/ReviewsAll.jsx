@@ -172,8 +172,8 @@ const ReviewsAll = () => {
 //   }, [rating]);
 // console.log(ratingsAvg);
 
-const { groupTotals } = { ...rating?.data?.data?.stats };
-console.log(groupTotals)
+const { stats } = { ...rating?.data?.data };
+console.log(stats)
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
