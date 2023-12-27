@@ -215,22 +215,22 @@ useEffect(() => {
      console.log(rating?.data?.data?.stats[0]);
 
 
-//  const starsInFivePlaces = ratingData?.map((star, index) => (
-//    <div key={index}>
-//      <span className="star-span">
-//        <p className="stars-p">
-//          {[1, 2, 3, 4, 5].map((star, value) =>
-//            value < 5 - index ? (
-//              <FaStar className="colored" key={value} />
-//            ) : (
-//              <FaRegStar className="not-colored" key={value} />
-//            )
-//          )}
-//        </p>
-//        <span className="percent-span">{Math.round(star)}%</span>
-//      </span>
-//    </div>
-//  ));
+ const starsInFivePlaces = ratingData?.map((star, index) => (
+   <div key={index}>
+     <span className="star-span">
+       <p className="stars-p">
+         {[1, 2, 3, 4, 5].map((star, value) =>
+           value < 5 - index ? (
+             <FaStar className="colored" key={value} />
+           ) : (
+             <FaRegStar className="not-colored" key={value} />
+           )
+         )}
+       </p>
+       <span className="percent-span">{Math.round(star)}%</span>
+     </span>
+   </div>
+ ));
 
 
 
