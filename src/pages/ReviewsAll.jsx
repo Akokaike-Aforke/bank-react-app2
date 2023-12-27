@@ -159,17 +159,17 @@ const ReviewsAll = () => {
   }, []);
 
 
-  useEffect(() => {
-    const avg =
-      rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
-      if(avg)
-      setRatingsAvg(
-        parseFloat(
-          avg
-        )
-      );
-  }, [rating]);
-console.log(ratingsAvg);
+//   useEffect(() => {
+//     const avg =
+//       rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
+//       if(avg)
+//       setRatingsAvg(
+//         parseFloat(
+//           avg
+//         )
+//       );
+//   }, [rating]);
+// console.log(ratingsAvg);
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
@@ -316,7 +316,12 @@ console.log(ratingsAvg);
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
             <div className="avg-rating-div">
-              {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>}
+              {/* {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>} */}
+              <h1 className="avg-h1">
+                {rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(
+                  1
+                )}
+              </h1>
               <span className="avg-stars">
                 {/* <p className="avg-stars-p">
                   {[1, 2, 3, 4, 5].map((star, index) =>
