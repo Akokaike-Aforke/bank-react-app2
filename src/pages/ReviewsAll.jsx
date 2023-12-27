@@ -159,17 +159,16 @@ const ReviewsAll = () => {
   }, []);
 
 
-  useEffect(()=>{
-    
- 
-  if( rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating)
-  {
-    console.log(53)
-    setRatingsAvg(parseFloat(
-    rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
-  ));}
-  
-  }, [])
+  useEffect(() => {
+    if (rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating) {
+      console.log(53);
+      setRatingsAvg(
+        parseFloat(
+          rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
+        )
+      );
+    }
+  }, [rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating]);
 console.log(ratingsAvg);
 
   useEffect(() => {
