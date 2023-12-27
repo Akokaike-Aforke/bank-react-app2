@@ -222,65 +222,65 @@ useEffect(() => {
      </span>
    </div>
  ));
- const state = {
-   labels: starsInFivePlaces,
-   datasets: [
-     {
-       label: "rating",
-       data: ratingData,
-       stack: "stack1",
-       backgroundColor: "#6a6f73",
-       barPercentage: 0.6,
-       categoryPercentage: 0.4,
-       maxBarThickness: 30,
-     },
-     {
-       label: "background",
-       data: Array(ratingData?.length).fill(100),
-       backgroundColor: "#d1d7dc",
-       stack: "stack1",
-       barPercentage: 0.6,
-       categoryPercentage: 0.4,
-       maxBarThickness: 30,
-     },
-   ],
- };
+//  const state = {
+//    labels: starsInFivePlaces,
+//    datasets: [
+//      {
+//        label: "rating",
+//        data: ratingData,
+//        stack: "stack1",
+//        backgroundColor: "#6a6f73",
+//        barPercentage: 0.6,
+//        categoryPercentage: 0.4,
+//        maxBarThickness: 30,
+//      },
+//      {
+//        label: "background",
+//        data: Array(ratingData?.length).fill(100),
+//        backgroundColor: "#d1d7dc",
+//        stack: "stack1",
+//        barPercentage: 0.6,
+//        categoryPercentage: 0.4,
+//        maxBarThickness: 30,
+//      },
+//    ],
+//  };
 
- const chartOptions = {
-   plugins: {
-     title: {
-       display: false,
-       // text: "Users Gained between 2016-2020",
-     },
-     legend: {
-       display: false,
-     },
-   },
-   indexAxis: "y",
-   elements: {
-     line: {
-       borderWidth: 0, // Hide lines
-     },
-     point: {
-       radius: 0, // Hide data points
-     },
-   },
-   scales: {
-     x: {
-       beginAtZero: true,
-       max: 100,
-       display: false,
-     },
-     y: {
-       type: "category",
-       beginAtZero: true,
-       position: "right",
-       display: false,
-       // categoryPercentage: 0.7,
-       // barPercentage: 0.9
-     },
-   },
- };
+//  const chartOptions = {
+//    plugins: {
+//      title: {
+//        display: false,
+//        // text: "Users Gained between 2016-2020",
+//      },
+//      legend: {
+//        display: false,
+//      },
+//    },
+//    indexAxis: "y",
+//    elements: {
+//      line: {
+//        borderWidth: 0, // Hide lines
+//      },
+//      point: {
+//        radius: 0, // Hide data points
+//      },
+//    },
+//    scales: {
+//      x: {
+//        beginAtZero: true,
+//        max: 100,
+//        display: false,
+//      },
+//      y: {
+//        type: "category",
+//        beginAtZero: true,
+//        position: "right",
+//        display: false,
+//        // categoryPercentage: 0.7,
+//        // barPercentage: 0.9
+//      },
+//    },
+//  };
 
 
 
