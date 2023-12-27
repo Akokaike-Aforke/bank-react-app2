@@ -168,7 +168,7 @@ const ReviewsAll = () => {
         )
       );
     }
-  }, [rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating]);
+  }, [rating]);
 console.log(ratingsAvg);
 
   useEffect(() => {
