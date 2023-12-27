@@ -232,7 +232,7 @@ const ReviewsAll = () => {
   //   rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
   // );
   const ratingsAvg =
-    rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
+    rating?.data?.data?.stats[0];
   console.log(ratingsAvg)
 
   //  const state = {
