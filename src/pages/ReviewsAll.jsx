@@ -194,38 +194,43 @@ useEffect(() => {
 
 
 
-  // const ratingsAvg = parseFloat(
-  //   rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-  // );
+  const ratingsAvg = parseFloat(
+    rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+  );
   
      // ratingData = rating?.map(
      
      ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
-       (rating) =>
-         (rating.numReviewsEach /
+       (rate) =>{
+        //  console.log(rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews);
+         console.log(rate);
+         console.log((rate?.numReviewsEach /
            rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
-         100
+         100)
+        return (rate.numReviewsEach /
+           rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
+         100}
      );
      console.log(ratingData)
      console.log(rating?.data?.data?.stats[0]);
 
 
-//  const starsInFivePlaces = ratingData?.map((star, index) => (
-//    <div key={index}>
-//      <span className="star-span">
-//        <p className="stars-p">
-//          {[1, 2, 3, 4, 5].map((star, value) =>
-//            value < 5 - index ? (
-//              <FaStar className="colored" key={value} />
-//            ) : (
-//              <FaRegStar className="not-colored" key={value} />
-//            )
-//          )}
-//        </p>
-//        <span className="percent-span">{Math.round(star)}%</span>
-//      </span>
-//    </div>
-//  ));
+ const starsInFivePlaces = ratingData?.map((star, index) => (
+   <div key={index}>
+     <span className="star-span">
+       <p className="stars-p">
+         {[1, 2, 3, 4, 5].map((star, value) =>
+           value < 5 - index ? (
+             <FaStar className="colored" key={value} />
+           ) : (
+             <FaRegStar className="not-colored" key={value} />
+           )
+         )}
+       </p>
+       <span className="percent-span">{Math.round(star)}%</span>
+     </span>
+   </div>
+ ));
 
 
 
@@ -298,7 +303,7 @@ useEffect(() => {
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
             <div className="avg-rating-div">
-              {/* {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>} */}
+              {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>}
               <span className="avg-stars">
                 {/* <p className="avg-stars-p">
                   {[1, 2, 3, 4, 5].map((star, index) =>
