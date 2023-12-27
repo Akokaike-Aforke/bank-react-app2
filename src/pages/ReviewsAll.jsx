@@ -234,7 +234,7 @@ const ReviewsAll = () => {
   const ratingsAvg =
     rating?.data?.data?.stats[0];
   console.log(ratingsAvg)
-  console.log(rating?.data?.data?.stats[0])
+  // console.log(rating?.data?.data?.stats[0])
 
   //  const state = {
   //    labels: starsInFivePlaces,
