@@ -38,14 +38,7 @@ const ReviewsAll = () => {
   // const [numRatings, setNumRatings] = useState(null);
   // const [ratingsAvg, setRatingsAvg] = useState(null);
   let ratingData;
-  if(rating){
-  // ratingData = rating?.map(
-  ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
-    (rating) =>
-      (rating.numReviewsEach /
-        rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
-      100
-  );}
+ 
   // function insertZerosBetweenElements(arr) {
   //   return arr.flatMap((num, index) => (index === 0 ? [num] : [5, num]));
   // }
@@ -275,6 +268,16 @@ useEffect(() => {
   const ratingsAvg = parseFloat(
     rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
   );
+   if (rating) {
+     // ratingData = rating?.map(
+     console.log(rating?.data?.data?.stats[0]);
+     ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
+       (rating) =>
+         (rating.numReviewsEach /
+           rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
+         100
+     );
+   }
   return (
     <ReviewDiv>
       <div className="main-div">
