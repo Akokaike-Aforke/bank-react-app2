@@ -208,7 +208,7 @@ const ReviewsAll = () => {
       100
     );
   });
-  console.log(ratingData);
+  // console.log(ratingData);
   console.log(rating?.data?.data?.stats[0]);
 
   const starsInFivePlaces = ratingData?.map((star, index) => (
@@ -232,7 +232,7 @@ const ReviewsAll = () => {
   //   rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
   // );
 
-  
+
   // const ratingsAvg =
   //   rating?.data?.data?.stats[0];
   // // console.log(ratingsAvg)
