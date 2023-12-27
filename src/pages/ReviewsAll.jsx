@@ -231,10 +231,9 @@ const ReviewsAll = () => {
   // const ratingsAvg = parseFloat(
   //   rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
   // );
-  const ratingsAvg = parseFloat(
-    rating?.data?.data
-  );
-  // console.log(ratingsAvg)
+  const ratingsAvg =
+    rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
+  console.log(ratingsAvg)
 
   //  const state = {
   //    labels: starsInFivePlaces,
