@@ -190,14 +190,14 @@ const ReviewsAll = () => {
         );
         const ratings = await customFetch(`/api/v1/reviews/review-stats`);
         setData(response.data.data.reviews);
-        setRating(ratings?.data?.data?.stats[0]?.eachTotals);
-        setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
-        // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
-        setRatingsAvg(
-          parseFloat(
-            ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-          )
-        );
+        // setRating(ratings?.data?.data?.stats[0]?.eachTotals);
+        // setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
+        // // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
+        // setRatingsAvg(
+        //   parseFloat(
+        //     ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+        //   )
+        // );
       } catch (err) {
         console.log(err);
       } finally {
@@ -206,6 +206,30 @@ const ReviewsAll = () => {
     };
     handleSearch();
   }, [searchTerm]);
+
+
+useEffect(() => {
+  const handleSearch = async () => {
+    try {
+      const ratings = await customFetch(`/api/v1/reviews/review-stats`);
+      setRating(ratings?.data?.data?.stats[0]?.eachTotals);
+      setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
+      // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
+      setRatingsAvg(
+        parseFloat(
+          ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+        )
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  handleSearch();
+}, [rating]);
+
+
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
