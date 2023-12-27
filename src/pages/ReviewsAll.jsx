@@ -197,16 +197,17 @@ useEffect(() => {
   // const ratingsAvg = parseFloat(
   //   rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
   // );
-  //  if (rating) {
-  //    // ratingData = rating?.map(
-  //    console.log(rating?.data?.data?.stats[0]);
-  //    ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
-  //      (rating) =>
-  //        (rating.numReviewsEach /
-  //          rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
-  //        100
-  //    );
-  //  }
+  
+     // ratingData = rating?.map(
+     
+     ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
+       (rating) =>
+         (rating.numReviewsEach /
+           rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
+         100
+     );
+     console.log(ratingData)
+     console.log(rating?.data?.data?.stats[0]);
 
 
 //  const starsInFivePlaces = ratingData?.map((star, index) => (
