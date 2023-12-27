@@ -162,6 +162,7 @@ const ReviewsAll = () => {
 //   useEffect(() => {
 //     const avg =
 //       rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
+//       const {stats} = {...rating?.data?.data}
 //       if(avg)
 //       setRatingsAvg(
 //         parseFloat(
@@ -170,6 +171,9 @@ const ReviewsAll = () => {
 //       );
 //   }, [rating]);
 // console.log(ratingsAvg);
+
+const { stats } = { ...rating?.data?.data };
+console.log(stats)
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
