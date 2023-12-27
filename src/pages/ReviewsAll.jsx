@@ -234,7 +234,7 @@ const ReviewsAll = () => {
   const ratingsAvg = parseFloat(
     rating?.data?.data
   );
-  console.log(ratingsAvg)
+  // console.log(ratingsAvg)
 
   //  const state = {
   //    labels: starsInFivePlaces,
