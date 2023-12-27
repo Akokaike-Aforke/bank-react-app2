@@ -190,38 +190,44 @@ useEffect(() => {
   //     rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
   //   )
   // );
-  const ratingsAvg = parseFloat(
-    rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-  );
-   if (rating) {
-     // ratingData = rating?.map(
-     console.log(rating?.data?.data?.stats[0]);
-     ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
-       (rating) =>
-         (rating.numReviewsEach /
-           rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
-         100
-     );
-   }
-   console.log(rating?.data?.data?.stats[0]);
 
 
- const starsInFivePlaces = ratingData?.map((star, index) => (
-   <div key={index}>
-     <span className="star-span">
-       <p className="stars-p">
-         {[1, 2, 3, 4, 5].map((star, value) =>
-           value < 5 - index ? (
-             <FaStar className="colored" key={value} />
-           ) : (
-             <FaRegStar className="not-colored" key={value} />
-           )
-         )}
-       </p>
-       <span className="percent-span">{Math.round(star)}%</span>
-     </span>
-   </div>
- ));
+
+
+  // const ratingsAvg = parseFloat(
+  //   rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+  // );
+  //  if (rating) {
+  //    // ratingData = rating?.map(
+  //    console.log(rating?.data?.data?.stats[0]);
+  //    ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map(
+  //      (rating) =>
+  //        (rating.numReviewsEach /
+  //          rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
+  //        100
+  //    );
+  //  }
+
+
+//  const starsInFivePlaces = ratingData?.map((star, index) => (
+//    <div key={index}>
+//      <span className="star-span">
+//        <p className="stars-p">
+//          {[1, 2, 3, 4, 5].map((star, value) =>
+//            value < 5 - index ? (
+//              <FaStar className="colored" key={value} />
+//            ) : (
+//              <FaRegStar className="not-colored" key={value} />
+//            )
+//          )}
+//        </p>
+//        <span className="percent-span">{Math.round(star)}%</span>
+//      </span>
+//    </div>
+//  ));
+
+
+
 //  const state = {
 //    labels: starsInFivePlaces,
 //    datasets: [
