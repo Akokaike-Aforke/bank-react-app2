@@ -45,7 +45,7 @@ function App() {
   }, [isAuthenticated]);
   return (
     <AppProvider>
-      <BrowserRouter>
+      <BrowserRouter basename="https://aforke-bankify.netlify.app/">
         <Routes>
           {/* <Route path="/" element={<SharedLayout />}> */}
           <Route path="/" element={<SharedLayout />}>
@@ -61,14 +61,29 @@ function App() {
             </Route>
             <Route
               path="dashboard"
-              element={isAuthenticated ? <Dashboard isAuthenticated={isAuthenticated} /> : <Login />}
+              element={
+                isAuthenticated ? (
+                  <Dashboard isAuthenticated={isAuthenticated} />
+                ) : (
+                  <Login />
+                )
+              }
             />
             <Route path="forgotPassword" element={<ForgotPassword />} />
             <Route path="resetPassword/:token" element={<ResetPassword />} />
-            <Route path="updatePassword" element={tokenAvailable ? <ChangePassword />: <Login />} />
-            <Route path="forgotPin" element={tokenAvailable ? <ForgotPin /> : <Login />} />
+            <Route
+              path="updatePassword"
+              element={tokenAvailable ? <ChangePassword /> : <Login />}
+            />
+            <Route
+              path="forgotPin"
+              element={tokenAvailable ? <ForgotPin /> : <Login />}
+            />
             <Route path="resetPin/:token" element={<ResetPin />} />
-            <Route path="updatePin" element={tokenAvailable ? <ChangePin /> : <Login />} />
+            <Route
+              path="updatePin"
+              element={tokenAvailable ? <ChangePin /> : <Login />}
+            />
             <Route path="reviews" element={<Reviews />} />
             <Route path="reviewsAll" element={<ReviewsAll />} />
             <Route path="slideShowSlick" element={<SlideshowSlick />} />
