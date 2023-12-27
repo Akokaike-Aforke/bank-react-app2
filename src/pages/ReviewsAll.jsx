@@ -44,82 +44,7 @@ const ReviewsAll = () => {
   // }
   // const newRatingData = [...insertZerosBetweenElements(ratingData)];
   // const starsArray = Array(5).fill(<FaRegStar />);
-  const starsInFivePlaces = ratingData?.map((star, index) => (
-    <div key={index}>
-      <span className="star-span">
-        <p className="stars-p">
-          {[1, 2, 3, 4, 5].map((star, value) =>
-            value < 5 - index ? (
-              <FaStar className="colored" key={value} />
-            ) : (
-              <FaRegStar className="not-colored" key={value} />
-            )
-          )}
-        </p>
-        <span className="percent-span">{Math.round(star)}%</span>
-      </span>
-    </div>
-  ));
-  const state = {
-    labels: starsInFivePlaces,
-    datasets: [
-      {
-        label: "rating",
-        data: ratingData,
-        stack: "stack1",
-        backgroundColor: "#6a6f73",
-        barPercentage: 0.6,
-        categoryPercentage: 0.4,
-        maxBarThickness: 30,
-      },
-      {
-        label: "background",
-        data: Array(ratingData?.length).fill(100),
-        backgroundColor: "#d1d7dc",
-        stack: "stack1",
-        barPercentage: 0.6,
-        categoryPercentage: 0.4,
-        maxBarThickness: 30,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    plugins: {
-      title: {
-        display: false,
-        // text: "Users Gained between 2016-2020",
-      },
-      legend: {
-        display: false,
-      },
-    },
-    indexAxis: "y",
-    elements: {
-      line: {
-        borderWidth: 0, // Hide lines
-      },
-      point: {
-        radius: 0, // Hide data points
-      },
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        max: 100,
-        display: false,
-      },
-      y: {
-        type: "category",
-        beginAtZero: true,
-        position: "right",
-        display: false,
-        // categoryPercentage: 0.7,
-        // barPercentage: 0.9
-      },
-    },
-  };
-
+ 
   const handleHelpful = (id) => {
     setClickedIDUnhelpful(
       clickedIDUnhelpful.filter((removeId) => removeId !== id)
@@ -279,6 +204,86 @@ useEffect(() => {
      );
    }
    console.log(rating?.data?.data?.stats[0]);
+
+
+ const starsInFivePlaces = ratingData?.map((star, index) => (
+   <div key={index}>
+     <span className="star-span">
+       <p className="stars-p">
+         {[1, 2, 3, 4, 5].map((star, value) =>
+           value < 5 - index ? (
+             <FaStar className="colored" key={value} />
+           ) : (
+             <FaRegStar className="not-colored" key={value} />
+           )
+         )}
+       </p>
+       <span className="percent-span">{Math.round(star)}%</span>
+     </span>
+   </div>
+ ));
+ const state = {
+   labels: starsInFivePlaces,
+   datasets: [
+     {
+       label: "rating",
+       data: ratingData,
+       stack: "stack1",
+       backgroundColor: "#6a6f73",
+       barPercentage: 0.6,
+       categoryPercentage: 0.4,
+       maxBarThickness: 30,
+     },
+     {
+       label: "background",
+       data: Array(ratingData?.length).fill(100),
+       backgroundColor: "#d1d7dc",
+       stack: "stack1",
+       barPercentage: 0.6,
+       categoryPercentage: 0.4,
+       maxBarThickness: 30,
+     },
+   ],
+ };
+
+ const chartOptions = {
+   plugins: {
+     title: {
+       display: false,
+       // text: "Users Gained between 2016-2020",
+     },
+     legend: {
+       display: false,
+     },
+   },
+   indexAxis: "y",
+   elements: {
+     line: {
+       borderWidth: 0, // Hide lines
+     },
+     point: {
+       radius: 0, // Hide data points
+     },
+   },
+   scales: {
+     x: {
+       beginAtZero: true,
+       max: 100,
+       display: false,
+     },
+     y: {
+       type: "category",
+       beginAtZero: true,
+       position: "right",
+       display: false,
+       // categoryPercentage: 0.7,
+       // barPercentage: 0.9
+     },
+   },
+ };
+
+
+
   return (
     <ReviewDiv>
       <div className="main-div">
