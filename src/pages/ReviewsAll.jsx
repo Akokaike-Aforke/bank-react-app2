@@ -167,8 +167,9 @@ let ratingsAvg;
   ratingsAvg = parseFloat(
     rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)
   );
-  console.log(ratingsAvg)
+  
   }, [])
+console.log(ratingsAvg);
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
