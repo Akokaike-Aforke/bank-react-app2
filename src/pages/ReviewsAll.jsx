@@ -318,9 +318,9 @@ const ReviewsAll = () => {
             <div className="avg-rating-div">
               {/* {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>} */}
               <h1 className="avg-h1">
-                {rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(
+                {/* {rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(
                   1
-                )}
+                )} */}
               </h1>
               <span className="avg-stars">
                 {/* <p className="avg-stars-p">
