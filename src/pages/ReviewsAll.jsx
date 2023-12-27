@@ -212,6 +212,7 @@ useEffect(() => {
   const handleSearch = async () => {
     try {
       const ratings = await customFetch(`/api/v1/reviews/review-stats`);
+      console.log(ratings)
       setRating(ratings?.data?.data?.stats[0]?.eachTotals);
       setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
       // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
