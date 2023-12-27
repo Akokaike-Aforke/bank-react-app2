@@ -33,13 +33,19 @@ const ReviewsAll = () => {
   const [clickedID, setClickedID] = useState([]);
   const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
   const { mutate, isLoading: helpfulLoading } = useUpdateHelpful();
-  const [rating, setRating] = useState([]);
+  const [rating, setRating] = useState({});
   const [selectedRating, setSelectedRating] = useState("")
-  const [numRatings, setNumRatings] = useState(null);
-  const [ratingsAvg, setRatingsAvg] = useState(null);
-  const ratingData = rating?.map(
-    (rating) => (rating.numReviewsEach / numRatings) * 100
-  );
+  // const [numRatings, setNumRatings] = useState(null);
+  // const [ratingsAvg, setRatingsAvg] = useState(null);
+  let ratingData;
+  if(rating){
+  // ratingData = rating?.map(
+  ratingData = rating?.data?.data?.stats[0]?.eachTotals.map(
+    (rating) =>
+      (rating.numReviewsEach /
+        rating?.data?.data?.stats[0]?.groupTotals[0].numReviews) *
+      100
+  );}
   // function insertZerosBetweenElements(arr) {
   //   return arr.flatMap((num, index) => (index === 0 ? [num] : [5, num]));
   // }
@@ -213,14 +219,15 @@ useEffect(() => {
     try {
       const ratings = await customFetch(`/api/v1/reviews/review-stats`);
       console.log(ratings)
-      setRating(ratings?.data?.data?.stats[0]?.eachTotals);
-      setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
+      // setRating(ratings?.data?.data?.stats[0]?.eachTotals);
+      setRating(ratings);
+      // setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
       // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
-      setRatingsAvg(
-        parseFloat(
-          ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-        )
-      );
+      // setRatingsAvg(
+      //   parseFloat(
+      //     ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+      //   )
+      // );
     } catch (err) {
       console.log(err);
     } finally {
@@ -228,7 +235,7 @@ useEffect(() => {
     }
   };
   handleSearch();
-}, [rating]);
+}, []);
 
 
 
@@ -260,7 +267,14 @@ useEffect(() => {
   if (isLoading) {
     console.log("");
   }
-  console.log(ratingsAvg)
+  // console.log(
+  //   parseFloat(
+  //     rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+  //   )
+  // );
+  const ratingsAvg = parseFloat(
+    rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
+  );
   return (
     <ReviewDiv>
       <div className="main-div">
