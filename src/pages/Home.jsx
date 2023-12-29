@@ -401,7 +401,7 @@ const HomeMain = styled.main`
   .review-p {
     display: block;
     margin-bottom: auto;
-    font-size: 0.85rem;
+    font-size: 0.5rem;
   }
   .colored {
     color: #6cc049;
@@ -429,6 +429,9 @@ const HomeMain = styled.main`
       width: 30px;
       height: 30px;
       min-width: 30px;
+    }
+    .review-p {
+      font-size: 0.85rem;
     }
   }
 `;
