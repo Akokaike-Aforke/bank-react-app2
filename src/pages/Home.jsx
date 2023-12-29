@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../Images/Fidelity-Bank-Logo.png'
 import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
