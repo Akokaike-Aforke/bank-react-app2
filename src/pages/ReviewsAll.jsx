@@ -243,7 +243,7 @@ const ReviewsAll = () => {
 
   if (isLoading) {
     // return <p>loading...</p>;
-    console.log("")
+    console.log("");
   }
 
   return (
@@ -614,8 +614,8 @@ const ReviewDiv = styled.main`
   }
   .thumb-btn1,
   .thumb-btn2 {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
     background-color: transparent;
     font-size: 1.3rem;
     display: flex;
@@ -707,6 +707,11 @@ const ReviewDiv = styled.main`
     .fullname {
       font-size: 1rem;
     }
+    .thumb-btn1,
+    .thumb-btn2 {
+      width: 30px;
+      height: 30px;
+    }
   }
   @media screen and (min-width: 627px) {
     .bar-div {
@@ -736,6 +741,11 @@ const ReviewDiv = styled.main`
     }
     .fullname {
       font-size: 1.1rem;
+    }
+    .thumb-btn1,
+    .thumb-btn2 {
+      width: 40px;
+      height: 40px;
     }
   }
   @media screen and (min-width: 742px) {
