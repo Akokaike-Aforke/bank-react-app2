@@ -114,7 +114,6 @@ const ReviewsAll = () => {
         const response = await customFetch(
           `/api/v1/reviews/searchReviews/?s=${searchTerm}`
         );
-        const ratings = await customFetch(`/api/v1/reviews/review-stats`);
         setData(response.data.data.reviews);
       } catch (err) {
         console.log(err);
@@ -133,8 +132,7 @@ const ReviewsAll = () => {
   console.log(groupStats?.data?.stats[0]?.avgRating)
 
   useEffect(()=>{
-    // const rat = [1, 3, 5]
-    const rat = rating?.data?.stats?.map((rate) => {
+    const rat = rating?.data?.stats?.reverse().map((rate) => {
       console.log(rate.sum);
       console.log(groupStat?.data?.stats[0]?.numReviews);
       return (rate.sum / groupStat?.data?.stats[0]?.numReviews) * 100;
