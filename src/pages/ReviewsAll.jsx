@@ -132,7 +132,7 @@ const ReviewsAll = () => {
   console.log(groupStats?.data?.stats[0]?.avgRating)
 
   useEffect(()=>{
-    const rat = rating?.data?.stats?.reverse().map((rate) => {
+    const rat = rating?.data?.stats?.map((rate) => {
       console.log(rate.sum);
       console.log(groupStat?.data?.stats[0]?.numReviews);
       return (rate.sum / groupStat?.data?.stats[0]?.numReviews) * 100;
