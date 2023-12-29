@@ -25,7 +25,6 @@ import { FaStarHalfAlt } from "react-icons/fa";
 
 const ReviewsAll = () => {
   const { data: reviews, isLoading: reviewsLoading } = useGetAllReviews();
-  console.log(reviews?.results)
   const { data: statistics, isLoading: statisticsLoading } = useGetStats();
   const { data: groupStats, isLoading: groupStatsLoading } = useGetGroupStats();
   const { getFormattedDate } = useGlobalContext();
@@ -573,7 +572,7 @@ const ReviewDiv = styled.main`
   }
   .p-initials {
     color: white;
-    font-size: 1.2rem;
+    font-size: 0.8rem;
     letter-spacing: 2px;
   }
   .fullname {
@@ -683,6 +682,9 @@ const ReviewDiv = styled.main`
     .p-review {
       font-size: 0.9rem;
     }
+    .p-initials {
+      font-size: 1rem;
+    }
   }
   @media screen and (min-width: 510px) {
     .form-div {
@@ -724,6 +726,9 @@ const ReviewDiv = styled.main`
     }
     .avg-p {
       font-size: 1rem;
+    }
+    .p-initials {
+      font-size: 1.1rem;
     }
   }
   @media screen and (min-width: 742px) {
