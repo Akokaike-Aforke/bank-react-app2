@@ -330,7 +330,7 @@ const ReviewsAll = () => {
             </div>
           )
         )}
-        {data?.map((datum) => (
+        {data?.reverse()?.map((datum) => (
           <article className="profile-article" key={datum.id}>
             <div className="profilePhoto-div">
               {datum?.createdBy?.profilePhoto ? (
