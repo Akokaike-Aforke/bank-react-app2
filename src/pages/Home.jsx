@@ -358,7 +358,6 @@ const HomeMain = styled.main`
     font-size: 0.8rem;
     margin-bottom: 1rem;
     font-size: 0.5rem;
-    border: 1px solid black;
   }
   .img-div {
     width: 20px;
@@ -408,7 +407,7 @@ const HomeMain = styled.main`
     }
     .img-name-div {
       flex-direction: row;
-      font-size: 0.8rem;
+      font-size: 0.6rem;
     }
     .img-div {
       width: 30px;
