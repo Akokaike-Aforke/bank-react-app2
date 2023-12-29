@@ -368,6 +368,7 @@ const HomeMain = styled.main`
     justify-content: center;
     background-color: rgb(45, 47, 49);
     font-size: 0.5rem;
+    border: 1px solid black;
   }
 
   .photo {
