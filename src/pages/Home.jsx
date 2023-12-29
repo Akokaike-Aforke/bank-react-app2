@@ -384,6 +384,7 @@ const HomeMain = styled.main`
     display: flex;
     align-items: center;
     background-color: #012168;
+    transition: all 0.4s ease;
   }
   .review-article {
     width: 95%;
