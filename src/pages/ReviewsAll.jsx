@@ -578,6 +578,7 @@ const ReviewDiv = styled.main`
   .fullname {
     margin-bottom: 0.5rem;
     text-transform: capitalize;
+    font-size: 0.8rem;
   }
   .star-div {
     margin-bottom: 0.5rem;
@@ -685,6 +686,9 @@ const ReviewDiv = styled.main`
     .p-initials {
       font-size: 1rem;
     }
+    .fullname {
+      font-size: 0.9rem;
+    }
   }
   @media screen and (min-width: 510px) {
     .form-div {
@@ -700,9 +704,9 @@ const ReviewDiv = styled.main`
     .rating-h4 {
       margin-top: 0;
     }
-    /* .ratings-avg-div {
-      flex-direction: row;
-    } */
+    .fullname {
+      font-size: 1rem;
+    }
   }
   @media screen and (min-width: 627px) {
     .bar-div {
@@ -728,6 +732,9 @@ const ReviewDiv = styled.main`
       font-size: 1rem;
     }
     .p-initials {
+      font-size: 1.1rem;
+    }
+    .fullname {
       font-size: 1.1rem;
     }
   }
