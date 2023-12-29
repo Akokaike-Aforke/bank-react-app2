@@ -635,7 +635,7 @@ const ReviewDiv = styled.main`
   }
   .date-span {
     margin-left: 1rem;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
   }
   .star-rating-div {
     text-align: center;
@@ -673,6 +673,10 @@ const ReviewDiv = styled.main`
     .profilePhoto-div {
       width: 60px;
       height: 60px;
+    }
+    .date-span {
+      margin-left: 1rem;
+      font-size: 0.9rem;
     }
   }
   @media screen and (min-width: 510px) {
