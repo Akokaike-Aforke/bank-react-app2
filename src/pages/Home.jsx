@@ -64,15 +64,13 @@ const Home = () => {
             </button>
             <img src={logo} alt="fidelity logo" className="home-main-logo" />
           </nav>
-          <div className="home-main-div-dropdown">
+          <div
+            className="home-main-div-dropdown"
+            onMouseEnter={() => setBlur(true)}
+            onMouseLeave={() => setBlur(false)}
+          >
             <div className="dropdown-personal">
-              <button
-                className="btn-personal"
-                onMouseEnter={() => setBlur(true)}
-                onMouseLeave={() => setBlur(false)}
-              >
-                Personal
-              </button>
+              <button className="btn-personal">Personal</button>
               <div className="dropdown-content dropdown-content-personal">
                 <ul>
                   <li>
@@ -99,13 +97,12 @@ const Home = () => {
                 </ul>
               </div>
             </div>
-            <div className="dropdown-personal">
-              <button
-                onMouseEnter={() => setBlur(true)}
-                onMouseLeave={() => setBlur(false)}
-              >
-                Digital
-              </button>
+            <div
+              className="dropdown-personal"
+              onMouseEnter={() => setBlur(true)}
+              onMouseLeave={() => setBlur(false)}
+            >
+              <button>Digital</button>
               <div className="dropdown-content">
                 <ul>
                   <li>
@@ -129,13 +126,12 @@ const Home = () => {
                 </ul>
               </div>
             </div>
-            <div className="dropdown-personal">
-              <button
-                onMouseEnter={() => setBlur(true)}
-                onMouseLeave={() => setBlur(false)}
-              >
-                SME
-              </button>
+            <div
+              className="dropdown-personal"
+              onMouseEnter={() => setBlur(true)}
+              onMouseLeave={() => setBlur(false)}
+            >
+              <button>SME</button>
               <div className="dropdown-content">
                 <ul>
                   <li>
@@ -154,12 +150,9 @@ const Home = () => {
               </div>
             </div>
             <div className="dropdown-personal">
-              <button
-                onMouseEnter={() => setBlur(true)}
-                onMouseLeave={() => setBlur(false)}
-              >
-                Corporate
-              </button>
+              onMouseEnter={() => setBlur(true)}
+              onMouseLeave={() => setBlur(false)}
+              <button>Corporate</button>
               <div className="dropdown-content">
                 <ul>
                   <li>
