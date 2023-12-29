@@ -401,7 +401,7 @@ const ReviewsAll = () => {
           </article>
         ))}
 
-        {data.length === 0 && (
+        {data?.length === 0 && (
           <div>
             <p className="p-no-reviews1">{`No Reviews matching '${searchTerm}'`}</p>
             <p className="p-no-reviews2">
