@@ -142,7 +142,7 @@ const ReviewsAll = () => {
     const handleSearch = async () => {
       try {
         const ratings = await customFetch(`/api/v1/reviews/review-stats`);
-        console.log(ratings);
+        console.log(`ratings: ${ratings}`);
         // setRating(ratings?.data?.data?.stats[0]?.eachTotals);
         setRating(ratings);
         // setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
@@ -209,12 +209,12 @@ const ReviewsAll = () => {
 
   ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map((rate) => {
     //  console.log(rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews);
-    console.log(rate);
-    console.log(
+    console.log(`212: ${rate}`);
+    console.log(`213:${
       (rate?.numReviewsEach /
         rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
         100
-    );
+    }`);
     return (
       (rate.numReviewsEach /
         rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
@@ -222,7 +222,7 @@ const ReviewsAll = () => {
     );
   });
   // console.log(ratingData);
-  console.log(rating?.data?.data?.stats[0]);
+  console.log(`stats[0]: ${rating?.data?.data?.stats[0]}`);
 
   const starsInFivePlaces = ratingData?.map((star, index) => (
     <div key={index}>
