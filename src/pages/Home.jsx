@@ -356,6 +356,8 @@ const HomeMain = styled.main`
     text-transform: uppercase;
     font-size: 0.8rem;
     margin-bottom: 1rem;
+    font-size: 0.5rem;
+    border: 1px solid black;
   }
   .img-div {
     width: 20px;
@@ -367,8 +369,6 @@ const HomeMain = styled.main`
     align-items: center;
     justify-content: center;
     background-color: rgb(45, 47, 49);
-    font-size: 0.5rem;
-    border: 1px solid black;
   }
 
   .photo {
@@ -406,11 +406,13 @@ const HomeMain = styled.main`
     .dropdown-content-personal {
       margin-left: 0;
     }
+    .img-name-div {
+      flex-direction: row;
+      font-size: 1rem;
+    }
     .img-div {
       width: 30px;
       height: 30px;
-      flex-direction: row;
-      font-size: 1rem;
     }
   }
 `;
