@@ -363,9 +363,11 @@ const HomeMain = styled.main`
     min-width: 20px;
     border-radius: 50%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgb(45, 47, 49);
+    font-size: 0.5rem;
   }
 
   .photo {
@@ -406,6 +408,8 @@ const HomeMain = styled.main`
     .img-div {
       width: 30px;
       height: 30px;
+      flex-direction: row;
+      font-size: 1rem;
     }
   }
 `;
