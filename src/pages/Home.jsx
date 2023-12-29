@@ -195,7 +195,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <div className={blur ? "div-p" : "div-p blur"}>
+      <div className={blur ? "div-p blur" : "div-p"}>
         <p className="p1">Thank you for your time in assessing my app.</p>
         <p className="p2">
           Kindly navigate to your profile and leave a review when done.
