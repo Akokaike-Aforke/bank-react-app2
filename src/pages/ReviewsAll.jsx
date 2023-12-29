@@ -242,7 +242,8 @@ const ReviewsAll = () => {
   };
 
   if (isLoading) {
-    return <p>loading...</p>;
+    // return <p>loading...</p>;
+    console.log("")
   }
 
   return (
@@ -309,7 +310,7 @@ const ReviewsAll = () => {
             </select>
           </form>
         </div>
-        {isLoading ? (
+        {reviewsLoading ? (
           <span className="dna-wrapper">
             <Dna
               visible={true}
