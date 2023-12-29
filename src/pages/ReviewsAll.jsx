@@ -39,6 +39,7 @@ const ReviewsAll = () => {
   const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
   const { mutate, isLoading: helpfulLoading } = useUpdateHelpful();
   const [rating, setRating] = useState({});
+  const [groupStat, setGroupStat] = useState({})
   const [selectedRating, setSelectedRating] = useState("");
   // const [numRatings, setNumRatings] = useState(null);
   const [ratingsAvg, setRatingsAvg] = useState(0);
@@ -163,7 +164,9 @@ const ReviewsAll = () => {
     // };
     // handleSearch();
   }, []);
-
+  useEffect(()=>{
+    setGroupStat(groupStats)
+  }, [])
   //   useEffect(() => {
   //     const avg =
   //       rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
@@ -210,22 +213,13 @@ const ReviewsAll = () => {
 
   // ratingData = rating?.map(
 
-  ratingData = rating?.data?.data?.stats[0]?.eachTotals?.map((rate) => {
-    //  console.log(rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews);
-    console.log(`212: ${rate}`);
-    console.log(`213:${
-      (rate?.numReviewsEach /
-        rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
-        100
-    }`);
+  ratingData = rating?.data?.stats?.map((rate) => {
     return (
-      (rate.numReviewsEach /
-        rating?.data?.data?.stats[0]?.groupTotals[0]?.numReviews) *
+      (rate.sum / groupStat?.data?.stats[0]?.numReviews) *
       100
     );
   });
-  // console.log(ratingData);
-  console.log(`stats[0]: ${rating?.data?.data?.stats[0]}`);
+  console.log(ratingData)
 
   const starsInFivePlaces = ratingData?.map((star, index) => (
     <div key={index}>
