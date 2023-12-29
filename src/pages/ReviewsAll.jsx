@@ -310,7 +310,7 @@ const ReviewsAll = () => {
             </select>
           </form>
         </div>
-        {reviewsLoading ? (
+        {reviewsLoading && (
           <span className="dna-wrapper">
             <Dna
               visible={true}
@@ -321,15 +321,6 @@ const ReviewsAll = () => {
               wrapperClass="dna-wrapper"
             />
           </span>
-        ) : (
-          data.length === 0 && (
-            <div>
-              <p className="p-no-reviews1">{`No Reviews matching '${searchTerm}'`}</p>
-              <p className="p-no-reviews2">
-                No reviews matched your search. Try searching with another term.
-              </p>
-            </div>
-          )
         )}
         {data?.reverse().map((datum) => (
           <article className="profile-article" key={datum.id}>
@@ -409,6 +400,15 @@ const ReviewsAll = () => {
             </div>
           </article>
         ))}
+
+        {data.length === 0 && (
+          <div>
+            <p className="p-no-reviews1">{`No Reviews matching '${searchTerm}'`}</p>
+            <p className="p-no-reviews2">
+              No reviews matched your search. Try searching with another term.
+            </p>
+          </div>
+        )}
       </div>
     </ReviewDiv>
   );
