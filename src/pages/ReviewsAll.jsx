@@ -283,9 +283,9 @@ const ReviewsAll = () => {
                 options={chartOptions}
               />
             </div>
-            {/* <div className="stars-div">
+            <div className="stars-div">
               {starsInFivePlaces}
-            </div> */}
+            </div>
           </div>
         </article>
         <h2>Reviews</h2>
