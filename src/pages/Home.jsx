@@ -168,56 +168,64 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <p className='p1'>Thank you for your time in assessing my app.</p>
-      <p className='p2'>Kindly navigate to your profile and leave a review when done.</p>
-      <p className='p3'>Ideas on how to fix any bugs observed will be greatly appreciated.</p>
+      <div className='div-p'>
+        <p className="p1">Thank you for your time in assessing my app.</p>
+        <p className="p2">
+          Kindly navigate to your profile and leave a review when done.
+        </p>
+        <p className="p3">
+          Ideas on how to fix any bugs observed will be greatly appreciated.
+        </p>
+      </div>
       <div className="reviews-div">
         {/* <article className="review-article"> */}
-          <Slider className="review-article" {...settings}>
-            {data?.data?.reviews.map((review, index) => {
-              return (
-                <div className="review-profile">
-                  <div className="pad-div">
-                    <div className="img-name-div">
-                      <div className="img-div">
-                        {review?.createdBy?.profilePhoto ? (
-                          <img
-                            className="photo"
-                            src={review?.createdBy?.profilePhoto}
-                            alt=""
-                          />
-                        ) : (
-                          <span className="p-initials">
-                            {review?.createdBy?.fullname
-                              .split(" ")
-                              .filter((ini, index) => index < 2)
-                              .map((ini) => ini.charAt(0).toUpperCase())
-                              .join("")}
-                          </span>
-                        )}
-                      </div>
-                      <p>{review?.createdBy?.fullname}</p>
+        <Slider className="review-article" {...settings}>
+          {data?.data?.reviews.map((review, index) => {
+            return (
+              <div className="review-profile">
+                <div className="pad-div">
+                  <div className="img-name-div">
+                    <div className="img-div">
+                      {review?.createdBy?.profilePhoto ? (
+                        <img
+                          className="photo"
+                          src={review?.createdBy?.profilePhoto}
+                          alt=""
+                        />
+                      ) : (
+                        <span className="p-initials">
+                          {review?.createdBy?.fullname
+                            .split(" ")
+                            .filter((ini, index) => index < 2)
+                            .map((ini) => ini.charAt(0).toUpperCase())
+                            .join("")}
+                        </span>
+                      )}
                     </div>
-                    <p className="review-p">{review?.review?.substring(0, 100)}</p>
-                    <div className="star-div">
-                      {[1, 2, 3, 4, 5].map((star, index) => {
-                        return (
-                          <span key={index} className="star-span">
-                            {/* <FaRegStar */}
-                            {index < review?.rating ? (
-                              <FaStar className="colored" />
-                            ) : (
-                              <FaRegStar className="not-colored" />
-                            )}
-                          </span>
-                        );
-                      })}
-                    </div>
+                    <p>{review?.createdBy?.fullname}</p>
+                  </div>
+                  <p className="review-p">
+                    {review?.review?.substring(0, 100)}
+                  </p>
+                  <div className="star-div">
+                    {[1, 2, 3, 4, 5].map((star, index) => {
+                      return (
+                        <span key={index} className="star-span">
+                          {/* <FaRegStar */}
+                          {index < review?.rating ? (
+                            <FaStar className="colored" />
+                          ) : (
+                            <FaRegStar className="not-colored" />
+                          )}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
-              );
-            })}
-          </Slider>
+              </div>
+            );
+          })}
+        </Slider>
         {/* </article> */}
       </div>
     </HomeMain>
@@ -334,7 +342,7 @@ const HomeMain = styled.main`
   }
   .personal-btn {
   }
-  .p1, .p2, .p3{
+  .div-p{
     margin: 1rem;
   }
   .reviews-div {
