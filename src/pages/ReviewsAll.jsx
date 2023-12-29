@@ -24,7 +24,7 @@ import { FaStarHalfAlt } from "react-icons/fa";
 
 const ReviewsAll = () => {
   // const { data, isLoading: reviewsLoading } = useGetAllReviews();
-  const { statistics, isLoading: reviewsLoading } = useGetStats();
+  const { data: statistics, isLoading: reviewsLoading } = useGetStats();
   console.log(statistics);
   const { getFormattedDate } = useGlobalContext();
   const { data: userData } = useGetUser();
@@ -242,7 +242,6 @@ const ReviewsAll = () => {
   ));
 
   const  stats  = rating;
-  console.log(JSON.stringify(stats, null, 2));
   console.log(stats);
   // const stat = stats[0];
   // console.log(stat);
