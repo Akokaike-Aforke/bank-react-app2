@@ -140,11 +140,6 @@ const ReviewsAll = () => {
     console.log(rat);
     setRatingData(rat)
   }, [rating, groupStat])
-  // if(!ratingData?.includes(NaN))
-  // console.log("includes nan")
-  console.log(ratingData)
-  console.log(ratingsAvg)
-
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
       `${userData?.data?.user?.id}_helpfulArray`
@@ -649,7 +644,6 @@ const ReviewDiv = styled.main`
   }
   .star-rating-div {
     text-align: center;
-    /* margin-bottom: 1.5rem; */
     flex-grow: 1;
     text-align: left;
   }
@@ -659,7 +653,6 @@ const ReviewDiv = styled.main`
   }
   .active-star {
     color: #032fb3;
-    /* color: #7edf55; */
     display: inline;
   }
   .inactive-star {
