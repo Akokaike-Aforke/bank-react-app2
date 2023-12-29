@@ -238,7 +238,7 @@ const ReviewsAll = () => {
     </div>
   ));
 
-  const  stats  = rating?.data;
+  const  stats  = rating;
   console.log(stats);
   // const stat = stats[0];
   // console.log(stat);
