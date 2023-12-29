@@ -25,6 +25,7 @@ import { FaStarHalfAlt } from "react-icons/fa";
 
 const ReviewsAll = () => {
   const { data: reviews, isLoading: reviewsLoading } = useGetAllReviews();
+  console.log(reviews?.results)
   const { data: statistics, isLoading: statisticsLoading } = useGetStats();
   const { data: groupStats, isLoading: groupStatsLoading } = useGetGroupStats();
   const { getFormattedDate } = useGlobalContext();
@@ -401,7 +402,7 @@ const ReviewsAll = () => {
           </article>
         ))}
 
-        {data?.length === 0 && (
+        {reviews?.results === 0 && (
           <div>
             <p className="p-no-reviews1">{`No Reviews matching '${searchTerm}'`}</p>
             <p className="p-no-reviews2">
