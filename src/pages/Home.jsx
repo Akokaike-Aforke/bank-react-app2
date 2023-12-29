@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../Images/Fidelity-Bank-Logo.png'
 import { FaBars } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -12,12 +12,17 @@ import Slider from "react-slick";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+   const handleResize = () => {
+     setWindowWidth(window.innerWidth);
+   };
   const {data, isLoading} = useGetAllReviews();
     const settings = {
       dots: false,
       infinite: true,
       speed: 500,
-      slidesToShow: 4,
+      // slidesToShow: 4,
+      slidesToShow: windowWidth < 427 ? 2 : 4,
       slidesToScroll: 1,
       autoplay: true,
       // margin-left: "15px"
@@ -25,6 +30,17 @@ const Home = () => {
   // if(isLoading){
   //   return <p></p>
   // }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  // const smallestScreen = windowWidth < 427;
+
   return (
     <HomeMain>
       <section className="home-main-section">
