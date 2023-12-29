@@ -614,8 +614,8 @@ const ReviewDiv = styled.main`
   }
   .thumb-btn1,
   .thumb-btn2 {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background-color: transparent;
     font-size: 1rem;
     display: flex;
@@ -623,6 +623,7 @@ const ReviewDiv = styled.main`
     justify-content: center;
     border-radius: 50%;
     cursor: pointer;
+    
   }
   .thumb-btn1 {
     margin-right: 1rem;
@@ -707,13 +708,7 @@ const ReviewDiv = styled.main`
     .fullname {
       font-size: 1rem;
     }
-    .thumb-btn1,
-    .thumb-btn2 {
-      width: 30px;
-      height: 30px;
-
-      font-size: 1.1rem;
-    }
+    
   }
   @media screen and (min-width: 627px) {
     .bar-div {
