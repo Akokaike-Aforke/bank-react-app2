@@ -22,7 +22,7 @@ const Home = () => {
       infinite: true,
       speed: 500,
       // slidesToShow: 4,
-      slidesToShow: windowWidth < 340 ? 1 : windowWidth < 427 ? 2 : 4,
+      slidesToShow: windowWidth < 340 ? 1 : windowWidth < 427 ? 2 : windowWidth < 700 ? 3 : 4,
       slidesToScroll: 1,
       autoplay: true,
       // margin-left: "15px"
