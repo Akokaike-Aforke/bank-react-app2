@@ -168,13 +168,12 @@ const Home = () => {
                 </ul>
               </div>
             </div>
-            <div className="dropdown-personal">
-              <button
-                onMouseEnter={() => setBlur(true)}
-                onMouseLeave={() => setBlur(false)}
-              >
-                Private
-              </button>
+            <div
+              className="dropdown-personal"
+              onMouseEnter={() => setBlur(true)}
+              onMouseLeave={() => setBlur(false)}
+            >
+              <button>Private</button>
               <div className="dropdown-content">
                 <ul>
                   <li>
