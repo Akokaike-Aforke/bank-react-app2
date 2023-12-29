@@ -184,7 +184,7 @@ const Home = () => {
                       </div>
                       <p>{review?.createdBy?.fullname}</p>
                     </div>
-                    <p className="review-p">{review?.review?.substring(0, 7)}</p>
+                    <p className="review-p">{review?.review?.substring(0, 50)}</p>
                     <div className="star-div">
                       {[1, 2, 3, 4, 5].map((star, index) => {
                         return (
