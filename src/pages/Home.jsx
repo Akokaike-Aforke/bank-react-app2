@@ -365,7 +365,7 @@ const HomeMain = styled.main`
     min-width: 20px;
     border-radius: 50%;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
     background-color: rgb(45, 47, 49);
   }
