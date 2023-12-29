@@ -4,7 +4,7 @@ import {
   useGetAllReviews,
   useUpdateHelpful,
   useGetUser,
-  useGetStats
+  useGetStats, useGetGroupStats
 } from "../ReactQueryCustomHooks";
 import customFetch from "./../utils";
 import styled from "styled-components";
