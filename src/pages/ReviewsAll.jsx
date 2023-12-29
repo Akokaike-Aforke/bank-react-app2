@@ -126,7 +126,7 @@ const ReviewsAll = () => {
 
   useEffect(() => {
     setData(reviews?.data?.reviews);
-  }, []);
+  }, [reviews]);
   useEffect(() => {
     setRating(statistics);
     setGroupStat(groupStats);
