@@ -26,7 +26,7 @@ const ReviewsAll = () => {
   // const { data, isLoading: reviewsLoading } = useGetAllReviews();
   const { data: statistics, isLoading: reviewsLoading } = useGetStats();
   const { data: groupStats, isLoading: groupStatsLoading } = useGetGroupStats();
-  // console.log(statistics);
+  console.log(statistics);
   console.log(groupStats)
   const { getFormattedDate } = useGlobalContext();
   const { data: userData } = useGetUser();
