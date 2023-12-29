@@ -201,7 +201,7 @@ const Home = () => {
       <div className={blur ? "reviews-div blur" : "reviews-div"}>
         {/* <article className="review-article"> */}
         <Slider className="review-article" {...settings}>
-          {data?.data?.reviews?.reverse()?.map((review, index) => {
+          {data?.data?.reviews?.reverse().map((review, index) => {
             return (
               <div className="review-profile">
                 <div className="pad-div">
