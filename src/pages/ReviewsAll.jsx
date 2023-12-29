@@ -240,8 +240,8 @@ const ReviewsAll = () => {
 
   const  stats  = rating?.data?.data;
   console.log(stats);
-  const stat = stats[0];
-  console.log(stat);
+  // const stat = stats[0];
+  // console.log(stat);
   // console.log("rating.data");
   // console.log(rating?.data?.data?.stats);
 
