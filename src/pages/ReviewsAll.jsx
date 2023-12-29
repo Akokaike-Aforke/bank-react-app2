@@ -675,6 +675,7 @@ const ReviewDiv = styled.main`
     .profilePhoto-div {
       width: 60px;
       height: 60px;
+      min-width: 60px;
     }
     .date-span {
       margin-left: 1rem;
