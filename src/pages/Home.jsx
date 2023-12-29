@@ -351,6 +351,7 @@ const HomeMain = styled.main`
   }
   .img-name-div {
     display: flex;
+    flex-direction: column;
     column-gap: 0.9rem;
     align-items: center;
     text-transform: uppercase;
@@ -365,7 +366,6 @@ const HomeMain = styled.main`
     min-width: 20px;
     border-radius: 50%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: rgb(45, 47, 49);
@@ -413,6 +413,7 @@ const HomeMain = styled.main`
     .img-div {
       width: 30px;
       height: 30px;
+      min-width: 30px;
     }
   }
 `;
