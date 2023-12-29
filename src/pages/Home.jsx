@@ -363,11 +363,11 @@ const HomeMain = styled.main`
   }
   .personal-btn {
   }
-  .div-p{
+  .div-p {
     margin: 1rem;
     transition: all 0.3s ease;
   }
-  .blur{
+  .blur {
     opacity: 0.1;
   }
   .reviews-div {
@@ -468,7 +468,12 @@ const HomeMain = styled.main`
       min-width: 30px;
     }
     .review-p {
-      font-size: 0.85rem;
+      font-size: 0.7rem;
+    }
+  }
+  @media screen and (min-width: 600px) {
+    .review-p {
+      font-size: 0.8rem;
     }
   }
 `;
