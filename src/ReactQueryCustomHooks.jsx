@@ -588,3 +588,17 @@ export const useGetStats = () => {
   });
   return { data, isLoading };
 };
+
+export const useGetGroupStats = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const { data } = await customFetch("/api/v1/reviews/group-stats");
+      // const { data } = await customFetch(
+      //   `/api/v1/reviews/searchReviews/?s=${searchTerm}`
+      // );
+      return data;
+    },
+  });
+  return { data, isLoading };
+};
