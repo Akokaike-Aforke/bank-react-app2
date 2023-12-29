@@ -179,7 +179,7 @@ const Profile = ({ data, isLoading, profileOpen }) => {
               to={{ pathname: "/reviewsAll", state: { data } }}
               className="links-pin"
             >
-              See All Review
+              See All Reviews
             </Link>
           </div>
         </div>
