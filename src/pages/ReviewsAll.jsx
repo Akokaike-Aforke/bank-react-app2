@@ -617,7 +617,7 @@ const ReviewDiv = styled.main`
     width: 20px;
     height: 20px;
     background-color: transparent;
-    font-size: 1.3rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -711,6 +711,8 @@ const ReviewDiv = styled.main`
     .thumb-btn2 {
       width: 30px;
       height: 30px;
+
+      font-size: 1.1rem;
     }
   }
   @media screen and (min-width: 627px) {
@@ -746,6 +748,7 @@ const ReviewDiv = styled.main`
     .thumb-btn2 {
       width: 40px;
       height: 40px;
+      font-size: 1.3rem;
     }
   }
   @media screen and (min-width: 742px) {
