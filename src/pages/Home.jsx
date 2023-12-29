@@ -168,9 +168,9 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <p>Thank you for your time in assessing my app.</p>
-      <p>Kindly navigate to your profile and leave a review when done.</p>
-      <p>Ideas on how to fix any bugs observed will be greatly appreciated.</p>
+      <p className='p1'>Thank you for your time in assessing my app.</p>
+      <p className='p2'>Kindly navigate to your profile and leave a review when done.</p>
+      <p className='p3'>Ideas on how to fix any bugs observed will be greatly appreciated.</p>
       <div className="reviews-div">
         {/* <article className="review-article"> */}
           <Slider className="review-article" {...settings}>
@@ -333,6 +333,9 @@ const HomeMain = styled.main`
     color: wheat;
   }
   .personal-btn {
+  }
+  .p1, .p2, .p3{
+    margin: 1rem;
   }
   .reviews-div {
     width: 95%;
