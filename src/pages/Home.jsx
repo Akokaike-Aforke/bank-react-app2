@@ -408,7 +408,7 @@ const HomeMain = styled.main`
     }
     .img-name-div {
       flex-direction: row;
-      font-size: 1rem;
+      font-size: 0.8rem;
     }
     .img-div {
       width: 30px;
