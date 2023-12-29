@@ -573,3 +573,18 @@ export const useUpdateUnHelpful = () => {
   });
   return { mutate, isLoading };
 };
+
+
+export const useGetStats = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["stats"],
+    queryFn: async () => {
+      const { data } = await customFetch("/api/v1/reviews/review-stats");
+      // const { data } = await customFetch(
+      //   `/api/v1/reviews/searchReviews/?s=${searchTerm}`
+      // );
+      return data;
+    },
+  });
+  return { data, isLoading };
+};

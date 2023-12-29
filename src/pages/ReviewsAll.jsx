@@ -23,6 +23,8 @@ import { FaStarHalfAlt } from "react-icons/fa";
 
 const ReviewsAll = () => {
   // const { data, isLoading: reviewsLoading } = useGetAllReviews();
+  const { statistics, isLoading: reviewsLoading } = useGetStats();
+  console.log(statistics);
   const { getFormattedDate } = useGlobalContext();
   const { data: userData } = useGetUser();
   const [searchTerm, setSearchTerm] = useState("");
