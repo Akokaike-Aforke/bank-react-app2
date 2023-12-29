@@ -158,21 +158,18 @@ const ReviewsAll = () => {
     handleSearch();
   }, []);
 
-
-//   useEffect(() => {
-//     const avg =
-//       rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
-//       const {stats} = {...rating?.data?.data}
-//       if(avg)
-//       setRatingsAvg(
-//         parseFloat(
-//           avg
-//         )
-//       );
-//   }, [rating]);
-// console.log(ratingsAvg);
-
-
+  //   useEffect(() => {
+  //     const avg =
+  //       rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
+  //       const {stats} = {...rating?.data?.data}
+  //       if(avg)
+  //       setRatingsAvg(
+  //         parseFloat(
+  //           avg
+  //         )
+  //       );
+  //   }, [rating]);
+  // console.log(ratingsAvg);
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
@@ -199,9 +196,6 @@ const ReviewsAll = () => {
     );
   }, [clickedID, clickedIDUnhelpful]);
 
-  if (isLoading) {
-    console.log("");
-  }
   // console.log(
   //   parseFloat(
   //     rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
@@ -246,9 +240,8 @@ const ReviewsAll = () => {
 
   const { stats } = { ...rating?.data?.data };
   console.log(stats);
-  console.log("rating.data")
-  console.log(rating?.data?.data?.stats)
-
+  console.log("rating.data");
+  console.log(rating?.data?.data?.stats);
 
   // const ratingsAvg =
   //   rating?.data?.data?.stats[0];
@@ -314,6 +307,10 @@ const ReviewsAll = () => {
   //      },
   //    },
   //  };
+
+  if (isLoading) {
+    console.log("");
+  }
 
   return (
     <ReviewDiv>
