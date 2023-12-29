@@ -242,7 +242,7 @@ const ReviewsAll = () => {
   ));
 
   const  stats  = rating;
-  console.log(`groupTotals: ${stats.groupTotals}`);
+  console.log(`groupTotals: ${stats?.groupTotals}`);
   // const stat = stats[0];
   // console.log(stat);
   // console.log("rating.data");
