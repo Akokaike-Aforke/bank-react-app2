@@ -360,6 +360,7 @@ const HomeMain = styled.main`
   .img-div {
     width: 20px;
     height: 20px;
+    min-width: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
