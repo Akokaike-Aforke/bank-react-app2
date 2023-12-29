@@ -24,8 +24,9 @@ import { FaStar } from "react-icons/fa6";
 import { FaStarHalfAlt } from "react-icons/fa";
 
 const ReviewsAll = () => {
-  // const { data, isLoading: reviewsLoading } = useGetAllReviews();
-  const { data: statistics, isLoading: reviewsLoading } = useGetStats();
+  const { data: reviews, isLoading: reviewsLoading } = useGetAllReviews();
+  console.log(reviews);
+  const { data: statistics, isLoading: statisticsLoading } = useGetStats();
   const { data: groupStats, isLoading: groupStatsLoading } = useGetGroupStats();
   const { getFormattedDate } = useGlobalContext();
   const { data: userData } = useGetUser();
@@ -125,21 +126,24 @@ const ReviewsAll = () => {
   }, [searchTerm]);
 
   useEffect(() => {
+    setData(reviews?.data?.reviews);
+  }, []);
+  useEffect(() => {
     setRating(statistics);
     setGroupStat(groupStats);
-    setRatingsAvg(groupStats?.data?.stats[0]?.avgRating)
+    setRatingsAvg(groupStats?.data?.stats[0]?.avgRating);
   }, [statistics, groupStats]);
-  console.log(groupStats?.data?.stats[0]?.avgRating)
+  console.log(groupStats?.data?.stats[0]?.avgRating);
 
-  useEffect(()=>{
+  useEffect(() => {
     const rat = rating?.data?.stats?.map((rate) => {
       console.log(rate.sum);
       console.log(groupStat?.data?.stats[0]?.numReviews);
       return (rate.sum / groupStat?.data?.stats[0]?.numReviews) * 100;
     });
     console.log(rat);
-    setRatingData(rat)
-  }, [rating, groupStat])
+    setRatingData(rat);
+  }, [rating, groupStat]);
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
       `${userData?.data?.user?.id}_helpfulArray`
@@ -182,68 +186,68 @@ const ReviewsAll = () => {
     </div>
   ));
 
-   const state = {
-     labels: starsInFivePlaces,
-     datasets: [
-       {
-         label: "rating",
-         data: ratingData,
-         stack: "stack1",
-         backgroundColor: "#6a6f73",
-         barPercentage: 0.6,
-         categoryPercentage: 0.4,
-         maxBarThickness: 30,
-       },
-       {
-         label: "background",
-         data: Array(ratingData?.length).fill(100),
-         backgroundColor: "#d1d7dc",
-         stack: "stack1",
-         barPercentage: 0.6,
-         categoryPercentage: 0.4,
-         maxBarThickness: 30,
-       },
-     ],
-   };
+  const state = {
+    labels: starsInFivePlaces,
+    datasets: [
+      {
+        label: "rating",
+        data: ratingData,
+        stack: "stack1",
+        backgroundColor: "#6a6f73",
+        barPercentage: 0.6,
+        categoryPercentage: 0.4,
+        maxBarThickness: 30,
+      },
+      {
+        label: "background",
+        data: Array(ratingData?.length).fill(100),
+        backgroundColor: "#d1d7dc",
+        stack: "stack1",
+        barPercentage: 0.6,
+        categoryPercentage: 0.4,
+        maxBarThickness: 30,
+      },
+    ],
+  };
 
-   const chartOptions = {
-     plugins: {
-       title: {
-         display: false,
-         // text: "Users Gained between 2016-2020",
-       },
-       legend: {
-         display: false,
-       },
-     },
-     indexAxis: "y",
-     elements: {
-       line: {
-         borderWidth: 0, // Hide lines
-       },
-       point: {
-         radius: 0, // Hide data points
-       },
-     },
-     scales: {
-       x: {
-         beginAtZero: true,
-         max: 100,
-         display: false,
-       },
-       y: {
-         type: "category",
-         beginAtZero: true,
-         position: "right",
-         display: false,
-         // categoryPercentage: 0.7,
-         // barPercentage: 0.9
-       },
-     },
-   };
+  const chartOptions = {
+    plugins: {
+      title: {
+        display: false,
+        // text: "Users Gained between 2016-2020",
+      },
+      legend: {
+        display: false,
+      },
+    },
+    indexAxis: "y",
+    elements: {
+      line: {
+        borderWidth: 0, // Hide lines
+      },
+      point: {
+        radius: 0, // Hide data points
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        max: 100,
+        display: false,
+      },
+      y: {
+        type: "category",
+        beginAtZero: true,
+        position: "right",
+        display: false,
+        // categoryPercentage: 0.7,
+        // barPercentage: 0.9
+      },
+    },
+  };
 
   if (isLoading) {
-    return <p>loading...</p>
+    return <p>loading...</p>;
   }
 
   return (
@@ -253,12 +257,14 @@ const ReviewsAll = () => {
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
             <div className="avg-rating-div">
-              {ratingsAvg && <h1 className="avg-h1">{ratingsAvg.toFixed(1)}</h1>}
+              {ratingsAvg && (
+                <h1 className="avg-h1">{ratingsAvg.toFixed(1)}</h1>
+              )}
               <span className="avg-stars">
                 <p className="avg-stars-p">
                   {[1, 2, 3, 4, 5].map((star, index) =>
                     ratingsAvg - index > 0 && ratingsAvg - index < 1 ? (
-                      <FaStarHalfAlt className="colored" key={index}/>
+                      <FaStarHalfAlt className="colored" key={index} />
                     ) : index < ratingsAvg ? (
                       <FaStar className="colored" key={index} />
                     ) : (
@@ -270,15 +276,9 @@ const ReviewsAll = () => {
               </span>
             </div>
             <div className="bar-div">
-              <Bar
-                className="bar"
-                data={state}
-                options={chartOptions}
-              />
+              <Bar className="bar" data={state} options={chartOptions} />
             </div>
-            <div className="stars-div">
-              {starsInFivePlaces}
-            </div>
+            <div className="stars-div">{starsInFivePlaces}</div>
           </div>
         </article>
         <h2>Reviews</h2>
