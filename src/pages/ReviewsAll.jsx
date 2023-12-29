@@ -260,14 +260,9 @@ const ReviewsAll = () => {
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
             <div className="avg-rating-div">
-              {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>}
-              <h1 className="avg-h1">
-                {/* {rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(
-                  1
-                )} */}
-              </h1>
+              {ratingsAvg && <h1 className="avg-h1">{ratingsAvg.toFixed(1)}</h1>}
               <span className="avg-stars">
-                {/* <p className="avg-stars-p">
+                <p className="avg-stars-p">
                   {[1, 2, 3, 4, 5].map((star, index) =>
                     ratingsAvg - index > 0 && ratingsAvg - index < 1 ? (
                       <FaStarHalfAlt className="colored" key={index}/>
@@ -277,7 +272,7 @@ const ReviewsAll = () => {
                       <FaRegStar className="not-colored" key={index} />
                     )
                   )}
-                </p> */}
+                </p>
                 <p className="colored avg-p">Course Rating</p>
               </span>
             </div>
