@@ -4,7 +4,8 @@ import {
   useGetAllReviews,
   useUpdateHelpful,
   useGetUser,
-  useGetStats, useGetGroupStats
+  useGetStats,
+  useGetGroupStats,
 } from "../ReactQueryCustomHooks";
 import customFetch from "./../utils";
 import styled from "styled-components";
@@ -26,8 +27,6 @@ const ReviewsAll = () => {
   // const { data, isLoading: reviewsLoading } = useGetAllReviews();
   const { data: statistics, isLoading: reviewsLoading } = useGetStats();
   const { data: groupStats, isLoading: groupStatsLoading } = useGetGroupStats();
-  console.log(statistics);
-  console.log(groupStats)
   const { getFormattedDate } = useGlobalContext();
   const { data: userData } = useGetUser();
   const [searchTerm, setSearchTerm] = useState("");
@@ -39,18 +38,10 @@ const ReviewsAll = () => {
   const [clickedIDUnhelpful, setClickedIDUnhelpful] = useState([]);
   const { mutate, isLoading: helpfulLoading } = useUpdateHelpful();
   const [rating, setRating] = useState({});
-  const [groupStat, setGroupStat] = useState({})
-  const const data, setRatingData] = useState([])
+  const [groupStat, setGroupStat] = useState({});
+  const [ratingData, setRatingData] = useState([]);
   const [selectedRating, setSelectedRating] = useState("");
-  // const [numRatings, setNumRatings] = useState(null);
   const [ratingsAvg, setRatingsAvg] = useState(0);
-
-
-  // function insertZerosBetweenElements(arr) {
-  //   return arr.flatMap((num, index) => (index === 0 ? [num] : [5, num]));
-  // }
-  // const newRatingData = [...insertZerosBetweenElementsconst data)];
-  // const starsArray = Array(5).fill(<FaRegStar />);
 
   const handleHelpful = (id) => {
     setClickedIDUnhelpful(
@@ -125,14 +116,6 @@ const ReviewsAll = () => {
         );
         const ratings = await customFetch(`/api/v1/reviews/review-stats`);
         setData(response.data.data.reviews);
-        // setRating(ratings?.data?.data?.stats[0]?.eachTotals);
-        // setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
-        // // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
-        // setRatingsAvg(
-        //   parseFloat(
-        //     ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-        //   )
-        // );
       } catch (err) {
         console.log(err);
       } finally {
@@ -143,52 +126,19 @@ const ReviewsAll = () => {
   }, [searchTerm]);
 
   useEffect(() => {
-    setRating(statistics)
+    setRating(statistics);
     setGroupStat(groupStats);
-    // const handleSearch = async () => {
-    //   try {
-    //     const ratings = await customFetch(`/api/v1/reviews/review-stats`);
-    //     console.log(`ratings: ${ratings}`);
-    //     // setRating(ratings?.data?.data?.stats[0]?.eachTotals);
-    //     setRating(ratings);
-    //     // setNumRatings(ratings?.data?.data?.stats[0]?.groupTotals[0].numReviews);
-    //     // setRatingsAvg(ParseFloat(ratings?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1)));
-    //     // setRatingsAvg(
-    //     //   parseFloat(
-    //     //     ratings?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-    //     //   )
-    //     // );
-    //   } catch (err) {
-    //     console.log(err);
-    //   } finally {
-    //     setIsLoading(false);
-    //   }
-    // };
-    // handleSearch();
-  }, []);
+  }, [statistics, groupStats]);
+
   useEffect(()=>{
-    
-const data = rating?.data?.stats?.map((rate) => {
-    console.log(rate.sum);
-    console.log(groupStat?.data?.stats[0]?.numReviews);
-    return (rate.sum / groupStat?.data?.stats[0]?.numReviews) * 100;
-  });
-  setRatingData(data)
- 
-  }, [])
-   console.log(ratingData);
-  //   useEffect(() => {
-  //     const avg =
-  //       rating?.data?.data?.stats[0]?.groupTotals[0]?.avgRating?.toFixed(1);
-  //       const {stats} = {...rating?.data?.data}
-  //       if(avg)
-  //       setRatingsAvg(
-  //         parseFloat(
-  //           avg
-  //         )
-  //       );
-  //   }, [rating]);
-  // console.log(ratingsAvg);
+    // const rat = [1, 3, 5]
+    const rat = rating?.data?.stats?.map((rate) => {
+      console.log(rate.sum);
+      console.log(groupStat?.data?.stats[0]?.numReviews);
+      return (rate.sum / groupStat?.data?.stats[0]?.numReviews) * 100;
+    });
+    console.log(rat);
+  }, [rating, groupStat])
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
@@ -215,15 +165,6 @@ const data = rating?.data?.stats?.map((rate) => {
     );
   }, [clickedID, clickedIDUnhelpful]);
 
-  // console.log(
-  //   parseFloat(
-  //     rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(1)
-  //   )
-  // );
-
-  // ratingData = rating?.map(
-
-
   const starsInFivePlaces = ratingData?.map((star, index) => (
     <div key={index}>
       <span className="star-span">
@@ -240,19 +181,6 @@ const data = rating?.data?.stats?.map((rate) => {
       </span>
     </div>
   ));
-
-  const  stats  = rating;
-  console.log(stats);
-  console.log(`groupTotals: ${stats?.groupTotals}`);
-  // const stat = stats[0];
-  // console.log(stat);
-  // console.log("rating.data");
-  // console.log(rating?.data?.data?.stats);
-
-  // const ratingsAvg =
-  //   rating?.data?.data?.stats[0];
-  // // console.log(ratingsAvg)
-  // console.log(rating?.data?.data?.stats[0])
 
   //  const state = {
   //    labels: starsInFivePlaces,
@@ -315,7 +243,7 @@ const data = rating?.data?.stats?.map((rate) => {
   //  };
 
   if (isLoading) {
-    console.log("");
+    return <p>loading...</p>
   }
 
   return (
@@ -754,7 +682,7 @@ const ReviewDiv = styled.main`
     .stars-p {
       font-size: 0.9rem;
     }
-    .profilePhoto-div{
+    .profilePhoto-div {
       width: 60px;
       height: 60px;
     }
