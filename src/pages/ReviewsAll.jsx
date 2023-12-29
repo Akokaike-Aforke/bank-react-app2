@@ -707,7 +707,7 @@ const ReviewDiv = styled.main`
     }
     .stars-div {
       row-gap: 0.75rem;
-      margin-top: 0.4rem;
+      margin-top: 0.5rem;
     }
     .percent-span {
       font-size: 1rem;
