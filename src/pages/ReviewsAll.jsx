@@ -41,7 +41,7 @@ const ReviewsAll = () => {
   const [groupStat, setGroupStat] = useState({});
   const [ratingData, setRatingData] = useState([]);
   const [selectedRating, setSelectedRating] = useState("");
-  const [ratingsAvg, setRatingsAvg] = useState(0);
+  const [ratingsAvg, setRatingsAvg] = useState(null);
 
   const handleHelpful = (id) => {
     setClickedIDUnhelpful(
@@ -128,7 +128,9 @@ const ReviewsAll = () => {
   useEffect(() => {
     setRating(statistics);
     setGroupStat(groupStats);
+    setRatingsAvg(groupStats?.data?.stats[0]?.avgRating)
   }, [statistics, groupStats]);
+  console.log(groupStats?.data?.stats[0]?.avgRating)
 
   useEffect(()=>{
     // const rat = [1, 3, 5]
@@ -138,7 +140,12 @@ const ReviewsAll = () => {
       return (rate.sum / groupStat?.data?.stats[0]?.numReviews) * 100;
     });
     console.log(rat);
+    setRatingData(rat)
   }, [rating, groupStat])
+  // if(!ratingData?.includes(NaN))
+  // console.log("includes nan")
+  console.log(ratingData)
+  console.log(ratingsAvg)
 
   useEffect(() => {
     const getHelpfulArray = localStorage.getItem(
@@ -253,7 +260,7 @@ const ReviewsAll = () => {
           <h2>User feedback</h2>
           <div className="ratings-avg-div">
             <div className="avg-rating-div">
-              {/* {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>} */}
+              {ratingsAvg && <h1 className="avg-h1">{ratingsAvg}</h1>}
               <h1 className="avg-h1">
                 {/* {rating?.data?.data?.stats[0]?.groupTotals[0].avgRating?.toFixed(
                   1
