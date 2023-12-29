@@ -238,10 +238,10 @@ const ReviewsAll = () => {
     </div>
   ));
 
-  const { stats } = { ...rating?.data?.data };
+  const  stats  = { ...rating?.data?.data };
   console.log(stats);
-  console.log("rating.data");
-  console.log(rating?.data?.data?.stats);
+  // console.log("rating.data");
+  // console.log(rating?.data?.data?.stats);
 
   // const ratingsAvg =
   //   rating?.data?.data?.stats[0];
