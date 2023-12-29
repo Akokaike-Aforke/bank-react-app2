@@ -204,7 +204,7 @@ const Home = () => {
           Ideas on how to fix any bugs observed will be greatly appreciated.
         </p>
       </div>
-      <div className="reviews-div">
+      <div className={blur ? "reviews-div blur" : "reviews-div"}>
         {/* <article className="review-article"> */}
         <Slider className="review-article" {...settings}>
           {data?.data?.reviews.map((review, index) => {
