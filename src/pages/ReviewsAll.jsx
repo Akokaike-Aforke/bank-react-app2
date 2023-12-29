@@ -239,6 +239,7 @@ const ReviewsAll = () => {
   ));
 
   const  stats  = rating;
+  console.log(JSON.stringify(stats, null, 2));
   console.log(stats);
   // const stat = stats[0];
   // console.log(stat);
