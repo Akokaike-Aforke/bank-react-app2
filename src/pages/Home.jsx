@@ -149,9 +149,11 @@ const Home = () => {
                 </ul>
               </div>
             </div>
-            <div className="dropdown-personal">
+            <div
+              className="dropdown-personal"
               onMouseEnter={() => setBlur(true)}
               onMouseLeave={() => setBlur(false)}
+            >
               <button>Corporate</button>
               <div className="dropdown-content">
                 <ul>
