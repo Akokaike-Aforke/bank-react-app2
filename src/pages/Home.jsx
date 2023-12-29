@@ -13,6 +13,7 @@ import Slider from "react-slick";
 const Home = () => {
   const navigate = useNavigate();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const[blur, setBlur] = useState(false)
    const handleResize = () => {
      setWindowWidth(window.innerWidth);
    };
@@ -65,7 +66,13 @@ const Home = () => {
           </nav>
           <div className="home-main-div-dropdown">
             <div className="dropdown-personal">
-              <button className="btn-personal">Personal</button>
+              <button
+                className="btn-personal"
+                onMouseEnter={() => setBlur(true)}
+                onMouseLeave={() => setBlur(false)}
+              >
+                Personal
+              </button>
               <div className="dropdown-content dropdown-content-personal">
                 <ul>
                   <li>
@@ -93,7 +100,12 @@ const Home = () => {
               </div>
             </div>
             <div className="dropdown-personal">
-              <button>Digital</button>
+              <button
+                onMouseEnter={() => setBlur(true)}
+                onMouseLeave={() => setBlur(false)}
+              >
+                Digital
+              </button>
               <div className="dropdown-content">
                 <ul>
                   <li>
@@ -118,7 +130,12 @@ const Home = () => {
               </div>
             </div>
             <div className="dropdown-personal">
-              <button>SME</button>
+              <button
+                onMouseEnter={() => setBlur(true)}
+                onMouseLeave={() => setBlur(false)}
+              >
+                SME
+              </button>
               <div className="dropdown-content">
                 <ul>
                   <li>
@@ -137,7 +154,12 @@ const Home = () => {
               </div>
             </div>
             <div className="dropdown-personal">
-              <button>Corporate</button>
+              <button
+                onMouseEnter={() => setBlur(true)}
+                onMouseLeave={() => setBlur(false)}
+              >
+                Corporate
+              </button>
               <div className="dropdown-content">
                 <ul>
                   <li>
@@ -147,7 +169,12 @@ const Home = () => {
               </div>
             </div>
             <div className="dropdown-personal">
-              <button>Private</button>
+              <button
+                onMouseEnter={() => setBlur(true)}
+                onMouseLeave={() => setBlur(false)}
+              >
+                Private
+              </button>
               <div className="dropdown-content">
                 <ul>
                   <li>
@@ -168,7 +195,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <div className='div-p'>
+      <div className={blur ? "div-p" : "div-p blur"}>
         <p className="p1">Thank you for your time in assessing my app.</p>
         <p className="p2">
           Kindly navigate to your profile and leave a review when done.
@@ -344,6 +371,10 @@ const HomeMain = styled.main`
   }
   .div-p{
     margin: 1rem;
+    transition: all 0.3s ease;
+  }
+  .blur{
+    opacity: 0.1;
   }
   .reviews-div {
     width: 95%;
