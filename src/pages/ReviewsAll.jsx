@@ -461,7 +461,7 @@ const ReviewDiv = styled.main`
     display: flex;
     flex-direction: column;
     /* row-gap: 0.06rem; */
-    margin-top: 0.04rem;
+    /* margin-top: 0.04rem; */
     border: 1px solid black;
   }
   .star-span {
