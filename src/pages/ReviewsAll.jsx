@@ -460,7 +460,7 @@ const ReviewDiv = styled.main`
   .stars-div {
     display: flex;
     flex-direction: column;
-    row-gap: 0.09rem;
+    row-gap: 0.1rem;
     margin-top: 0.09rem;
   }
   .star-span {
