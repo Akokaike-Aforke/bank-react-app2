@@ -214,6 +214,8 @@ const ReviewsAll = () => {
   // ratingData = rating?.map(
 
   ratingData = rating?.data?.stats?.map((rate) => {
+    console.log(rate.sum)
+    console.log(groupStat?.data?.stats[0]?.numReviews)
     return (
       (rate.sum / groupStat?.data?.stats[0]?.numReviews) *
       100
