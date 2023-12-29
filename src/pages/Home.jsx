@@ -64,12 +64,12 @@ const Home = () => {
             </button>
             <img src={logo} alt="fidelity logo" className="home-main-logo" />
           </nav>
-          <div
-            className="home-main-div-dropdown"
-            onMouseEnter={() => setBlur(true)}
-            onMouseLeave={() => setBlur(false)}
-          >
-            <div className="dropdown-personal">
+          <div className="home-main-div-dropdown">
+            <div
+              className="dropdown-personal"
+              onMouseEnter={() => setBlur(true)}
+              onMouseLeave={() => setBlur(false)}
+            >
               <button className="btn-personal">Personal</button>
               <div className="dropdown-content dropdown-content-personal">
                 <ul>
