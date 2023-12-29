@@ -13,7 +13,6 @@ import Slider from "react-slick";
 const Home = () => {
   const navigate = useNavigate();
   const {data, isLoading} = useGetAllReviews();
-  console.log(data?.data?.reviews[0])
     const settings = {
       dots: false,
       infinite: true,
@@ -160,7 +159,6 @@ const Home = () => {
         {/* <article className="review-article"> */}
           <Slider className="review-article" {...settings}>
             {data?.data?.reviews.map((review, index) => {
-              console.log(review?.createdBy?.fullname);
               return (
                 <div className="review-profile">
                   <div className="pad-div">
@@ -184,7 +182,7 @@ const Home = () => {
                       </div>
                       <p>{review?.createdBy?.fullname}</p>
                     </div>
-                    <p className="review-p">{review?.review?.substring(0, 50)}</p>
+                    <p className="review-p">{review?.review?.substring(0, 100)}</p>
                     <div className="star-div">
                       {[1, 2, 3, 4, 5].map((star, index) => {
                         return (
@@ -360,8 +358,8 @@ const HomeMain = styled.main`
     margin-bottom: 1rem;
   }
   .img-div {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -403,6 +401,10 @@ const HomeMain = styled.main`
     }
     .dropdown-content-personal {
       margin-left: 0;
+    }
+    .img-div {
+      width: 30px;
+      height: 30px;
     }
   }
 `;
