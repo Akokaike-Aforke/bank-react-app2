@@ -591,7 +591,7 @@ export const useGetStats = () => {
 
 export const useGetGroupStats = () => {
   const { data, isLoading } = useQuery({
-    queryKey: ["stats"],
+    queryKey: ["groupstats"],
     queryFn: async () => {
       const { data } = await customFetch("/api/v1/reviews/group-stats");
       // const { data } = await customFetch(
