@@ -30,7 +30,7 @@ const ReviewsAll = () => {
   const { getFormattedDate } = useGlobalContext();
   const { data: userData } = useGetUser();
   const [searchTerm, setSearchTerm] = useState("");
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(reviews?.data?.reviews);
   const [isLoading, setIsLoading] = useState(false);
   const [isHelpful, setIsHelpful] = useState(false);
   const [isNotHelpful, setIsNotHelpful] = useState(false);
