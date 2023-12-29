@@ -25,7 +25,6 @@ import { FaStarHalfAlt } from "react-icons/fa";
 
 const ReviewsAll = () => {
   const { data: reviews, isLoading: reviewsLoading } = useGetAllReviews();
-  console.log(reviews);
   const { data: statistics, isLoading: statisticsLoading } = useGetStats();
   const { data: groupStats, isLoading: groupStatsLoading } = useGetGroupStats();
   const { getFormattedDate } = useGlobalContext();
@@ -133,15 +132,11 @@ const ReviewsAll = () => {
     setGroupStat(groupStats);
     setRatingsAvg(groupStats?.data?.stats[0]?.avgRating);
   }, [statistics, groupStats]);
-  console.log(groupStats?.data?.stats[0]?.avgRating);
 
   useEffect(() => {
     const rat = rating?.data?.stats?.map((rate) => {
-      console.log(rate.sum);
-      console.log(groupStat?.data?.stats[0]?.numReviews);
       return (rate.sum / groupStat?.data?.stats[0]?.numReviews) * 100;
     });
-    console.log(rat);
     setRatingData(rat);
   }, [rating, groupStat]);
   useEffect(() => {
