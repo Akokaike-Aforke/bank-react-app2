@@ -669,7 +669,7 @@ const ReviewDiv = styled.main`
       font-size: 1rem;
     }
     .stars-div {
-      row-gap: 0.2rem;
+      row-gap: 0.25rem;
       margin-top: 0.3rem;
     }
     .stars-p {
