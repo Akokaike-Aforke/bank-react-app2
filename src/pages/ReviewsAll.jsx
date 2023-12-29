@@ -594,7 +594,7 @@ const ReviewDiv = styled.main`
   }
   .p-review {
     width: 90%;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     margin-bottom: 1.5rem;
   }
   .p-no-reviews1,
@@ -677,6 +677,9 @@ const ReviewDiv = styled.main`
     }
     .date-span {
       margin-left: 1rem;
+      font-size: 0.9rem;
+    }
+    .p-review {
       font-size: 0.9rem;
     }
   }
